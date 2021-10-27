@@ -1,5 +1,5 @@
 
-# JoeModelCE <img src="inst/figures/JoeModelCE.png" align="right" style="max-width: 120px;"/>
+# JoeModelCE <img src="inst/figures/JoeModelCE_small.png" align="right" style="max-width: 120px;"/>
 
 <!-- badges: start -->
 <!-- badges: end -->
