@@ -12,14 +12,77 @@
 #' @export
 StressorMagnitudeWorkbook <- function(filename = NA, scenario_worksheet = NA) {
 
+
+  # If work sheet is not set assume first
+  scenario_worksheet <- ifelse(is.na(scenario_worksheet), 1, scenario_worksheet)
+
   # File to read and view stressor-response relations
   data <- readxl::read_excel(filename, sheet = scenario_worksheet)
 
   # Round values to two decimal places
   data$Mean <- round(data$Mean, 2)
 
-  print("DROP OTHER MORT SOURCES....TEMP TO DO")
-  data <- data[which(data$Sub_Type == "Nat_mort" | data$Sub_Type == "N/A"), ]
+  # Ensure that there are no duplicates
+  dups <- paste0(data$HUC_ID, data$Stressor)
+
+  if(any(duplicated(dups))) {
+    print(dups[which(duplicated(dups))])
+    return("Duplicated values in stressor magnitude worksheet")
+  }
+
+  # Ensure that all values are formatted properly
+
+  target_columns <- c("HUC_ID", "NAME", "Stressor", "Stressor_cat", "Mean", "SD",
+                      "Distribution", "Low_Limit", "Up_Limit", "Comments")
+
+  if(any(colnames(data) != target_columns)) {
+    return(paste0("Bad column names. Expect columns to be ", paste(target_columns, collapse = ", ")))
+  }
+
+  data$SD   <- as.numeric(data$SD)
+  data$Mean <- as.numeric(data$Mean)
+
+
+  # Need to deal with total mortality column
+  # Total_Mortality is a sum of other inputs
+  if("Total_Mortality" %in% base::unique(data$Stressor_cat)) {
+
+    data_other <- data[which(data$Stressor_cat != "Total_Mortality"), ]
+    data_mort <- data[which(data$Stressor_cat == "Total_Mortality"), ]
+
+    # summarise by HUC ID
+    dms1 <- dplyr::group_by(data_mort, HUC_ID)
+    dms2 <- dplyr::summarise(dms1,
+      tmort_mean = sum(Mean),
+      tmort_sd = mean(SD)
+    )
+
+    # Consolidate
+    data_mort_new <- data_mort
+    data_mort_new$Stressor <- "Total_Mortality"
+    data_mort_new$Mean <- 0
+    data_mort_new$SD <- 0
+    data_mort_new$Distribution <- "normal"
+    data_mort_new$Low_Limit <- 0
+    data_mort_new$Up_Limit <- 1
+    data_mort_new$Comments <- NA
+    nrow(data_mort_new)
+    data_mort_new <- data_mort_new[!(duplicated(data_mort_new)), ]
+    nrow(data_mort_new)
+
+    if(any(duplicated(data_mort_new$HUC_ID))) {
+      return("Duplicated values for total mortality...")
+    }
+
+    # Update summaries
+    data_mort_new$Mean <- dms2$tmort_mean[match(data_mort_new$HUC_ID, dms2$HUC_ID)]
+    data_mort_new$SD <- dms2$tmort_sd[match(data_mort_new$HUC_ID, dms2$HUC_ID)]
+
+    # Recombine to single data frame
+    data <- rbind(data_other, data_mort_new)
+
+  } # End of total mortality special handling
+
 
   return(data)
 
