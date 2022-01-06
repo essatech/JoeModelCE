@@ -20,7 +20,7 @@ beta_param <- function(mean, sd) {
   # mean warning
   mean <- ifelse(mean == 0, 0.001, ifelse(mean == 1, 0.999, mean))
   
-  # the sd can't be too large either, use CV to check and use Kyle's truncation of CV if needed
+  # the sd can't be too large  either, use CV to check and use Kyle's truncation of CV if needed
   cv <- sd / mean
   message.sd <- ifelse(((mean * cv) ^ 2) > (mean * (1 - mean)),
                        "; Warning - truncating CV for beta at sqrt(mean*(1-mean))/mean",
