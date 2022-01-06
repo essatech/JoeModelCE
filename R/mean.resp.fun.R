@@ -6,7 +6,7 @@
 #'
 #' @param n.stressors Numeric. The number of stressors.
 #' @param str.list List object. A list object of dataframes of stressor response relationships.
-#' @param main Dataframe. A dataframe of the Main cover sheet for the stressor response relationships.
+#' @param main Dataframe. A dataframe of the Main cover sheet for the stressor response relationships .
 #'
 #' @export
 #'
