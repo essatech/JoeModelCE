@@ -13,7 +13,7 @@ tbeta_rnd(mn_est, sd_est, low.limit = 0, up.limit = 1)
 
 \item{low.limit}{Numeric. Defaults to 0.}
 
-\item{up.limit}{Numeric. Defaults to 1.}
+\item{up.limit}{Numeric. Defaults to 1 .}
 }
 \description{
 Returns N random estimates for truncated beta distribution given vectors for mean and SD for the untruncated distribution of system capacity.

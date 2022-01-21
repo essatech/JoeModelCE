@@ -12,7 +12,7 @@
 StressorResponseWorkbook <- function(filename = NA) {
 
   # File to read and view stressor-response relations
-  main_sheet <- readxl::read_excel(filename, sheet="Main")
+  main_sheet <- readxl::read_excel(filename, sheet = "Main")
 
   # Get Stressor names
   stressor_names <- as.character(main_sheet$Stressors)
@@ -25,11 +25,11 @@ StressorResponseWorkbook <- function(filename = NA) {
   snames <- readxl::excel_sheets(filename)
   snames <- snames[2:length(snames)]
 
-  if(!(all(snames %in% stressor_names))) {
+  if (!(all(snames %in% stressor_names))) {
     return("Bad worksheet names")
   }
 
-  if(!(all(stressor_names %in% snames))) {
+  if (!(all(stressor_names %in% snames))) {
     return("Bad worksheet names")
   }
 
@@ -41,7 +41,7 @@ StressorResponseWorkbook <- function(filename = NA) {
     dat <- dat[, c(1:5)] # Exclude other extraneous columns to right (if any)
     # Make sure columns in the correct order
     colnames(dat)[1] <- "value"
-    if(any(colnames(dat) != c("value", "Mean System Capacity (%)", "SD", "low.limit", "up.limit"))) {
+    if (any(colnames(dat) != c("value", "Mean System Capacity (%)", "SD", "low.limit", "up.limit"))) {
       return("Column names in stressor response workbook out of order")
     }
     colnames(dat) <- c("value", "mean_system_capacity", "sd", "lwr", "upr")
@@ -56,7 +56,7 @@ StressorResponseWorkbook <- function(filename = NA) {
 
   # Make pretty names
   pretty_names <- c()
-  for(i in 1:length(stressor_names)) {
+  for (i in 1:length(stressor_names)) {
     this_name <- stressor_names[i]
     this_name <- gsub("_", " ", this_name)
     pretty_names <- c(pretty_names, this_name)

@@ -1,18 +1,15 @@
-#' Utility Function 1
-#'
-#' @param expr A number
-#' @param sublist A number
+#' esub utility function
 #' @keywords internal
 esub <- function(expr, sublist) {
   do.call("substitute", list(expr, sublist))
 }
-#' Utility Function 2
-#'
-#' @param e An expression
-#' @param env parent frame
+
+
+
+#' proc utility function
 #' @keywords internal
 proc <- function(e, env = parent.frame()) {
-  for(nm in all.vars(e)) {
+  for (nm in all.vars(e)) {
     if (exists(nm, env) && is.language(g <- get(nm, env))) {
       if (is.expression(g)) g <- g[[1]]
       g <- Recall(g, env)
@@ -23,14 +20,26 @@ proc <- function(e, env = parent.frame()) {
   }
   e
 }
+
+
+
 #' Project Matrix Forward in Time
-#'
-#' @param mx A argument
-#' @param vars A argument
-#' @param byrow A argument
 #' @keywords internal
 pmx_eval <- function(mx, vars, byrow = TRUE) {
   matrix(sapply(mx, eval, vars),
          sqrt(length(mx)),
          sqrt(length(mx)), byrow = byrow)
+}
+
+
+
+#' rbeta equivelent from TruncatedDistributions package
+#' @keywords internal
+rbeta2 <- function(n, shape1, shape2, ncp = 0) {
+  if (missing(ncp))
+    .Call(C_rbeta, n, shape1, shape2)
+  else {
+    X <- rchisq(n, 2 * shape1, ncp = ncp)
+    X / (X + rchisq(n, 2 * shape2))
+  }
 }

@@ -6,13 +6,6 @@
 \usage{
 pmx_eval(mx, vars, byrow = TRUE)
 }
-\arguments{
-\item{mx}{A argument}
-
-\item{vars}{A argument}
-
-\item{byrow}{A argument}
-}
 \description{
 Project Matrix Forward in Time
 }

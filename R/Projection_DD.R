@@ -51,7 +51,7 @@ Projection_DD <- function(M.mx = NA,
     c(1, 0),
     Nyears,
     replace = TRUE,
-    prob = c(p.cat / dat$gen.time, 1 - p.cat  / dat$gen.time)
+    prob = c(p.cat / dat$gen.time, 1 - p.cat / dat$gen.time)
   )
 
   # effect on catastrophe on pop size (percent reduction) - scaled Beta dist'n fit from Reed et al. (2003)
@@ -84,10 +84,9 @@ Projection_DD <- function(M.mx = NA,
   adult_stages <- (3 + max(which(dat$mat > 0)))
   subadult_stages <- adult_stages - 1
 
-  if (!is.null(CE_df))
-  {
-    CE_cap <- CE_df[CE_df$parameter == 'capacity', ]
-    CE_surv <- CE_df[CE_df$parameter == 'survival', ]
+  if (!is.null(CE_df)) {
+    CE_cap <- CE_df[CE_df$parameter == 'capacity',]
+    CE_surv <- CE_df[CE_df$parameter == 'survival',]
     if (nrow(CE_surv) > 0)
       # apply stressors to survival for eggs, juveniles, adults, or all life stages
     {
@@ -145,34 +144,29 @@ Projection_DD <- function(M.mx = NA,
         CE_cap$life_stage == "egg",
         dat$Ke <- dat$Ke * CE_cap$sys.cap[CE_cap$life_stage == "egg"],
         ifelse(
-          CE_cap$life_stage == "alevin",
-          {
-            dat$K0 <- dat$K0 * CE_cap$sys.cap[CE_cap$life_stage == "alevin"]
-          },
+          CE_cap$life_stage == "alevin", {
+        dat$K0 <- dat$K0 * CE_cap$sys.cap[CE_cap$life_stage == "alevin"]
+      },
           ifelse(
-            CE_cap$life_stage == "all_juv",
-            {
-              dat$K[all_juv - 2] <-
+            CE_cap$life_stage == "all_juv", {
+        dat$K[all_juv - 2] <-
                 dat$K[all_juv - 2] * CE_cap$sys.cap[CE_cap$life_stage == "all_juv"]
-            },
+      },
             ifelse(
-              CE_cap$life_stage == "fry",
-              {
-                dat$K[fry_stages - 2] <-
+              CE_cap$life_stage == "fry", {
+        dat$K[fry_stages - 2] <-
                   dat$K[fry_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "fry"]
-              },
+      },
               ifelse(
-                CE_cap$life_stage == "fry_parr",
-                {
-                  dat$K[fry_parr_stages - 2] <-
+                CE_cap$life_stage == "fry_parr", {
+        dat$K[fry_parr_stages - 2] <-
                     dat$K[fry_parr_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "fry_parr"]
-                },
+      },
                 ifelse(
-                  CE_cap$life_stage == "parr",
-                  {
-                    dat$K[parr_stages - 2] <-
+                  CE_cap$life_stage == "parr", {
+        dat$K[parr_stages - 2] <-
                       dat$K[parr_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "parr"]
-                  },
+      },
                   ifelse(
                     CE_cap$life_stage == "sub_adult",
                     dat$K[subadult_stages - 2] <-
@@ -183,13 +177,13 @@ Projection_DD <- function(M.mx = NA,
                         dat$K[adult_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "adult"],
                       ifelse(CE_cap$life_stage ==
                                "all", {
-                                 dat$Ke <-
+        dat$Ke <-
                                    dat$Ke * CE_cap$sys.cap[CE_cap$life_stage == "all"]
-                                 dat$K0 <-
+        dat$K0 <-
                                    dat$K0 * CE_cap$sys.cap[CE_cap$life_stage == "all"]
-                                 dat$K <-
+        dat$K <-
                                    dat$K * CE_cap$sys.cap[CE_cap$life_stage == "all"]
-                               }, dat$K <- dat$K)
+      }, dat$K <- dat$K)
                     )
                   )
                 )
@@ -236,13 +230,12 @@ Projection_DD <- function(M.mx = NA,
   Nvec <- rep(NA, Nyears + 1)
   Nvec[1] <- Na # Adult pop vector
   Ns <-
-    list(N)                             # age-specific annual population size
+    list(N) # age-specific annual population size
   lambdas <-
-    rep(NA, Nyears)                 # population growth rate
+    rep(NA, Nyears) # population growth rate
 
   # loop through years
-  for (t in 1:Nyears)
-  {
+  for (t in 1:Nyears) {
     # Density Dependence
     # SURVIVAL
     if (is.null(D.mx) == FALSE) {
@@ -257,9 +250,9 @@ Projection_DD <- function(M.mx = NA,
       s.test <- d.vec * st[[t + 1]] # survival rate after DD effects
       if (any(s.test > 1)) {
         # any s.test > 1?
-        s.err <- which(s.test > 1)          # ID which is > 1
+        s.err <- which(s.test > 1) # ID which is > 1
         d.vec[s.err] <-
-          1 / st[[t + 1]][s.err]  # set density depenence effect ot 1/surivval - give s = 1 after DD effects
+          1 / st[[t + 1]][s.err] # set density depenence effect ot 1/surivval - give s = 1 after DD effects
 
       }
       # create density dependence effects matrix
@@ -278,7 +271,7 @@ Projection_DD <- function(M.mx = NA,
     # Number of adults
     Na <- Nb_est(N[-1], new_dat$mat)
     # Number of Juveniles
-    Nj <- sum(N *  c(1, 1 - new_dat$mat))
+    Nj <- sum(N * c(1, 1 - new_dat$mat))
     # number of Egg produced
     E <-
       E_est(N = N[-1], c(new_dat, st[[t + 1]], ft[[t + 1]], new_dat$mat))
@@ -294,5 +287,5 @@ Projection_DD <- function(M.mx = NA,
     "vars" = list("ft" = do.call(rbind, ft), "st" = do.call(rbind, st)),
     "Cat." = as.data.frame(list("Cat." = Catastrophe, "e.cat" = e.cat))
   )
-  
+
 }

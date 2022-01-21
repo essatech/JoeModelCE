@@ -13,12 +13,10 @@ JoeModel_Run <- function(dose = NA,
                          sr_wb_dat = NA,
                          MC.sims = 100) {
   # Stressor Magnitude
-  # dose = sm_wb_dat
+  # dose or sm_wb_dat
 
   # Stressor Response
   stressors <- sr_wb_dat$stressor_names
-
-  MC.sims = 100
 
   # Re-create the main sheet object
   main.sheet <- sr_wb_dat$main_sheet
@@ -28,27 +26,26 @@ JoeModel_Run <- function(dose = NA,
 
 
   # Run the Joe curves to generate the response functions
-  mean.resp.list <-
-    mean.resp.fun(
-      n.stressors = nrow(sr_wb_dat$main_sheet),
-      str.list = sr_wb_dat$sr_dat,
-      main = sr_wb_dat$main_sheet
-    )
+  mean.resp.list <- mean_Response(
+    n.stressors = nrow(sr_wb_dat$main_sheet),
+    str.list = sr_wb_dat$sr_dat,
+    main = sr_wb_dat$main_sheet
+  )
 
 
-  #We now have two important objects:
+  # We now have two important objects:
 
-  #1) dose - This is a tibble of the doses for
-  #each stressor (mean, SD, distribution type, low limit,
-  #up limit).  At the moment there are only two distribution
-  #types allowed for uncertainty in the stressor dose, truncated normal
-  #and truncated lognormal.
+  # 1) dose - This is a tibble of the doses for
+  # each stressor (mean, SD, distribution type, low limit,
+  # up limit).  At the moment there are only two distribution
+  # types allowed for uncertainty in the stressor dose, truncated normal
+  # and truncated lognormal.
 
-  #2) mean.resp.list - This is a list of lists
-  #The primary list is for each stressor ordered according to the tibble
-  #main.sheet.  Each list within this list contains
-  #4 approx functions that calculate the mean, SD, low limit and upper limit
-  #for system capacity given a dose for that stressor.
+  # 2) mean.resp.list - This is a list of lists
+  # The primary list is for each stressor ordered according to the tibble
+  # main.sheet.  Each list within this list contains
+  # 4 approx functions that calculate the mean, SD, low limit and upper limit
+  # for system capacity given a dose for that stressor.
 
   # Get unique HUCs and stressors.
   hucs <- unique(dose$HUC_ID)
@@ -99,8 +96,8 @@ JoeModel_Run <- function(dose = NA,
 
       # If nothing set - assume system capacity is 100%
       if (length(pnt.dose) == 0) {
-        sys.capacity[i, j, ] <- 1 # System capacity is 1 if mssing
-        dose.values[i, j, ] <- NA
+        sys.capacity[i, j,] <- 1 # System capacity is 1 if mssing
+        dose.values[i, j,] <- NA
         dose.values.list[i, j][[1]] <- NA
         next
       }
@@ -109,18 +106,18 @@ JoeModel_Run <- function(dose = NA,
       pnt.curv <- grep(stressors[j], main.sheet$Stressors)
 
       # call system capacity function for each stressor
-      temp.list <- sys.cap.func(
-        f.dose.df = dose[pnt.dose, ],
-        f.main.df = main.sheet[pnt.curv, ],
+      temp.list <- SystemCapacity(
+        f.dose.df = dose[pnt.dose,],
+        f.main.df = main.sheet[pnt.curv,],
         f.stressor.df = stressor.list[[stressors[j]]],
         f.mean.resp.list = mean.resp.list[[pnt.curv]],
         n.sims = MC.sims
       )
 
       #assign system capacity for each stressor to array.
-      sys.capacity[i, j, ] <- temp.list$sys.cap
+      sys.capacity[i, j,] <- temp.list$sys.cap
       #store dose values as this is good output as well
-      dose.values[i, j, ] <- temp.list$dose
+      dose.values[i, j,] <- temp.list$dose
       #The next dose array stores doses as a list and includes
       #the individual additive doses (i.e., mortality doses)
       dose.values.list[i, j][[1]] <- temp.list$dose.mat
@@ -131,51 +128,52 @@ JoeModel_Run <- function(dose = NA,
   # end k
 
 
-  #Print error messages if NA appears in the system capacity
-  #or stressor values arrays
-  if (any(is.na(sys.capacity)))
+  # Print error messages if NA appears in the system capacity
+  # or stressor values arrays
+  if (any(is.na(sys.capacity))) {
     message("At least one NA in system capacity array")
-  if (any(is.na(dose.values)))
+  }
+
+  if (any(is.na(dose.values))) {
     message("At least one NA in stressor values array")
+  }
 
   # change the 3D array to a data frame
   # adply is really slow
-  # system.time(sc.df<-adply(sys.capacity,c(1,2,3),function(x) data.frame(sys.cap=x)))
-  # melt is rocket fuel!!
+  # melt is rocket fuel
   sc.df <- reshape2::melt(sys.capacity)
 
-  #do the same for doses as this is useful output
-  #dose.df<-adply(dose.values,c(1,2,3),function(x) data.frame(dose=x))
-
+  # do the same for doses as this is useful output
   dose.df <- reshape2::melt(dose.values)
 
 
-  #rename columns
+  # rename columns
   sc.df <-
     dplyr::rename(
       sc.df,
-      HUC = Var1,
-      Stressor = Var2,
-      simulation = Var3,
-      sys.cap = value
+      HUC = .data$Var1,
+      Stressor = .data$Var2,
+      simulation = .data$Var3,
+      sys.cap = .data$value
     )
 
-  #do same for dose values
+  # do same for dose values
   dose.df <-
     dplyr::rename(
       dose.df,
-      HUC = Var1,
-      Stressor = Var2,
-      simulation = Var3,
-      dose = value
+      HUC = .data$Var1,
+      Stressor = .data$Var2,
+      simulation = .data$Var3,
+      dose = .data$value
     )
 
-  #combine SC and dose dataframes (this df is used for output so make global)
+  # combine SC and dose dataframes (this df is used for output so make global)
   sc.dose.df <- merge(dose.df, sc.df)
 
   #add interaction type and link to sc.df data.frame
   sc.df$int.type <-
     main.sheet$Interaction[match(sc.df$Stressor, main.sheet$Stressors)]
+
   sc.df$link <-
     main.sheet$Linked[match(sc.df$Stressor, main.sheet$Stressors)]
 
@@ -188,8 +186,9 @@ JoeModel_Run <- function(dose = NA,
   # and make it global
   # uses ddply which is pretty slow (use dplyr??)
   # MJB updated with dplyr
+
   ce_df_raw <- sc.df %>% dplyr::group_by(HUC, simulation) %>%
-    dplyr::group_modify( ~ ce.func(.x))
+    dplyr::group_modify(~ce.func(.x))
 
   ce.df <- ce_df_raw
 
@@ -199,6 +198,7 @@ JoeModel_Run <- function(dose = NA,
   return_list <- list()
   return_list$ce.df <- ce.df
   return_list$sc.dose.df <- sc.dose.df
+
   return(return_list)
 
 

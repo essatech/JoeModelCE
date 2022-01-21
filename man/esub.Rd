@@ -2,16 +2,11 @@
 % Please edit documentation in R/PopulationModel_Utility.R
 \name{esub}
 \alias{esub}
-\title{Utility Function 1}
+\title{esub utility function}
 \usage{
 esub(expr, sublist)
 }
-\arguments{
-\item{expr}{A number}
-
-\item{sublist}{A number}
-}
 \description{
-Utility Function 1
+esub utility function
 }
 \keyword{internal}

@@ -25,7 +25,7 @@ StressorMagnitudeWorkbook <- function(filename = NA, scenario_worksheet = NA) {
   # Ensure that there are no duplicates
   dups <- paste0(data$HUC_ID, data$Stressor)
 
-  if(any(duplicated(dups))) {
+  if (any(duplicated(dups))) {
     print(dups[which(duplicated(dups))])
     return("Duplicated values in stressor magnitude worksheet")
   }
@@ -35,20 +35,20 @@ StressorMagnitudeWorkbook <- function(filename = NA, scenario_worksheet = NA) {
   target_columns <- c("HUC_ID", "NAME", "Stressor", "Stressor_cat", "Mean", "SD",
                       "Distribution", "Low_Limit", "Up_Limit", "Comments")
 
-  if(any(colnames(data) != target_columns)) {
+  if (any(colnames(data) != target_columns)) {
     return(paste0("Bad column names. Expect columns to be ", paste(target_columns, collapse = ", ")))
   }
 
-  data$SD   <- as.numeric(data$SD)
+  data$SD <- as.numeric(data$SD)
   data$Mean <- as.numeric(data$Mean)
 
 
   # Need to deal with total mortality column
   # Total_Mortality is a sum of other inputs
-  if("Total_Mortality" %in% base::unique(data$Stressor_cat)) {
+  if ("Total_Mortality" %in% base::unique(data$Stressor_cat)) {
 
-    data_other <- data[which(data$Stressor_cat != "Total_Mortality"), ]
-    data_mort <- data[which(data$Stressor_cat == "Total_Mortality"), ]
+    data_other <- data[which(data$Stressor_cat != "Total_Mortality"),]
+    data_mort <- data[which(data$Stressor_cat == "Total_Mortality"),]
 
     # summarise by HUC ID
     dms1 <- dplyr::group_by(data_mort, HUC_ID)
@@ -67,10 +67,10 @@ StressorMagnitudeWorkbook <- function(filename = NA, scenario_worksheet = NA) {
     data_mort_new$Up_Limit <- 1
     data_mort_new$Comments <- NA
     nrow(data_mort_new)
-    data_mort_new <- data_mort_new[!(duplicated(data_mort_new)), ]
+    data_mort_new <- data_mort_new[!(duplicated(data_mort_new)),]
     nrow(data_mort_new)
 
-    if(any(duplicated(data_mort_new$HUC_ID))) {
+    if (any(duplicated(data_mort_new$HUC_ID))) {
       return("Duplicated values for total mortality...")
     }
 
@@ -81,7 +81,8 @@ StressorMagnitudeWorkbook <- function(filename = NA, scenario_worksheet = NA) {
     # Recombine to single data frame
     data <- rbind(data_other, data_mort_new)
 
-  } # End of total mortality special handling
+  }
+  # End of total mortality special handling
 
 
   return(data)

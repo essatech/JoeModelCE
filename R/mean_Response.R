@@ -10,7 +10,7 @@
 #'
 #' @export
 #'
-mean.resp.fun <- function(n.stressors = NA, str.list = NA, main = NA) {
+mean_Response <- function(n.stressors = NA, str.list = NA, main = NA) {
 
   mean.resp.list <- list(NULL)
 
@@ -20,19 +20,18 @@ mean.resp.fun <- function(n.stressors = NA, str.list = NA, main = NA) {
 
     this_stressor <- stress_nms[i]
     this_data <- str.list[[this_stressor]]
-    this_main <- main[main$Stressors == this_stressor, ]
+    this_main <- main[main$Stressors == this_stressor,]
 
     if (this_main$Stress_Scale == "log") {
 
-      x <- log(str.list[[this_stressor]][,1])
+      x <- log(str.list[[this_stressor]][, 1])
 
     } else {
 
-      x <- str.list[[this_stressor]][,1]
+      x <- str.list[[this_stressor]][, 1]
     }
 
     # func.type sets whether approximation function is continuous or stepped (constant)
-
     func.type <- ifelse(this_main$Function == "continuous", "linear", "constant")
 
 
@@ -44,7 +43,9 @@ mean.resp.fun <- function(n.stressors = NA, str.list = NA, main = NA) {
     # divide by 100 to convert percents to decimals
 
     # Mean System Capacity
-    mdat <- this_resp$mean_system_capacity/100
+    mdat <- this_resp$mean_system_capacity / 100
+
+    # Function for the mean
     af1 <- approxfun(
                     x = x$value,
                     y = mdat,
@@ -52,8 +53,8 @@ mean.resp.fun <- function(n.stressors = NA, str.list = NA, main = NA) {
                     yleft = mdat[1],
                     yright = mdat[length(mdat)])
 
-    # SD
-    mdat <- this_resp$sd/100
+    # Function for the SD
+    mdat <- this_resp$sd / 100
     af2 <- approxfun(
       x = x$value,
       y = mdat,
@@ -61,8 +62,8 @@ mean.resp.fun <- function(n.stressors = NA, str.list = NA, main = NA) {
       yleft = mdat[1],
       yright = mdat[length(mdat)])
 
-    # LL
-    mdat <- this_resp$lwr/100
+    # Lower Limit LL
+    mdat <- this_resp$lwr / 100
     af3 <- approxfun(
       x = x$value,
       y = mdat,
@@ -70,21 +71,22 @@ mean.resp.fun <- function(n.stressors = NA, str.list = NA, main = NA) {
       yleft = mdat[1],
       yright = mdat[length(mdat)])
 
-  # UL
-  mdat <- this_resp$upr/100
-  af4 <- approxfun(
+    # Upper Limit UL
+    mdat <- this_resp$upr / 100
+    af4 <- approxfun(
     x = x$value,
     y = mdat,
     method = func.type,
     yleft = mdat[1],
     yright = mdat[length(mdat)])
 
+    # Function list
+    temp.list <- list(af1, af2, af3, af4)
 
-  temp.list <- list(af1, af2, af3, af4)
-
-  mean.resp.list[[i]] <- temp.list
+    mean.resp.list[[i]] <- temp.list
 
   }
 
   return(mean.resp.list)
+
 }

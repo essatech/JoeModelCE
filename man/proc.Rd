@@ -2,16 +2,11 @@
 % Please edit documentation in R/PopulationModel_Utility.R
 \name{proc}
 \alias{proc}
-\title{Utility Function 2}
+\title{proc utility function}
 \usage{
 proc(e, env = parent.frame())
 }
-\arguments{
-\item{e}{An expression}
-
-\item{env}{parent frame}
-}
 \description{
-Utility Function 2
+proc utility function
 }
 \keyword{internal}
