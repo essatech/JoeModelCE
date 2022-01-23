@@ -2,16 +2,22 @@
 #'
 #' @description Runs the Joe Model.
 #'
-#' @details Runs the Joe Model for cumulative system capacity across stressors and watersheds.
+#' @details Runs the Joe Model for cumulative system capacity
+#' across stressors and watersheds.
 #'
 #' @param dose dataframe. Stressor magnitude file exported from StressorMagnitudeWorkbook().
 #' @param sr_wb_dat list object. Stressor response workbook returned from StressorResponseWorkbook().
-#' @param MC.sims numeric. set number of Monte Carlo simulations for the Joe model.
+#' @param MC_sims numeric. set number of Monte Carlo simulations for the Joe model.
+#' @importFrom rlang .data
 #'
 #' @export
 JoeModel_Run <- function(dose = NA,
                          sr_wb_dat = NA,
-                         MC.sims = 100) {
+                         MC_sims = 100) {
+
+  # Define variables in function as null
+  .data <- HUC <- simulation <- NULL
+
   # Stressor Magnitude
   # dose or sm_wb_dat
 
@@ -60,29 +66,40 @@ JoeModel_Run <- function(dose = NA,
 
   sys.capacity <- array(
     NA,
-    dim = c(length(hucs),
-            length(stressors),
-            MC.sims),
-    dimnames = list(hucs,
-                    stressors,
-                    1:MC.sims)
+    dim = c(
+      length(hucs),
+      length(stressors),
+      MC_sims
+    ),
+    dimnames = list(
+      hucs,
+      stressors,
+      1:MC_sims
+    )
   )
 
   # the next array and list is more for debugging purposes
 
   dose.values <- array(
     NA,
-    dim = c(length(hucs),
-            length(stressors),
-            MC.sims),
-    dimnames = list(hucs,
-                    stressors,
-                    1:MC.sims)
+    dim = c(
+      length(hucs),
+      length(stressors),
+      MC_sims
+    ),
+    dimnames = list(
+      hucs,
+      stressors,
+      1:MC_sims
+    )
   )
 
   dose.values.list <- array(list(),
-                            dim = c(length(hucs),
-                                    length(stressors)))
+    dim = c(
+      length(hucs),
+      length(stressors)
+    )
+  )
 
 
 
@@ -91,13 +108,15 @@ JoeModel_Run <- function(dose = NA,
   for (i in 1:length(hucs)) {
     for (j in 1:length(stressors)) {
       # find combination of HUC and stressor in the dose table
-      pnt.dose <- intersect(grep(hucs[i], dose$HUC_ID),
-                            grep(stressors[j], dose$Stressor))
+      pnt.dose <- intersect(
+        grep(hucs[i], dose$HUC_ID),
+        grep(stressors[j], dose$Stressor)
+      )
 
       # If nothing set - assume system capacity is 100%
       if (length(pnt.dose) == 0) {
-        sys.capacity[i, j,] <- 1 # System capacity is 1 if mssing
-        dose.values[i, j,] <- NA
+        sys.capacity[i, j, ] <- 1 # System capacity is 1 if mssing
+        dose.values[i, j, ] <- NA
         dose.values.list[i, j][[1]] <- NA
         next
       }
@@ -107,21 +126,20 @@ JoeModel_Run <- function(dose = NA,
 
       # call system capacity function for each stressor
       temp.list <- SystemCapacity(
-        f.dose.df = dose[pnt.dose,],
-        f.main.df = main.sheet[pnt.curv,],
+        f.dose.df = dose[pnt.dose, ],
+        f.main.df = main.sheet[pnt.curv, ],
         f.stressor.df = stressor.list[[stressors[j]]],
         f.mean.resp.list = mean.resp.list[[pnt.curv]],
-        n.sims = MC.sims
+        n.sims = MC_sims
       )
 
-      #assign system capacity for each stressor to array.
-      sys.capacity[i, j,] <- temp.list$sys.cap
-      #store dose values as this is good output as well
-      dose.values[i, j,] <- temp.list$dose
-      #The next dose array stores doses as a list and includes
-      #the individual additive doses (i.e., mortality doses)
+      # assign system capacity for each stressor to array.
+      sys.capacity[i, j, ] <- temp.list$sys.cap
+      # store dose values as this is good output as well
+      dose.values[i, j, ] <- temp.list$dose
+      # The next dose array stores doses as a list and includes
+      # the individual additive doses (i.e., mortality doses)
       dose.values.list[i, j][[1]] <- temp.list$dose.mat
-
     }
     # end j
   }
@@ -170,7 +188,7 @@ JoeModel_Run <- function(dose = NA,
   # combine SC and dose dataframes (this df is used for output so make global)
   sc.dose.df <- merge(dose.df, sc.df)
 
-  #add interaction type and link to sc.df data.frame
+  # add interaction type and link to sc.df data.frame
   sc.df$int.type <-
     main.sheet$Interaction[match(sc.df$Stressor, main.sheet$Stressors)]
 
@@ -187,8 +205,9 @@ JoeModel_Run <- function(dose = NA,
   # uses ddply which is pretty slow (use dplyr??)
   # MJB updated with dplyr
 
-  ce_df_raw <- sc.df %>% dplyr::group_by(HUC, simulation) %>%
-    dplyr::group_modify(~ce.func(.x))
+  ce_df_raw <- sc.df %>%
+    dplyr::group_by(HUC, simulation) %>%
+    dplyr::group_modify(~ ce.func(.x))
 
   ce.df <- ce_df_raw
 
@@ -200,6 +219,4 @@ JoeModel_Run <- function(dose = NA,
   return_list$sc.dose.df <- sc.dose.df
 
   return(return_list)
-
-
 }

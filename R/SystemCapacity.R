@@ -4,12 +4,34 @@
 #'
 #' @details function to calculate system capacity for each stressor.  Takes dataframes for doses and stressor.list plus a list for the approx functions (f. for local list or dataframe) note some stressors have multiple doses (Additive interaction)
 #'
-#' @param df A dataframe
+#' @param f.dose.df TODO add description
+#' @param f.main.df TODO add description
+#' @param f.stressor.df TODO add description
+#' @param f.mean.resp.list TODO add description
+#' @param n.sims TODO add description
+#'
 SystemCapacity <- function(f.dose.df,
-                         f.main.df,
-                         f.stressor.df,
-                         f.mean.resp.list,
-                         n.sims = 100) {
+                           f.main.df,
+                           f.stressor.df,
+                           f.mean.resp.list,
+                           n.sims = 100) {
+
+
+  # rtlnorm copied from TruncatedDistributions
+  td_rtlnorm <- function (n,
+                          meanlog = 0,
+                          sdlog = 1,
+                          a = 0,
+                          b = Inf)
+  {
+    stopifnot(n > 0 & all(sdlog > 0))
+    x <- stats::runif(n)
+    Fa <- stats::plnorm(a, meanlog, sdlog)
+    Fb <- stats::plnorm(b, meanlog, sdlog)
+    y <- (1 - x) * Fa + x * Fb
+    return(stats::qlnorm(y, meanlog, sdlog))
+  }
+
 
   # Stressor Name
   sub.stressors <- f.dose.df$Stressor
@@ -27,31 +49,30 @@ SystemCapacity <- function(f.dose.df,
 
       # If mean < 0 change mean to minimum limit (can't have zero or negative on log scale)
       mn.val <- ifelse(f.dose.df$Mean[i] <= 0,
-                       f.dose.df$Low_Limit[i],
-                       f.dose.df$Mean[i])
+        f.dose.df$Low_Limit[i],
+        f.dose.df$Mean[i]
+      )
 
       # If SD is zero adjust to a very small number
       if (f.dose.df$SD[i] == 0) {
-        rnd.dose.mat[i,] <- rep(mn.val, n.sims)
+        rnd.dose.mat[i, ] <- rep(mn.val, n.sims)
       } else {
-        rnd.dose.mat[i,] <- rtlnorm(
+        rnd.dose.mat[i, ] <- td_rtlnorm(
           n.sims,
           log(mn.val),
           f.dose.df$SD[i],
           a = f.dose.df$Low_Limit[i],
           b = f.dose.df$Up_Limit[i]
         )
-
       }
-
     } else {
 
       # Normal distribution (lognormal is above)
       if (f.dose.df$SD[i] == 0) {
-        rnd.dose.mat[i,] <- rep(f.dose.df$Mean[i], n.sims)
+        rnd.dose.mat[i, ] <- rep(f.dose.df$Mean[i], n.sims)
       } else {
         # Sample value at random
-        rnd.dose.mat[i,] <-
+        rnd.dose.mat[i, ] <-
           rtnorm_TruncatedDistributions(
             n.sims,
             f.dose.df$Mean[i],
@@ -60,15 +81,15 @@ SystemCapacity <- function(f.dose.df,
             b = f.dose.df$Up_Limit[i]
           )
       }
-
     }
   }
   # end i loop for doses
 
   # Combine multiple stressors across rows into a single dose vector
   # multiple stressors must be proportions (ie, conditional mortalities)
-  rnd.dose <- 1 - apply(rnd.dose.mat, 2, function(x)
-    prod(1 - x))
+  rnd.dose <- 1 - apply(rnd.dose.mat, 2, function(x) {
+    prod(1 - x)
+  })
 
 
 
@@ -77,12 +98,14 @@ SystemCapacity <- function(f.dose.df,
   # IE. extrapolation takes the last given system capacity score
 
   rnd.dose <- ifelse(rnd.dose < min(f.stressor.df[, 1], na.rm = T),
-                     min(f.stressor.df[, 1], na.rm = T),
-                     rnd.dose)
+    min(f.stressor.df[, 1], na.rm = T),
+    rnd.dose
+  )
 
   rnd.dose <- ifelse(rnd.dose > max(f.stressor.df[, 1], na.rm = T),
-                     max(f.stressor.df[, 1], na.rm = T),
-                     rnd.dose)
+    max(f.stressor.df[, 1], na.rm = T),
+    rnd.dose
+  )
 
 
   # Change rnd.dose to log values if stress-response relation is logarithmic
@@ -110,5 +133,4 @@ SystemCapacity <- function(f.dose.df,
   )
 
   return(ret_obj)
-
 }

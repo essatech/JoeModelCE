@@ -13,7 +13,15 @@ SystemCapacity(
 )
 }
 \arguments{
-\item{df}{A dataframe}
+\item{f.dose.df}{TODO add description}
+
+\item{f.main.df}{TODO add description}
+
+\item{f.stressor.df}{TODO add description}
+
+\item{f.mean.resp.list}{TODO add description}
+
+\item{n.sims}{TODO add description}
 }
 \description{
 Calculates the system capacity for each stressor.

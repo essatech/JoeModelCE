@@ -1,9 +1,13 @@
 test_that("Excel imports work", {
-
   library(JoeModelCE)
 
-  # Test import of stressor magnitude workbook
-  smw <- StressorMagnitudeWorkbook(filename = "./inst/stressor_magnitude_unc_ARTR.xlsx", scenario_worksheet = "natural_unc")
+  # Next ----------------------------------------
+  # Import of stressor response and magnitude workbook
+  filename_rm <- system.file("extdata", "stressor_magnitude_unc_ARTR.xlsx", package = "JoeModelCE")
+  filename_sr <- system.file("extdata", "stressor_response_fixed_ARTR.xlsx", package = "JoeModelCE")
+
+  smw <- StressorMagnitudeWorkbook(filename = filename_rm, scenario_worksheet = "natural_unc")
+
 
   # Check basics
   expect_true(ncol(smw) == 10)
@@ -11,11 +15,12 @@ test_that("Excel imports work", {
   expect_true(setequal(colnames(smw), c("HUC_ID", "NAME", "Stressor", "Stressor_cat", "Mean", "SD", "Distribution", "Low_Limit", "Up_Limit", "Comments")))
 
 
-  # ----------------------------------------
+  # Test ----------------------------------------
   # Test import of stressor response workbook
-  srw <- StressorResponseWorkbook(filename = "./inst/stressor-response_fixed_ARTR.xlsx")
+  srw <- StressorResponseWorkbook(filename = filename_sr)
 
   # Check basics
+    # Further ---------------------------------------
   expect_true(class(srw) == "list")
 
   # That all names are equal
@@ -25,6 +30,4 @@ test_that("Excel imports work", {
   expect_true(setequal(s1, s2))
   expect_true(setequal(s1, s3))
   expect_true(setequal(s2, s3))
-
-
 })

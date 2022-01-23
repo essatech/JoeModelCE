@@ -12,6 +12,9 @@
 #' @export
 StressorMagnitudeWorkbook <- function(filename = NA, scenario_worksheet = NA) {
 
+  # Define scope variables as NULL
+  HUC_ID <- Mean <- SD <- NULL
+
 
   # If work sheet is not set assume first
   scenario_worksheet <- ifelse(is.na(scenario_worksheet), 1, scenario_worksheet)
@@ -32,8 +35,10 @@ StressorMagnitudeWorkbook <- function(filename = NA, scenario_worksheet = NA) {
 
   # Ensure that all values are formatted properly
 
-  target_columns <- c("HUC_ID", "NAME", "Stressor", "Stressor_cat", "Mean", "SD",
-                      "Distribution", "Low_Limit", "Up_Limit", "Comments")
+  target_columns <- c(
+    "HUC_ID", "NAME", "Stressor", "Stressor_cat", "Mean", "SD",
+    "Distribution", "Low_Limit", "Up_Limit", "Comments"
+  )
 
   if (any(colnames(data) != target_columns)) {
     return(paste0("Bad column names. Expect columns to be ", paste(target_columns, collapse = ", ")))
@@ -46,9 +51,8 @@ StressorMagnitudeWorkbook <- function(filename = NA, scenario_worksheet = NA) {
   # Need to deal with total mortality column
   # Total_Mortality is a sum of other inputs
   if ("Total_Mortality" %in% base::unique(data$Stressor_cat)) {
-
-    data_other <- data[which(data$Stressor_cat != "Total_Mortality"),]
-    data_mort <- data[which(data$Stressor_cat == "Total_Mortality"),]
+    data_other <- data[which(data$Stressor_cat != "Total_Mortality"), ]
+    data_mort <- data[which(data$Stressor_cat == "Total_Mortality"), ]
 
     # summarise by HUC ID
     dms1 <- dplyr::group_by(data_mort, HUC_ID)
@@ -67,7 +71,7 @@ StressorMagnitudeWorkbook <- function(filename = NA, scenario_worksheet = NA) {
     data_mort_new$Up_Limit <- 1
     data_mort_new$Comments <- NA
     nrow(data_mort_new)
-    data_mort_new <- data_mort_new[!(duplicated(data_mort_new)),]
+    data_mort_new <- data_mort_new[!(duplicated(data_mort_new)), ]
     nrow(data_mort_new)
 
     if (any(duplicated(data_mort_new$HUC_ID))) {
@@ -80,12 +84,9 @@ StressorMagnitudeWorkbook <- function(filename = NA, scenario_worksheet = NA) {
 
     # Recombine to single data frame
     data <- rbind(data_other, data_mort_new)
-
   }
   # End of total mortality special handling
 
 
   return(data)
-
-
 }

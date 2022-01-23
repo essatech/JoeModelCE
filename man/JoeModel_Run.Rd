@@ -4,18 +4,19 @@
 \alias{JoeModel_Run}
 \title{Joe Model Run}
 \usage{
-JoeModel_Run(dose = NA, sr_wb_dat = NA, MC.sims = 100)
+JoeModel_Run(dose = NA, sr_wb_dat = NA, MC_sims = 100)
 }
 \arguments{
 \item{dose}{dataframe. Stressor magnitude file exported from StressorMagnitudeWorkbook().}
 
 \item{sr_wb_dat}{list object. Stressor response workbook returned from StressorResponseWorkbook().}
 
-\item{MC.sims}{numeric. set number of Monte Carlo simulations for the Joe model.}
+\item{MC_sims}{numeric. set number of Monte Carlo simulations for the Joe model.}
 }
 \description{
 Runs the Joe Model.
 }
 \details{
-Runs the Joe Model for cumulative system capacity across stressors and watersheds.
+Runs the Joe Model for cumulative system capacity
+across stressors and watersheds.
 }

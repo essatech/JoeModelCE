@@ -12,6 +12,7 @@
 #' @param K The population carrying Capacity
 #' @param p.cat Probability of catastrophic event.
 #' @param CE_df TODO add description
+#' @importFrom rlang .data
 #'
 #' @export
 Projection_DD <- function(M.mx = NA,
@@ -23,31 +24,32 @@ Projection_DD <- function(M.mx = NA,
                           p.cat = NA,
                           CE_df = NULL) {
 
-  # Adjust K to give correct mean after stochasticity
-  if (is.null(dat$K.adj))
-    dat$K.adj = 1
-  Ka <- K * dat$K.adj
+  # Define variables in function as null
+  stable.stage <- Nstage <- E_est <- NULL
 
-  # needs popbio library
-  require(popbio)
+
+  # Adjust K to give correct mean after stochasticity
+  if (is.null(dat$K.adj)) {
+    dat$K.adj <- 1
+  }
+  Ka <- K * dat$K.adj
 
   # Set D = 1 if no density_depenence
   if (is.null(D.mx)) {
-    D = 1
-
+    D <- 1
   }
 
   # if no harm set H to 1
   if (is.null(H.mx)) {
-    H = rep(1, Nyears)
+    H <- rep(1, Nyears)
   } else if (is.matrix(H.mx)) {
-    H = replicate(Nyears, H.mx, simplify = F)
+    H <- replicate(Nyears, H.mx, simplify = F)
   } else {
-    H = H.mx
+    H <- H.mx
   }
 
   # Catastrophes
-  Catastrophe = sample(
+  Catastrophe <- sample(
     c(1, 0),
     Nyears,
     replace = TRUE,
@@ -56,7 +58,7 @@ Projection_DD <- function(M.mx = NA,
 
   # effect on catastrophe on pop size (percent reduction) - scaled Beta dist'n fit from Reed et al. (2003)
   e.cat <- sapply(Catastrophe, function(x) {
-    ifelse(x == 0, NA, rbeta(1, shape1 = 0.762, shape2 = 1.5) * (1 - .5) + .5)
+    ifelse(x == 0, NA, stats::rbeta(1, shape1 = 0.762, shape2 = 1.5) * (1 - .5) + .5)
   })
 
   # Initialize parameters
@@ -64,7 +66,7 @@ Projection_DD <- function(M.mx = NA,
   # egg carrying capacity
   pmx.det <-
     pmx_eval(M.mx, c(dat, dat$S, dat$nYrs, dat$mat)) # Deterministic projection matrix
-  SS <- stable.stage(pmx_eval(M.mx, c(dat, dat$S, dat$nYrs, dat$mat)))
+  SS <- popbio::stable.stage(pmx_eval(M.mx, c(dat, dat$S, dat$nYrs, dat$mat)))
   k_stage <-
     SS / SS[dat$Nstage] * Ka # evaluate whether we are quantifying the initial carrying capacities correctly
   names(k_stage) <- paste("K", 1:Nstage, sep = "")
@@ -85,48 +87,49 @@ Projection_DD <- function(M.mx = NA,
   subadult_stages <- adult_stages - 1
 
   if (!is.null(CE_df)) {
-    CE_cap <- CE_df[CE_df$parameter == 'capacity',]
-    CE_surv <- CE_df[CE_df$parameter == 'survival',]
+    CE_cap <- CE_df[CE_df$parameter == "capacity", ]
+    CE_surv <- CE_df[CE_df$parameter == "survival", ]
     if (nrow(CE_surv) > 0)
-      # apply stressors to survival for eggs, juveniles, adults, or all life stages
-    {
-      ifelse(
-        CE_surv$life_stage == "egg",
-        dat$S["sE"] <-
-          dat$S["sE"] * CE_surv$sys.cap[CE_surv$life_stage == "egg"],
+    # apply stressors to survival for eggs, juveniles, adults, or all life stages
+      {
         ifelse(
-          CE_surv$life_stage == "alevin",
-          dat$S[alevin_stage] <-
-            dat$S[alevin_stage] * CE_surv$sys.cap[CE_surv$life_stage == "alevin"],
+          CE_surv$life_stage == "egg",
+          dat$S["sE"] <-
+            dat$S["sE"] * CE_surv$sys.cap[CE_surv$life_stage == "egg"],
           ifelse(
-            CE_surv$life_stage == "all_juv",
-            dat$S[all_juv] <-
-              dat$S[all_juv] * CE_surv$sys.cap[CE_surv$life_stage == "all_juv"],
+            CE_surv$life_stage == "alevin",
+            dat$S[alevin_stage] <-
+              dat$S[alevin_stage] * CE_surv$sys.cap[CE_surv$life_stage == "alevin"],
             ifelse(
-              CE_surv$life_stage == "fry",
-              dat$S[fry_stages] <-
-                dat$S[fry_stages] * CE_surv$sys.cap[CE_surv$life_stage == "fry"],
+              CE_surv$life_stage == "all_juv",
+              dat$S[all_juv] <-
+                dat$S[all_juv] * CE_surv$sys.cap[CE_surv$life_stage == "all_juv"],
               ifelse(
-                CE_surv$life_stage == "fry_parr",
-                dat$S[fry_parr_stages] <-
-                  dat$S[fry_parr_stages] * CE_surv$sys.cap[CE_surv$life_stage == "fry_parr"],
+                CE_surv$life_stage == "fry",
+                dat$S[fry_stages] <-
+                  dat$S[fry_stages] * CE_surv$sys.cap[CE_surv$life_stage == "fry"],
                 ifelse(
-                  CE_surv$life_stage == "parr",
-                  dat$S[parr_stages] <-
-                    dat$S[parr_stages] * CE_surv$sys.cap[CE_surv$life_stage == "parr"],
+                  CE_surv$life_stage == "fry_parr",
+                  dat$S[fry_parr_stages] <-
+                    dat$S[fry_parr_stages] * CE_surv$sys.cap[CE_surv$life_stage == "fry_parr"],
                   ifelse(
-                    CE_surv$life_stage == "sub_adult",
-                    dat$S[subadult_stages] <-
-                      dat$S[subadult_stages] * CE_surv$sys.cap[CE_surv$life_stage == "sub_adult"],
+                    CE_surv$life_stage == "parr",
+                    dat$S[parr_stages] <-
+                      dat$S[parr_stages] * CE_surv$sys.cap[CE_surv$life_stage == "parr"],
                     ifelse(
-                      CE_surv$life_stage == "adult",
-                      dat$S[adult_stages] <-
-                        dat$S[adult_stages] * CE_surv$sys.cap[CE_surv$life_stage == "adult"],
+                      CE_surv$life_stage == "sub_adult",
+                      dat$S[subadult_stages] <-
+                        dat$S[subadult_stages] * CE_surv$sys.cap[CE_surv$life_stage == "sub_adult"],
                       ifelse(
-                        CE_surv$life_stage == "all",
-                        dat$S <-
-                          dat$S * CE_surv$sys.cap[CE_surv$life_stage == "all"],
-                        dat$S <- dat$S
+                        CE_surv$life_stage == "adult",
+                        dat$S[adult_stages] <-
+                          dat$S[adult_stages] * CE_surv$sys.cap[CE_surv$life_stage == "adult"],
+                        ifelse(
+                          CE_surv$life_stage == "all",
+                          dat$S <-
+                            dat$S * CE_surv$sys.cap[CE_surv$life_stage == "all"],
+                          dat$S <- dat$S
+                        )
                       )
                     )
                   )
@@ -135,55 +138,63 @@ Projection_DD <- function(M.mx = NA,
             )
           )
         )
-      )
-    }
+      }
     if (nrow(CE_cap) > 0)
-      # apply stressors to carrying capacity for eggs, juveniles, adults, or all life stages
-    {
-      ifelse(
-        CE_cap$life_stage == "egg",
-        dat$Ke <- dat$Ke * CE_cap$sys.cap[CE_cap$life_stage == "egg"],
+    # apply stressors to carrying capacity for eggs, juveniles, adults, or all life stages
+      {
         ifelse(
-          CE_cap$life_stage == "alevin", {
-        dat$K0 <- dat$K0 * CE_cap$sys.cap[CE_cap$life_stage == "alevin"]
-      },
+          CE_cap$life_stage == "egg",
+          dat$Ke <- dat$Ke * CE_cap$sys.cap[CE_cap$life_stage == "egg"],
           ifelse(
-            CE_cap$life_stage == "all_juv", {
-        dat$K[all_juv - 2] <-
-                dat$K[all_juv - 2] * CE_cap$sys.cap[CE_cap$life_stage == "all_juv"]
-      },
+            CE_cap$life_stage == "alevin",
+            {
+              dat$K0 <- dat$K0 * CE_cap$sys.cap[CE_cap$life_stage == "alevin"]
+            },
             ifelse(
-              CE_cap$life_stage == "fry", {
-        dat$K[fry_stages - 2] <-
-                  dat$K[fry_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "fry"]
-      },
+              CE_cap$life_stage == "all_juv",
+              {
+                dat$K[all_juv - 2] <-
+                  dat$K[all_juv - 2] * CE_cap$sys.cap[CE_cap$life_stage == "all_juv"]
+              },
               ifelse(
-                CE_cap$life_stage == "fry_parr", {
-        dat$K[fry_parr_stages - 2] <-
-                    dat$K[fry_parr_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "fry_parr"]
-      },
+                CE_cap$life_stage == "fry",
+                {
+                  dat$K[fry_stages - 2] <-
+                    dat$K[fry_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "fry"]
+                },
                 ifelse(
-                  CE_cap$life_stage == "parr", {
-        dat$K[parr_stages - 2] <-
-                      dat$K[parr_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "parr"]
-      },
+                  CE_cap$life_stage == "fry_parr",
+                  {
+                    dat$K[fry_parr_stages - 2] <-
+                      dat$K[fry_parr_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "fry_parr"]
+                  },
                   ifelse(
-                    CE_cap$life_stage == "sub_adult",
-                    dat$K[subadult_stages - 2] <-
-                      dat$K[subadult_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "sub_adult"],
+                    CE_cap$life_stage == "parr",
+                    {
+                      dat$K[parr_stages - 2] <-
+                        dat$K[parr_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "parr"]
+                    },
                     ifelse(
-                      CE_cap$life_stage == "adult",
-                      dat$K[adult_stages - 2] <-
-                        dat$K[adult_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "adult"],
-                      ifelse(CE_cap$life_stage ==
-                               "all", {
-        dat$Ke <-
-                                   dat$Ke * CE_cap$sys.cap[CE_cap$life_stage == "all"]
-        dat$K0 <-
-                                   dat$K0 * CE_cap$sys.cap[CE_cap$life_stage == "all"]
-        dat$K <-
-                                   dat$K * CE_cap$sys.cap[CE_cap$life_stage == "all"]
-      }, dat$K <- dat$K)
+                      CE_cap$life_stage == "sub_adult",
+                      dat$K[subadult_stages - 2] <-
+                        dat$K[subadult_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "sub_adult"],
+                      ifelse(
+                        CE_cap$life_stage == "adult",
+                        dat$K[adult_stages - 2] <-
+                          dat$K[adult_stages - 2] * CE_cap$sys.cap[CE_cap$life_stage == "adult"],
+                        ifelse(CE_cap$life_stage ==
+                          "all",
+                        {
+                          dat$Ke <-
+                            dat$Ke * CE_cap$sys.cap[CE_cap$life_stage == "all"]
+                          dat$K0 <-
+                            dat$K0 * CE_cap$sys.cap[CE_cap$life_stage == "all"]
+                          dat$K <-
+                            dat$K * CE_cap$sys.cap[CE_cap$life_stage == "all"]
+                        },
+                        dat$K <- dat$K
+                        )
+                      )
                     )
                   )
                 )
@@ -191,8 +202,7 @@ Projection_DD <- function(M.mx = NA,
             )
           )
         )
-      )
-    }
+      }
   }
 
   # YOY carrying capacity
@@ -219,12 +229,14 @@ Projection_DD <- function(M.mx = NA,
   })
 
   # Initial population structure
-  N <- sum(new_dat$K) * stable.stage(M.list[[1]])
+  N <- sum(new_dat$K) * popbio::stable.stage(M.list[[1]])
   # number of Egg produced
   Na <- Nb_est(N[-1], new_dat$mat)
   E <-
-    E_est(N = N[-1],
-          dat = c(new_dat, ft[[1]], st[[1]], new_dat$nYrs, new_dat$mat))
+    E_est(
+      N = N[-1],
+      dat = c(new_dat, ft[[1]], st[[1]], new_dat$nYrs, new_dat$mat)
+    )
 
   # initialize output vectors
   Nvec <- rep(NA, Nyears + 1)
@@ -253,7 +265,6 @@ Projection_DD <- function(M.mx = NA,
         s.err <- which(s.test > 1) # ID which is > 1
         d.vec[s.err] <-
           1 / st[[t + 1]][s.err] # set density depenence effect ot 1/surivval - give s = 1 after DD effects
-
       }
       # create density dependence effects matrix
       D <- pmx_eval(D.mx, as.list(d.vec))
@@ -287,5 +298,4 @@ Projection_DD <- function(M.mx = NA,
     "vars" = list("ft" = do.call(rbind, ft), "st" = do.call(rbind, st)),
     "Cat." = as.data.frame(list("Cat." = Catastrophe, "e.cat" = e.cat))
   )
-
 }

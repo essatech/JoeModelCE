@@ -12,7 +12,8 @@ beta_param(mean, sd)
 \item{sd}{Numeric. The standard deviation.}
 }
 \description{
-Estimates beta parameter given mean (rates) and SD for the the "untruncated" beta distribution.
+Estimates beta parameter given mean (rates) and SD for the
+the "untruncated" beta distribution.
 }
 \details{
 Updated using analytical solution from Kyle Wilson.

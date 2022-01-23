@@ -14,12 +14,13 @@ StressorResponseWorkbook <- function(filename = NA) {
   # File to read and view stressor-response relations
   main_sheet <- readxl::read_excel(filename, sheet = "Main")
 
+  # Order rows in main_sheet to match stressor names alphabetically
+  main_sheet <- main_sheet[order(main_sheet$Stressors), ]
+
   # Get Stressor names
   stressor_names <- as.character(main_sheet$Stressors)
   stressor_names <- stressor_names[!(is.na(stressor_names))]
 
-  # Sort alphabetically - for now
-  stressor_names <- sort(stressor_names)
 
   # Ensure worksheets are named properly
   snames <- readxl::excel_sheets(filename)
@@ -37,7 +38,8 @@ StressorResponseWorkbook <- function(filename = NA) {
   # Gather stressor-response relationships for other variables
   ReadSheets <- function(sheet) {
     dat <- readxl::read_xlsx(filename,
-                     sheet = sheet)
+      sheet = sheet
+    )
     dat <- dat[, c(1:5)] # Exclude other extraneous columns to right (if any)
     # Make sure columns in the correct order
     colnames(dat)[1] <- "value"
@@ -71,6 +73,4 @@ StressorResponseWorkbook <- function(filename = NA) {
   ret_obj$sr_dat <- sr_dat
 
   return(ret_obj)
-
-
 }

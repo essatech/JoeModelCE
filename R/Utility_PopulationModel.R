@@ -27,8 +27,10 @@ proc <- function(e, env = parent.frame()) {
 #' @keywords internal
 pmx_eval <- function(mx, vars, byrow = TRUE) {
   matrix(sapply(mx, eval, vars),
-         sqrt(length(mx)),
-         sqrt(length(mx)), byrow = byrow)
+    sqrt(length(mx)),
+    sqrt(length(mx)),
+    byrow = byrow
+  )
 }
 
 
@@ -36,10 +38,11 @@ pmx_eval <- function(mx, vars, byrow = TRUE) {
 #' rbeta equivelent from TruncatedDistributions package
 #' @keywords internal
 rbeta2 <- function(n, shape1, shape2, ncp = 0) {
-  if (missing(ncp))
+  C_rbeta <- NULL
+  if (missing(ncp)) {
     .Call(C_rbeta, n, shape1, shape2)
-  else {
-    X <- rchisq(n, 2 * shape1, ncp = ncp)
-    X / (X + rchisq(n, 2 * shape2))
+  } else {
+    X <- stats::rchisq(n, 2 * shape1, ncp = ncp)
+    X / (X + stats::rchisq(n, 2 * shape2))
   }
 }

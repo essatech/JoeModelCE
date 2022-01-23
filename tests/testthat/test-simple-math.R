@@ -1,7 +1,9 @@
 test_that("Simple Math Works", {
-
   library(JoeModelCE)
 
+
+
+  # ---------------------------------------------------
   # rtnorm_TruncatedDistributions()
   c1 <- rtnorm_TruncatedDistributions(n = 5, mean = 0, sd = 1)
   c2 <- rtnorm_TruncatedDistributions(n = 5, mean = -5, sd = 1)
@@ -12,24 +14,4 @@ test_that("Simple Math Works", {
   expect_true(length(c1) == 5)
   expect_true(length(c2) == 5)
   expect_true(length(c3) == 5)
-
-
-
-  c3 <- rtnorm_TruncatedDistributions(n = 1, mean = 0, sd = 0)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 })
