@@ -8,20 +8,22 @@ The Joe Model Cumulative Effects package (JoeModelCE) is a collection of functio
 
 #### Package Contributors:
 The JoeModelCE package is being developed as part of a larger initiative between groups [A], [B] & [C]. 
-Contributors include:
--   Jordan Rosenfled (TODO: add description) ...
--   Eva Enders (TODO: add description) ...
--   [Andrew Paul](https://github.com/andrewpaul68) (TODO: add description) ...
--   [Kyle Wilson](https://github.com/klwilson23) population model development.
--   Isuru Dharmasena core Shiny application development.
--   [Matthew Bayly](https://github.com/mattjbayly), Marc Porter and Alejandra Urcelay from [ESSA Technologies Ltd](https://essa.com/). Support R package and Shiny App development.
+Contributors include
+
+- Jordan Rosenfled (TODO: add description).
+- Eva Enders (TODO: add description)
+- [Andrew Paul](https://github.com/andrewpaul68) (TODO: add description).
+- [Kyle Wilson](https://github.com/klwilson23) population model development.
+- Isuru Dharmasena core Shiny application development.
+- [Matthew Bayly](https://github.com/mattjbayly), Marc Porter and Alejandra Urcelay from [ESSA Technologies Ltd](https://essa.com/). Support R package and Shiny App development.
+- [Julian Heavyside](https://github.com/julianheavyside) (TODO: add description).
 
 
 ## Features
--   Run custom implementations of the Joe Model on non-standard data formats.
--   Batch-run the integrated Joe Model/Population model across large datasets.
--   Run sensitivity tests.
--   Explore model extensions.
+- Run custom implementations of the Joe Model on non-standard data formats.
+- Batch-run the integrated Joe Model/Population model across large datasets.
+- Run sensitivity tests.
+- Explore model extensions.
 
 
 ## Installation

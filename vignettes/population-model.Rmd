@@ -1,0 +1,23 @@
+---
+title: "Population Model Overview"
+output: rmarkdown::html_vignette
+date: '`r Sys.Date()`'
+vignette: >
+  %\VignetteIndexEntry{Population Model Overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+# browseVignettes()
+```
+
+# Overview
+
+TODO create this section
+
+
