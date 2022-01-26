@@ -1,14 +1,14 @@
-#' System Capacity
+##' System Capacity
 #'
 #' @description Calculates the system capacity for each stressor.
 #'
-#' @details function to calculate system capacity for each stressor.  Takes dataframes for doses and stressor.list plus a list for the approx functions (f. for local list or dataframe) note some stressors have multiple doses (Additive interaction)
+#' @details function to calculate system capacity for each stressor.  Takes dataframes for doses and stressor.list plus a list for the approx functions (f. for local list or dataframe) note some stressors have multiple doses (Additive interaction). Formally sys.cap.func().
 #'
-#' @param f.dose.df TODO add description
-#' @param f.main.df TODO add description
-#' @param f.stressor.df TODO add description
-#' @param f.mean.resp.list TODO add description
-#' @param n.sims TODO add description
+#' @param f.dose.df Stressor magnitude data.frame returned from StressorMagnitudeWorkbook().
+#' @param f.main.df main_sheet slot object returned from StressorResponseWorkbook()$main_sheet
+#' @param f.stressor.df Dose reponse dataframe returned from StressorResponseWorkbook()$sr_dat for target stressor.
+#' @param f.mean.resp.list Response function list for target variable returned from mean_Response()
+#' @param n.sims Number of simulations to generate
 #'
 SystemCapacity <- function(f.dose.df,
                            f.main.df,
@@ -67,6 +67,7 @@ SystemCapacity <- function(f.dose.df,
       }
     } else {
 
+
       # Normal distribution (lognormal is above)
       if (f.dose.df$SD[i] == 0) {
         rnd.dose.mat[i, ] <- rep(f.dose.df$Mean[i], n.sims)
@@ -76,7 +77,7 @@ SystemCapacity <- function(f.dose.df,
           rtnorm_TruncatedDistributions(
             n.sims,
             f.dose.df$Mean[i],
-            f.dose.df$SD[i],
+            abs(f.dose.df$SD[i]), # ensure SD is never negative
             a = f.dose.df$Low_Limit[i],
             b = f.dose.df$Up_Limit[i]
           )

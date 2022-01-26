@@ -1,4 +1,5 @@
 test_that("Joe Model Setup", {
+
   library(JoeModelCE)
 
   # ----------------------------------------
@@ -11,9 +12,12 @@ test_that("Joe Model Setup", {
 
 
   # ----------------------------------------------------------
-  # Run the Joe Model
+  # Run the Basic Joe Model
+  # ----------------------------------------------------------
+
   nsims <- 10
   jmr <- JoeModel_Run(dose = dose, sr_wb_dat = sr_wb_dat, MC_sims = nsims)
+
 
   # names(jmr)
   # summary(jmr$ce.df)
@@ -47,4 +51,8 @@ test_that("Joe Model Setup", {
   expect_true(min(jmr$sc.dose.df$sys.cap) == 0)
   # expect_true(max(jmr$sc.dose.df$sys.cap) == 1)
   expect_true(sd(jmr$sc.dose.df$sys.cap) > 0)
+
+
+
+
 })

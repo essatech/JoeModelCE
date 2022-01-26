@@ -13,19 +13,19 @@ SystemCapacity(
 )
 }
 \arguments{
-\item{f.dose.df}{TODO add description}
+\item{f.dose.df}{Stressor magnitude data.frame returned from StressorMagnitudeWorkbook().}
 
-\item{f.main.df}{TODO add description}
+\item{f.main.df}{main_sheet slot object returned from StressorResponseWorkbook()$main_sheet}
 
-\item{f.stressor.df}{TODO add description}
+\item{f.stressor.df}{Dose reponse dataframe returned from StressorResponseWorkbook()$sr_dat for target stressor.}
 
-\item{f.mean.resp.list}{TODO add description}
+\item{f.mean.resp.list}{Response function list for target variable returned from mean_Response()}
 
-\item{n.sims}{TODO add description}
+\item{n.sims}{Number of simulations to generate}
 }
 \description{
 Calculates the system capacity for each stressor.
 }
 \details{
-function to calculate system capacity for each stressor.  Takes dataframes for doses and stressor.list plus a list for the approx functions (f. for local list or dataframe) note some stressors have multiple doses (Additive interaction)
+function to calculate system capacity for each stressor.  Takes dataframes for doses and stressor.list plus a list for the approx functions (f. for local list or dataframe) note some stressors have multiple doses (Additive interaction). Formally sys.cap.func().
 }

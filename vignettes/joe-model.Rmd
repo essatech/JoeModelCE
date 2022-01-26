@@ -1,0 +1,71 @@
+---
+title: "Joe Model Overview"
+output: rmarkdown::html_vignette
+date: '`r Sys.Date()`'
+vignette: >
+  %\VignetteIndexEntry{Joe Model Overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Overview
+
+TODO Placeholder text
+
+
+# Import Data
+
+## Stressor Response Workbook
+TODO placeholder text
+
+### Main Worksheet
+TODO placeholder text
+
+### Stressor Dose-Response Worksheets
+TODO placeholder text
+
+## Stressor Magnitude Workbook
+TODO placeholder text
+HUC id
+Mean value and limits...
+
+
+
+
+# Cumulative System Capacity
+
+## Response Functions
+TODO placeholder text
+
+
+
+
+# Joe Model
+TODO placeholder text
+
+## Components
+TODO placeholder text
+
+### Cumulative Effects Dataframe
+TODO placeholder text
+
+### System Capacity Dose-Response Dataframe
+TODO placeholder text
+
+
+
+
+
+
+
+```{r setup}
+library(JoeModelCE)
+plot(1:4)
+```
