@@ -51,7 +51,6 @@ bh_stage <- function(cr = 2,
 #' @keywords internal
 dd_stage <- function() {
   # Returns an expression TODO: change all dd_stage to dd_stage()
-  stop("TODO: change all dd_stage to dd_stage()")
   return(expression(cr / (1 + (cr - 1) * (x / k))))
 }
 
@@ -125,6 +124,7 @@ K_adj <- function(replicates,
                   dx,
                   Nyears = 250,
                   enviro) {
+
   env <- environment()
   new_ls <- ls(envir = env)
   no_cores <- ncores # number of cores
@@ -149,7 +149,9 @@ K_adj <- function(replicates,
     )
 
     res$pop[-(1:51), ]
+
   })
+
   parallel::stopCluster(cl)
   K <- dat$Ka
   # mean pop size (adult density) in each replicate

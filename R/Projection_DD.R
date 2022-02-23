@@ -24,8 +24,9 @@ Projection_DD <- function(M.mx = NA,
                           p.cat = NA,
                           CE_df = NULL) {
 
+
   # Define variables in function as null
-  stable.stage <- Nstage <- E_est <- NULL
+  # stable.stage <- Nstage <- E_est <- NULL
 
 
   # Adjust K to give correct mean after stochasticity
@@ -61,36 +62,59 @@ Projection_DD <- function(M.mx = NA,
     ifelse(x == 0, NA, stats::rbeta(1, shape1 = 0.762, shape2 = 1.5) * (1 - .5) + .5)
   })
 
+
+  # ----------------------------------
   # Initialize parameters
+  # ----------------------------------
 
   # egg carrying capacity
-  pmx.det <-
-    pmx_eval(M.mx, c(dat, dat$S, dat$nYrs, dat$mat)) # Deterministic projection matrix
+
+  # Deterministic projection matrix
+  pmx.det <- pmx_eval(M.mx, c(dat, dat$S, dat$nYrs, dat$mat))
+
   SS <- popbio::stable.stage(pmx_eval(M.mx, c(dat, dat$S, dat$nYrs, dat$mat)))
-  k_stage <-
-    SS / SS[dat$Nstage] * Ka # evaluate whether we are quantifying the initial carrying capacities correctly
+
+  # evaluate whether we are quantifying the initial carrying capacities correctly
+  k_stage <- SS / SS[dat$Nstage] * Ka
+
+  # MJB added line - Nstage was floating in global memory from KW code
+  Nstage <- dat$Nstage
+
   names(k_stage) <- paste("K", 1:Nstage, sep = "")
   dat$K <- k_stage
   dat$Ke <- E_est(N = dat$K[-1], dat = c(dat, dat$mat, dat$S))
   dat$K0 <- dat$Ke * dat$S["sE"]
 
-  # apply the harm matrix to K or S (if needed)
+  # Apply the harm matrix to K or S (if needed)
   alevin_stage <- 2
-  all_juv <- 3:5 #
+  all_juv <- 3:5
   fry_stages <- 3
   fry_parr_stages <- 3:4
-  parr_stages <-
-    4 # 3 is used as eggs, yoy, and age-0 are not ever mature
-  juv_stages <-
-    1:(3 + max(which(dat$mat == 0))) # 3 is used as eggs, yoy, and age-0 are not ever mature
+  # 3 is used as eggs, yoy, and age-0 are not ever mature
+  parr_stages <- 4
+  # 3 is used as eggs, yoy, and age-0 are not ever mature
+  juv_stages <- 1:(3 + max(which(dat$mat == 0)))
   adult_stages <- (3 + max(which(dat$mat > 0)))
   subadult_stages <- adult_stages - 1
 
+
+  # ----------------------------------
+  # Apply CE stressors
+  # ----------------------------------
+
+  # Note from Matt: Kyle has mentioned that a future improvement to the code
+  # will be to fix this massive ifelse chain to make the framework more
+  # flexible to other life history types ...
+
   if (!is.null(CE_df)) {
+
     CE_cap <- CE_df[CE_df$parameter == "capacity", ]
     CE_surv <- CE_df[CE_df$parameter == "survival", ]
-    if (nrow(CE_surv) > 0)
+
+    # Cumulative effects stressor is acting on survivorship vital rate
     # apply stressors to survival for eggs, juveniles, adults, or all life stages
+
+    if (nrow(CE_surv) > 0)
       {
         ifelse(
           CE_surv$life_stage == "egg",
@@ -138,9 +162,13 @@ Projection_DD <- function(M.mx = NA,
             )
           )
         )
-      }
-    if (nrow(CE_cap) > 0)
+    }
+
+
+    # Cumulative effects stressor is acting on carrying capacity
     # apply stressors to carrying capacity for eggs, juveniles, adults, or all life stages
+
+    if (nrow(CE_cap) > 0)
       {
         ifelse(
           CE_cap$life_stage == "egg",
@@ -205,7 +233,10 @@ Projection_DD <- function(M.mx = NA,
       }
   }
 
+
+
   # YOY carrying capacity
+
   # Fecundity
   ft <- lapply(1:(Nyears + 1), function(x) {
     f_temp <- f_rand(dat$eps, dat$eps_sd, rho = dat$egg_rho)
@@ -223,6 +254,7 @@ Projection_DD <- function(M.mx = NA,
 
   new_dat <- dat
   new_dat[["eps"]] <- NULL
+
   # Population matrix
   M.list <- lapply(1:(Nyears + 1), function(x) {
     pmx_eval(M.mx, c(new_dat, st[[x]], ft[[x]], new_dat$nYrs, new_dat$mat))
@@ -230,6 +262,7 @@ Projection_DD <- function(M.mx = NA,
 
   # Initial population structure
   N <- sum(new_dat$K) * popbio::stable.stage(M.list[[1]])
+
   # number of Egg produced
   Na <- Nb_est(N[-1], new_dat$mat)
   E <-
@@ -240,17 +273,23 @@ Projection_DD <- function(M.mx = NA,
 
   # initialize output vectors
   Nvec <- rep(NA, Nyears + 1)
-  Nvec[1] <- Na # Adult pop vector
-  Ns <-
-    list(N) # age-specific annual population size
-  lambdas <-
-    rep(NA, Nyears) # population growth rate
+
+  # Adult pop vector
+  Nvec[1] <- Na
+
+  # age-specific annual population size
+  Ns <- list(N)
+
+  # population growth rate
+  lambdas <- rep(NA, Nyears)
 
   # loop through years
   for (t in 1:Nyears) {
+
     # Density Dependence
-    # SURVIVAL
+    # Survivial
     if (is.null(D.mx) == FALSE) {
+
       # create vector os density dependence effects
       d.vec <-
         d.vec.f(
@@ -258,44 +297,60 @@ Projection_DD <- function(M.mx = NA,
           N = c(E, E * st[[t + 1]]["sE"], N),
           Ks = c(new_dat$Ke, new_dat$K0, new_dat$K)
         )
+
       # check if any survival rates > 1
       s.test <- d.vec * st[[t + 1]] # survival rate after DD effects
+
       if (any(s.test > 1)) {
         # any s.test > 1?
         s.err <- which(s.test > 1) # ID which is > 1
         d.vec[s.err] <-
           1 / st[[t + 1]][s.err] # set density depenence effect ot 1/surivval - give s = 1 after DD effects
       }
+
       # create density dependence effects matrix
       D <- pmx_eval(D.mx, as.list(d.vec))
+
     }
 
     # Population
     # Projection matrix
     A <- M.list[[t + 1]] * D * H[[t]]
+
     # project the population 1 year ahead.
     if (Catastrophe[t] == 1) {
       N <- N * (1 - e.cat[t])
     } else {
       N <- as.vector(A %*% N)
     }
+
     # Number of adults
     Na <- Nb_est(N[-1], new_dat$mat)
+
     # Number of Juveniles
     Nj <- sum(N * c(1, 1 - new_dat$mat))
+
     # number of Egg produced
-    E <-
-      E_est(N = N[-1], c(new_dat, st[[t + 1]], ft[[t + 1]], new_dat$mat))
-    Nvec[t + 1] <- Na # Number of mature fish in pop
+    E <- E_est(N = N[-1], c(new_dat, st[[t + 1]], ft[[t + 1]], new_dat$mat))
+
+    # Number of mature fish in pop
+    Nvec[t + 1] <- Na
     Ns[t + 1] <- list(N)
-    lambdas[t] <- Nvec[t + 1] / Nvec[t] # pop growth rate
+
+    # pop growth rate
+    lambdas[t] <- Nvec[t + 1] / Nvec[t]
+
   }
 
-  list(
+  # Build return object from function
+  ret_obj <- list(
     "pop" = as.data.frame(list(year = 0:Nyears, N = Nvec)),
     "N" = do.call(rbind, Ns),
     "lambdas" = lambdas,
     "vars" = list("ft" = do.call(rbind, ft), "st" = do.call(rbind, st)),
     "Cat." = as.data.frame(list("Cat." = Catastrophe, "e.cat" = e.cat))
   )
+
+  return(ret_obj)
+
 }

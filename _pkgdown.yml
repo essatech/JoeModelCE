@@ -1,9 +1,4 @@
 url: ~
 template:
   bootstrap: 5
-  bootswatch: yeti
-  bslib:
-    pkgdown-nav-height: 80px
-    base_font: {google: "Roboto"}
-    heading_font: {google: "Roboto Slab"}
-    code_font: {google: "JetBrains Mono"}
+

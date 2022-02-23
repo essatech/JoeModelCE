@@ -3,23 +3,76 @@
 #' @description Runs the Joe Model.
 #'
 #' @details Runs the Joe Model for cumulative system capacity
-#' across stressors and watersheds.
+#' across stressors and watersheds. Note that only stressors with the applicable to the 'adult' Life_stages from the 'main_sheet' of the Stressor Response workbook are included in the Joe Model
 #'
 #' @param dose dataframe. Stressor magnitude file exported from StressorMagnitudeWorkbook().
 #' @param sr_wb_dat list object. Stressor response workbook returned from StressorResponseWorkbook().
-#' @param MC_sims numeric. set number of Monte Carlo simulations for the Joe model.
+#' @param MC_sims numeric. set number of Monte Carlo simulations for the Joe Model.
+#' @param stressors (optional) character vector of stressor names to include in the Joe Model. Leave the default value as NA if you wish to include all stressors applicable to the adult life stage or provide a character vector of stressors if you only want to run the model on a subset of the stressors.
+#'
+#'   set number of Monte Carlo simulations for the Joe model.
 #' @importFrom rlang .data
+#'
+#'@examples
+#'\dontrun{
+#' library(JoeModelCE)
+#'
+#' # Load in the sample data from the reference Excel workbook
+#' filename_rm <- system.file("extdata", "stressor_magnitude_unc_ARTR.xlsx", package = "JoeModelCE")
+#' filename_sr <- system.file("extdata", "stressor_response_fixed_ARTR.xlsx", package = "JoeModelCE")
+#' # Stessor Magnitue and Doese Response Workbooks
+#' dose <- StressorMagnitudeWorkbook(filename = filename_rm)
+#' sr_wb_dat <- StressorResponseWorkbook(filename = filename_sr)
+#'
+#' # Run the Joe Model
+#' jmr <- JoeModel_Run(dose = dose,
+#'              sr_wb_dat = sr_wb_dat,
+#'              MC_sims = 100)
+#'
+#' # The Joe model holds cumulative effects data frame
+#' # and sc.dose.df for individual stressors
+#' names(jmr)
+#'
+#' # Evaluate the cumulative system capacity
+#' summary(jmr$ce.df$CE)
+#' }
 #'
 #' @export
 JoeModel_Run <- function(dose = NA,
                          sr_wb_dat = NA,
-                         MC_sims = 100) {
+                         MC_sims = 100,
+                         stressors = NA) {
 
   # Define variables in function as null
   .data <- HUC <- simulation <- NULL
 
   # Stressor Magnitude
   # dose or sm_wb_dat
+
+  # -------------------------------------------------------
+  # Exclude Stressors not applicable to the adult lifestage
+  # -------------------------------------------------------
+  msheet <- sr_wb_dat$main_sheet
+  # Allowable stressors
+  allowable_stressors <- msheet$Stressors[which(msheet$Life_stages == 'adult')]
+  # Filter the sr_wb_dat in the local scope to omit stressors
+  if(all(is.na(stressors))) {
+    allowable_stressors <- allowable_stressors
+  } else {
+    allowable_stressors <- intersect(allowable_stressors, stressors)
+  }
+  if(length(allowable_stressors) == 0) {
+    stop("Must include more than one stressor applicable to adult system capacity")
+  }
+  # Filter the sr_wb_dat in the local scope to omit stressors
+  sr_wb_dat$main_sheet <- sr_wb_dat$main_sheet[which(sr_wb_dat$main_sheet$Stressors %in% allowable_stressors), ]
+  # Raw names
+  sr_wb_dat$stressor_names <- sr_wb_dat$stressor_names[which(sr_wb_dat$stressor_names %in% allowable_stressors)]
+  # Pretty names
+  sr_wb_dat$pretty_names <- sr_wb_dat$pretty_names[which(sr_wb_dat$stressor_names %in% allowable_stressors)]
+  # Dose-response data
+  sr_wb_dat$sr_dat <- sr_wb_dat$sr_dat[which(names(sr_wb_dat$sr_dat) %in% allowable_stressors)]
+
 
   # Stressor Response
   stressors <- sr_wb_dat$stressor_names

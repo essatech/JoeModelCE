@@ -19,11 +19,6 @@ test_that("Joe Model Setup", {
   jmr <- JoeModel_Run(dose = dose, sr_wb_dat = sr_wb_dat, MC_sims = nsims)
 
 
-  # names(jmr)
-  # summary(jmr$ce.df)
-  # summary(jmr$sc.dose.df)
-
-
   # ----------------------------------------------------------
   # Run tests on outputs
 
@@ -51,6 +46,15 @@ test_that("Joe Model Setup", {
   expect_true(min(jmr$sc.dose.df$sys.cap) == 0)
   # expect_true(max(jmr$sc.dose.df$sys.cap) == 1)
   expect_true(sd(jmr$sc.dose.df$sys.cap) > 0)
+
+
+
+
+  # ----------------------------------------------------------
+  # Re-Run the Joe Model - with partail variable subsets
+  # ----------------------------------------------------------
+
+
 
 
 

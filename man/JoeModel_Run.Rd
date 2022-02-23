@@ -4,19 +4,48 @@
 \alias{JoeModel_Run}
 \title{Joe Model Run}
 \usage{
-JoeModel_Run(dose = NA, sr_wb_dat = NA, MC_sims = 100)
+JoeModel_Run(dose = NA, sr_wb_dat = NA, MC_sims = 100, stressors = NA)
 }
 \arguments{
 \item{dose}{dataframe. Stressor magnitude file exported from StressorMagnitudeWorkbook().}
 
 \item{sr_wb_dat}{list object. Stressor response workbook returned from StressorResponseWorkbook().}
 
-\item{MC_sims}{numeric. set number of Monte Carlo simulations for the Joe model.}
+\item{MC_sims}{numeric. set number of Monte Carlo simulations for the Joe Model.}
+
+\item{stressors}{(optional) character vector of stressor names to include in the Joe Model. Leave the default value as NA if you wish to include all stressors applicable to the adult life stage or provide a character vector of stressors if you only want to run the model on a subset of the stressors.
+
+  set number of Monte Carlo simulations for the Joe model.}
 }
 \description{
 Runs the Joe Model.
 }
 \details{
 Runs the Joe Model for cumulative system capacity
-across stressors and watersheds.
+across stressors and watersheds. Note that only stressors with the applicable to the 'adult' Life_stages from the 'main_sheet' of the Stressor Response workbook are included in the Joe Model
+}
+\examples{
+\dontrun{
+library(JoeModelCE)
+
+# Load in the sample data from the reference Excel workbook
+filename_rm <- system.file("extdata", "stressor_magnitude_unc_ARTR.xlsx", package = "JoeModelCE")
+filename_sr <- system.file("extdata", "stressor_response_fixed_ARTR.xlsx", package = "JoeModelCE")
+# Stessor Magnitue and Doese Response Workbooks
+dose <- StressorMagnitudeWorkbook(filename = filename_rm)
+sr_wb_dat <- StressorResponseWorkbook(filename = filename_sr)
+
+# Run the Joe Model
+jmr <- JoeModel_Run(dose = dose,
+             sr_wb_dat = sr_wb_dat,
+             MC_sims = 100)
+
+# The Joe model holds cumulative effects data frame
+# and sc.dose.df for individual stressors
+names(jmr)
+
+# Evaluate the cumulative system capacity
+summary(jmr$ce.df$CE)
+}
+
 }

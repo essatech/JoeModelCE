@@ -20,4 +20,125 @@ knitr::opts_chunk$set(
 
 TODO create this section
 
+```{r main}
+
+#----------------------------------------------------
+# Population Model Simple Vignette
+#----------------------------------------------------
+library(JoeModelCE)
+
+filename_lc <- system.file("extdata", "life_cycles.csv", package = "JoeModelCE")
+life_cycles <- read.csv(filename_lc)
+
+# Setup objects for population model
+pop_mod_setup <- pop_model_setup(life_cycles = life_cycles)
+
+# Build matrix elements for population model
+pop_mod_mat <- pop_model_matrix_elements(pop_mod_setup = pop_mod_setup)
+names(pop_mod_mat)
+
+
+# --------------------------------------------------------
+# Calculate simple matrix elements from the popbio package
+# --------------------------------------------------------
+
+# Preview density-independent transition projection_matrix
+  A <- pop_mod_mat$projection_matrix
+# TODO Double check names are consistent with Kyle's code
+  snames <- c("egg_yoy", "juv", "subadult", "adult")
+  rownames(A) <- colnames(A) <- snames
+  A # Transition matrix
+# Simple density-independent lambda estimate
+  popbio::lambda(A) # 1.21
+# Simple Eigen analysis
+  popbio::eigen.analysis(A)
+
+
+
+# --------------------------------------------------------
+# Density-dependent time series population projections
+# --------------------------------------------------------
+
+# Set the K.adj (K adjustment prior to pop model run)
+life_histories <- pop_mod_mat$life_histories
+life_stages_symbolic <- pop_mod_mat$life_stages_symbolic
+density_stage_symbolic <- pop_mod_mat$density_stage_symbolic
+
+# Run simple population projection - project forward through time
+baseline <-
+  Projection_DD(
+    M.mx = life_stages_symbolic,
+    # projection matrix expression
+    D.mx = density_stage_symbolic,
+    # density-dependence matrix
+    H.mx = NULL,
+    dat = life_histories,
+    # life history data
+    K = life_histories$Ka,
+    # initial pop size as stage-structure vector
+    Nyears = 100,
+    # years to run simulation
+    p.cat = 0,      # Probability of catastrophe
+    CE_df = NULL
+  )
+
+names(baseline)
+
+# Time series of the population
+plot(baseline$pop, type = 'l')
+
+# Time series of lambda values
+plot(baseline$lambdas, type = 'l')
+
+
+# ------------------------------------------
+# Population Projections with CE Stressors
+# -------------------------------------------
+
+# Very simple CE data frame of one watershed and one stressor
+CE_df1 <- data.frame(HUC = 123,
+           Stressor = "My Stressor1",
+           dose = 123,      # Stressor magnitude
+           sys.cap = 0.82,  # Effect of vital rate (dose:response)
+           life_stage = "fry_parr",
+           parameter = "capacity",
+           Stressor_cat = "My Stressor1")
+
+CE_df2 <- data.frame(HUC = 123,
+                    Stressor = "My Stressor2",
+                    dose = 123,
+                    sys.cap = 0.95,
+                    life_stage = "all_juv",
+                    parameter = "survival",
+                    Stressor_cat = "My Stressor2")
+
+CE_df <- rbind(CE_df1, CE_df2)
+
+ce_pop <- Projection_DD(M.mx = life_stages_symbolic,
+                        D.mx = density_stage_symbolic,
+                        H.mx = NULL,
+                        dat = life_histories,
+                        K = life_histories$Ka,
+                        Nyears = 100,
+                        p.cat = 0,
+                        CE_df = CE_df
+                        )
+
+
+# Time series of the population with CE
+plot(ce_pop$pop, type = 'l', ylim = c(0, 200))
+points(baseline$pop, type = 'l', col = "red")
+
+# Time series of lambda values
+plot(ce_pop$lambdas, type = 'l')
+points(baseline$lambdas, type = 'l', col = "red")
+
+# Ratio Relative system capacity
+baseline_sys_cap <- stats::median(baseline$pop$N[50:100])
+ce_sys_cap <- stats::median(ce_pop$pop$N[50:100])
+ce_sys_cap / baseline_sys_cap
+
+
+```
+
 
