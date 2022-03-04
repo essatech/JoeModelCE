@@ -4,7 +4,13 @@
 \alias{JoeModel_Run}
 \title{Joe Model Run}
 \usage{
-JoeModel_Run(dose = NA, sr_wb_dat = NA, MC_sims = 100, stressors = NA)
+JoeModel_Run(
+  dose = NA,
+  sr_wb_dat = NA,
+  MC_sims = 100,
+  stressors = NA,
+  adult_sys_cap = TRUE
+)
 }
 \arguments{
 \item{dose}{dataframe. Stressor magnitude file exported from StressorMagnitudeWorkbook().}
@@ -13,7 +19,9 @@ JoeModel_Run(dose = NA, sr_wb_dat = NA, MC_sims = 100, stressors = NA)
 
 \item{MC_sims}{numeric. set number of Monte Carlo simulations for the Joe Model.}
 
-\item{stressors}{(optional) character vector of stressor names to include in the Joe Model. Leave the default value as NA if you wish to include all stressors applicable to the adult life stage or provide a character vector of stressors if you only want to run the model on a subset of the stressors.
+\item{stressors}{(optional) character vector of stressor names to include in the Joe Model. Leave the default value as NA if you wish to include all stressors applicable to the adult life stage or provide a character vector of stressors if you only want to run the model on a subset of the stressors.}
+
+\item{adult_sys_cap}{Should the Joe Model be run only with variables identified for adult system capacity.
 
   set number of Monte Carlo simulations for the Joe model.}
 }

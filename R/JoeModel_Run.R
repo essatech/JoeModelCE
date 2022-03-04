@@ -9,6 +9,7 @@
 #' @param sr_wb_dat list object. Stressor response workbook returned from StressorResponseWorkbook().
 #' @param MC_sims numeric. set number of Monte Carlo simulations for the Joe Model.
 #' @param stressors (optional) character vector of stressor names to include in the Joe Model. Leave the default value as NA if you wish to include all stressors applicable to the adult life stage or provide a character vector of stressors if you only want to run the model on a subset of the stressors.
+#' @param adult_sys_cap Should the Joe Model be run only with variables identified for adult system capacity.
 #'
 #'   set number of Monte Carlo simulations for the Joe model.
 #' @importFrom rlang .data
@@ -41,7 +42,8 @@
 JoeModel_Run <- function(dose = NA,
                          sr_wb_dat = NA,
                          MC_sims = 100,
-                         stressors = NA) {
+                         stressors = NA,
+                         adult_sys_cap = TRUE) {
 
   # Define variables in function as null
   .data <- HUC <- simulation <- NULL
@@ -53,25 +55,29 @@ JoeModel_Run <- function(dose = NA,
   # Exclude Stressors not applicable to the adult lifestage
   # -------------------------------------------------------
   msheet <- sr_wb_dat$main_sheet
-  # Allowable stressors
-  allowable_stressors <- msheet$Stressors[which(msheet$Life_stages == 'adult')]
-  # Filter the sr_wb_dat in the local scope to omit stressors
-  if(all(is.na(stressors))) {
-    allowable_stressors <- allowable_stressors
-  } else {
-    allowable_stressors <- intersect(allowable_stressors, stressors)
+
+  if(adult_sys_cap) {
+    # Allowable stressors
+    allowable_stressors <- msheet$Stressors[which(msheet$Life_stages == 'adult')]
+    # Filter the sr_wb_dat in the local scope to omit stressors
+    if(all(is.na(stressors))) {
+      allowable_stressors <- allowable_stressors
+    } else {
+      allowable_stressors <- intersect(allowable_stressors, stressors)
+    }
+    if(length(allowable_stressors) == 0) {
+      stop("Must include more than one stressor applicable to adult system capacity")
+    }
+    # Filter the sr_wb_dat in the local scope to omit stressors
+    sr_wb_dat$main_sheet <- sr_wb_dat$main_sheet[which(sr_wb_dat$main_sheet$Stressors %in% allowable_stressors), ]
+    # Raw names
+    sr_wb_dat$stressor_names <- sr_wb_dat$stressor_names[which(sr_wb_dat$stressor_names %in% allowable_stressors)]
+    # Pretty names
+    sr_wb_dat$pretty_names <- sr_wb_dat$pretty_names[which(sr_wb_dat$stressor_names %in% allowable_stressors)]
+    # Dose-response data
+    sr_wb_dat$sr_dat <- sr_wb_dat$sr_dat[which(names(sr_wb_dat$sr_dat) %in% allowable_stressors)]
+
   }
-  if(length(allowable_stressors) == 0) {
-    stop("Must include more than one stressor applicable to adult system capacity")
-  }
-  # Filter the sr_wb_dat in the local scope to omit stressors
-  sr_wb_dat$main_sheet <- sr_wb_dat$main_sheet[which(sr_wb_dat$main_sheet$Stressors %in% allowable_stressors), ]
-  # Raw names
-  sr_wb_dat$stressor_names <- sr_wb_dat$stressor_names[which(sr_wb_dat$stressor_names %in% allowable_stressors)]
-  # Pretty names
-  sr_wb_dat$pretty_names <- sr_wb_dat$pretty_names[which(sr_wb_dat$stressor_names %in% allowable_stressors)]
-  # Dose-response data
-  sr_wb_dat$sr_dat <- sr_wb_dat$sr_dat[which(names(sr_wb_dat$sr_dat) %in% allowable_stressors)]
 
 
   # Stressor Response

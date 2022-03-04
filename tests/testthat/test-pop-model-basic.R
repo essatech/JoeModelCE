@@ -22,12 +22,12 @@ test_that("Basic population model runs ok", {
   # For density
   ds <- pop_mod_setup$density_stage_symbolic
   ds_m <- matrix(as.character(ds), nrow = 4, ncol = 4)
-  t(ds_m)
+  #t(ds_m)
 
   # For life stages
   lss <- pop_mod_setup$life_stages_symbolic
   lss_m <- matrix(as.character(lss), nrow = 4, ncol = 4)
-  t(lss_m)
+  #t(lss_m)
 
 
 

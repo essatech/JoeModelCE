@@ -246,10 +246,12 @@ Projection_DD <- function(M.mx = NA,
   })
 
   # Survival
-  st <- lapply(1:(Nyears + 1), function(x) {
-    s_temp <- s_rand(dat$S, dat$M.cv, rho = dat$M.rho)
-    s_temp <- ifelse(is.na(s_temp), 0, s_temp)
-    s_temp
+  suppressWarnings({
+    st <- lapply(1:(Nyears + 1), function(x) {
+      s_temp <- s_rand(dat$S, dat$M.cv, rho = dat$M.rho)
+      s_temp <- ifelse(is.na(s_temp), 0, s_temp)
+      s_temp
+    })
   })
 
   new_dat <- dat
