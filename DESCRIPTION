@@ -15,8 +15,7 @@ Imports:
     dplyr,
     stats,
     MASS,
-    popbio,
-    parallel
+    popbio
 Suggests: 
     knitr,
     rmarkdown,

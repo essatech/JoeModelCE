@@ -13,6 +13,9 @@
 #'
 pop_model_setup <- function(life_cycles = NA) {
 
+  # Are there problems with the input parameters
+  possible_error_state <- "All Good"
+
   # read in the species life cycles traits
   # must have N number of survival, years, and compensation ratios
 
@@ -32,6 +35,7 @@ pop_model_setup <- function(life_cycles = NA) {
 
   if (any((cr * survival) > 1)) {
     print("compensation ratios too high")
+    possible_error_state <- "compensation ratios too high"
   }
 
   mat <-
@@ -290,6 +294,8 @@ pop_model_setup <- function(life_cycles = NA) {
   ret_obj$life_pars <- life_pars
   ret_obj$Nstage <- Nstage
   ret_obj$density_stage_symbolic <- density_stage_symbolic
+  ret_obj$possible_error_state <- possible_error_state
+
 
   return(ret_obj)
 
