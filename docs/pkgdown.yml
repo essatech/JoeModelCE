@@ -1,0 +1,11 @@
+pandoc: 2.11.4
+pkgdown: 2.0.2
+pkgdown_sha: ~
+articles:
+  joe-model: joe-model.html
+  population-model: population-model.html
+last_built: 2022-04-03T17:58Z
+urls:
+  reference: https://essatech.github.io/JoeModelCE/reference
+  article: https://essatech.github.io/JoeModelCE/articles
+
