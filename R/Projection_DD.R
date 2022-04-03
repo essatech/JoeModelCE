@@ -110,6 +110,7 @@ Projection_DD <- function(M.mx = NA,
 
     CE_cap <- CE_df[CE_df$parameter == "capacity", ]
     CE_surv <- CE_df[CE_df$parameter == "survival", ]
+	
 
     # Cumulative effects stressor is acting on survivorship vital rate
     # apply stressors to survival for eggs, juveniles, adults, or all life stages

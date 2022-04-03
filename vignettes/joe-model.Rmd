@@ -19,8 +19,7 @@ library(kableExtra)
 
 # Overview
 
-TODO Placeholder text
-What the Joe Model
+The following tutorial provides an overview of running the Joe Model offline from within R. Users following this tutorial should have R, RStudio and the R package `devtools` installed on their machine.
 
 # Installation
 
