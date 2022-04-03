@@ -16,5 +16,29 @@ a list object of symbolic objects.
 Build population model matrix elements.
 }
 \details{
-TODO add details.
+This is an intermediate setup function to run the population, but some of its outputs are useful on their own, especially for eigen analyses. pop_model_matrix_elements() is run after pop_model_setup() but must be run before Projection_DD(). Key outputs to explore include a density independent projection matrix, life histories and a symbolic representation of the matrix math for density dependent and density independent components.
+}
+\examples{
+\dontrun{
+
+# Load the JoeModelCE package.
+library(JoeModelCE)
+
+filename_lc <- system.file("extdata", "life_cycles.csv", package = "JoeModelCE")
+life_cycles <- read.csv(filename_lc)
+
+# Setup objects for population model
+pop_mod_setup <- pop_model_setup(life_cycles = life_cycles)
+
+# Build matrix elements for population model
+pop_mod_mat <- pop_model_matrix_elements(pop_mod_setup = pop_mod_setup)
+names(pop_mod_mat)
+
+# A density independent projection matrix
+pop_mod_mat$projection_matrix
+
+
+
+}
+
 }

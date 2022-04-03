@@ -8,6 +8,12 @@
 #' @param mean Numeric. The mean.
 #' @param sd Numeric. The standard deviation.
 #'
+#' @examples
+#' \dontrun{
+#' library(JoeModelCE)
+#' JoeModelCE::beta_param(0.8, 0.2)$beta
+#' }
+#'
 #' @export
 #'
 beta_param <- function(mean, sd) {

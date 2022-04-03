@@ -4,9 +4,9 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The Joe Model Cumulative Effects package (JoeModelCE) is a collection of tools and functions designed to support the implementation of the ‘Alberta Environmental Parks Cumulative Effects Assessment Joe Model’ [source](https://waves-vagues.dfo-mpo.gc.ca/Library/40871344.pdf) to other systems. The JoeModelCE r package is coupled with a flexible population modeling framework so that users may compare and contrast simple watershed level roll-ups with more rigorous population models. This package is accompanied by an interactive web-based [R Shiny Tool](https://essa.shinyapps.io/JoeModelCEShiny). For more details see the [project website](https://essatech.github.io/JoeModelCE/index.html) for tutorial articles and case studies.
+The Joe Model Cumulative Effects package (JoeModelCE) is a collection of tools and functions designed to support the implementation of the ‘Alberta Environmental Parks Cumulative Effects Assessment Joe Model’ [source](https://waves-vagues.dfo-mpo.gc.ca/Library/40871344.pdf) to other systems. The JoeModelCE r package is coupled with a flexible population modeling framework so that users may compare and contrast simple watershed level roll-ups with more rigorous population models. This package is accompanied by an interactive [web application ](https://essa.shinyapps.io/JoeModelCEShiny). For more details see the [project website](https://essatech.github.io/JoeModelCE/index.html) for tutorial articles and case studies.
 
-**[Shiny App Tutorial Video](https://youtu.be/Cp3UdWlkaKU)**
+**[Shiny App Tutorial Video](https://youtu.be/Cp3UdWlkaKU)** [access the tool](https://essa.shinyapps.io/JoeModelCEShiny)
 
 [![Tutorial Video](./man/figures/shiny_app_cover.png)](https://youtu.be/Cp3UdWlkaKU)
 

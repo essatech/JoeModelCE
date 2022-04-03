@@ -1,8 +1,8 @@
 #' Project matrix with Density Dependence
 #'
-#' @description Project the matrix model forward in time with density dependence
+#' @description Project the matrix model forward in time with density dependence.
 #'
-#' @details TODO add details.
+#' @details All population modeling components are contained within this function. Users define a projection matrix, density-dependence matrix, harm projection matrix, life history parameters, years to simulate, carrying capacity, catastrophic event probabilities and a cumulative effects data frame (CE_df). When run this function will project the population forward in time. See the vignette tutorial Population Model Overview for details and instructions.
 #'
 #' @param M.mx A projection matrix expression
 #' @param D.mx A matrix of density-dependence effect
@@ -11,7 +11,7 @@
 #' @param Nyears Years to run simulation
 #' @param K The population carrying Capacity
 #' @param p.cat Probability of catastrophic event.
-#' @param CE_df TODO add description
+#' @param CE_df Cumulative effect dataframe
 #' @importFrom rlang .data
 #'
 #' @export
@@ -110,7 +110,7 @@ Projection_DD <- function(M.mx = NA,
 
     CE_cap <- CE_df[CE_df$parameter == "capacity", ]
     CE_surv <- CE_df[CE_df$parameter == "survival", ]
-	
+
 
     # Cumulative effects stressor is acting on survivorship vital rate
     # apply stressors to survival for eggs, juveniles, adults, or all life stages

@@ -17,5 +17,5 @@ Generate symbolic objects for the population model and
 then run parameterizing matrices.
 }
 \details{
-TODO add details.
+This is an intermediate setup function to run the population, but some of its outputs are useful on their own, especially for eigen analyses. pop_model_setup() is run before pop_model_matrix_elements() and Projection_DD().
 }

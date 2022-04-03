@@ -30,11 +30,11 @@ Projection_DD(
 
 \item{p.cat}{Probability of catastrophic event.}
 
-\item{CE_df}{TODO add description}
+\item{CE_df}{Cumulative effect dataframe}
 }
 \description{
-Project the matrix model forward in time with density dependence
+Project the matrix model forward in time with density dependence.
 }
 \details{
-TODO add details.
+All population modeling components are contained within this function. Users define a projection matrix, density-dependence matrix, harm projection matrix, life history parameters, years to simulate, carrying capacity, catastrophic event probabilities and a cumulative effects data frame (CE_df). When run this function will project the population forward in time. See the vignette tutorial Population Model Overview for details and instructions.
 }

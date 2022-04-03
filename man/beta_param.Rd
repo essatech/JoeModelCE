@@ -18,3 +18,10 @@ the "untruncated" beta distribution.
 \details{
 Updated using analytical solution from Kyle Wilson.
 }
+\examples{
+\dontrun{
+library(JoeModelCE)
+JoeModelCE::beta_param(0.8, 0.2)$beta
+}
+
+}

@@ -63,9 +63,35 @@
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>TODO add details.</p>
+    <p>This is an intermediate setup function to run the population, but some of its outputs are useful on their own, especially for eigen analyses. pop_model_matrix_elements() is run after pop_model_setup() but must be run before Projection_DD(). Key outputs to explore include a density independent projection matrix, life histories and a symbolic representation of the matrix math for density dependent and density independent components.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Load the JoeModelCE package.</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">JoeModelCE</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="va">filename_lc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"life_cycles.csv"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">life_cycles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">filename_lc</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Setup objects for population model</span></span>
+<span class="r-in"><span class="va">pop_mod_setup</span> <span class="op">&lt;-</span> <span class="fu"><a href="pop_model_setup.html">pop_model_setup</a></span><span class="op">(</span>life_cycles <span class="op">=</span> <span class="va">life_cycles</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Build matrix elements for population model</span></span>
+<span class="r-in"><span class="va">pop_mod_mat</span> <span class="op">&lt;-</span> <span class="fu">pop_model_matrix_elements</span><span class="op">(</span>pop_mod_setup <span class="op">=</span> <span class="va">pop_mod_setup</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">pop_mod_mat</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># A density independent projection matrix</span></span>
+<span class="r-in"><span class="va">pop_mod_mat</span><span class="op">$</span><span class="va">projection_matrix</span></span>
+<span class="r-in"></span>
+<span class="r-in"></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
