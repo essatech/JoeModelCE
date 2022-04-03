@@ -36,7 +36,7 @@ remotes::install_github("mattjbayly/JoeModelCE")
 ```
 
 ## Usage
-There are several vignettes available that provide detailed guidance for `JoeModelCE` usage and common workflows:
+There are several vignettes available that provide detailed guidance for `JoeModelCE` usage and common workflows. See articles availabe on the main [JoeModelCE project page](https://essatech.github.io/JoeModelCE/index.html).
 -   [placeholder for links to vignette].
 
 ## Code of Conduct
