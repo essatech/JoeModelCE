@@ -67,7 +67,17 @@ then run parameterizing matrices.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This is an intermediate setup function to run the population, but some of its outputs are useful on their own, especially for eigen analyses. pop_model_setup() is run before pop_model_matrix_elements() and Projection_DD().</p>
-    </div>
+<p>Transition matrix:</p><ul><li><p>Calculates stage-specific survivals and transition rates, survival probabilities, transition probabilities.</p></li>
+<li><p>Initializes the survival/transition rates subject to a stage-specific density-dependence.</p></li>
+<li><p>Checks for excessive compensation ratios.</p></li>
+</ul><p>Dataset for life-histories:</p><ul><li><p>transition probabilities</p></li>
+<li><p>egg-survival, age-0 survival, and then stage-specific survival probabilities</p></li>
+<li><p>spawning events per year</p></li>
+<li><p>eggs per spawner</p></li>
+<li><p>number of spawning intervals</p></li>
+<li><p>adult carrying capacity</p></li>
+<li><p>sex ratio</p></li>
+</ul></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

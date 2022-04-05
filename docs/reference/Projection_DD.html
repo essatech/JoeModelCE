@@ -78,11 +78,15 @@
 <dt>p.cat</dt>
 <dd><p>Probability of catastrophic event.</p></dd>
 <dt>CE_df</dt>
-<dd><p>Cumulative effect dataframe</p></dd>
+<dd><p>Cumulative effect dataframe. Data frame identifying cumulative effects stressors targets (system capacity or population parameter, or both, and target life stages.</p></dd>
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A list object with projected years, population size, lambda, fecundity, survival, catastrophic events.</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>All population modeling components are contained within this function. Users define a projection matrix, density-dependence matrix, harm projection matrix, life history parameters, years to simulate, carrying capacity, catastrophic event probabilities and a cumulative effects data frame (CE_df). When run this function will project the population forward in time. See the vignette tutorial Population Model Overview for details and instructions.</p>
+    <p>Builds deterministic projection matrix using <code><a href="https://rdrr.io/pkg/popbio/man/stable.stage.html" class="external-link">popbio::stable.stage</a></code> with initial parameters based on arguments provided. Applies CE stressors to appropriate targets based on <code>CE_df</code>. All population modeling components are contained within this function. Users define a projection matrix, density-dependence matrix, harm projection matrix, life history parameters, years to simulate, carrying capacity, catastrophic event probabilities and a cumulative effects data frame (CE_df). When run this function will project the population forward in time. See the vignette tutorial Population Model Overview for details and instructions.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -61,19 +61,19 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>f.dose.df</dt>
-<dd><p>Stressor magnitude data.frame returned from StressorMagnitudeWorkbook().</p></dd>
+<dd><p>Stressor magnitude data frame returned from <code><a href="StressorMagnitudeWorkbook.html">StressorMagnitudeWorkbook()</a></code>.</p></dd>
 <dt>f.main.df</dt>
-<dd><p>main_sheet slot object returned from StressorResponseWorkbook()$main_sheet</p></dd>
+<dd><p><code>main_sheet</code> list object returned from <code>StressorResponseWorkbook()$main_sheet</code>.</p></dd>
 <dt>f.stressor.df</dt>
-<dd><p>Dose reponse dataframe returned from StressorResponseWorkbook()$sr_dat for target stressor.</p></dd>
+<dd><p>Dose response data frame returned from <code>StressorResponseWorkbook()$sr_dat</code> for target stressor.</p></dd>
 <dt>f.mean.resp.list</dt>
-<dd><p>Response function list for target variable returned from mean_Response()</p></dd>
+<dd><p>Response function list for target variable returned from <code><a href="mean_Response.html">mean_Response()</a></code>.</p></dd>
 <dt>n.sims</dt>
-<dd><p>Number of simulations to generate</p></dd>
+<dd><p>Number of simulations to generate. Defaults t0 100.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>function to calculate system capacity for each stressor.  Takes dataframes for doses and stressor.list plus a list for the approx functions (f. for local list or dataframe) note some stressors have multiple doses (Additive interaction). Formally sys.cap.func().</p>
+    <p><code>SystemCapacity()</code> calculates the system capacity for each stressor. This function takes data frame arguments for stressor magnitudes and dose responses plus a list of stressor-response approximation functions (<code>f.</code> for local list or data frame). Note: Some stressors have multiple doses (Additive interaction).</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

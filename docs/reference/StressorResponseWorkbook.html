@@ -59,12 +59,26 @@
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list object of the main_sheet, stressor_names and stressor response dataframes (sr_dat)</p>
+    <p>A list object of the <code>main_sheet</code>, <code>stressor_names</code> and stressor response data frames (<code>sr_dat</code>).</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>TODO add details.</p>
-    </div>
+    <p>For more information about data format requirements, see the Data Upload and Results Export tab of the associated Shiny App.</p>
+<p>Uses <code><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">readxl::read_excel()</a></code> to load in workbook sheets:</p><ul><li><p>Main sheet: meta data / cover sheet indicating:</p><ul><li><p>stressor names</p></li>
+<li><p>categories</p></li>
+<li><p>interactions and linkages</p></li>
+<li><p>scales</p></li>
+<li><p>approximation function type</p></li>
+<li><p>target life stages</p></li>
+<li><p>contribution to survival or capacity parameters</p></li>
+<li><p>stressor units</p></li>
+<li><p>target model (CE or population models, or both)</p></li>
+</ul></li>
+<li><p>all additional stressor-response sheets in workbook</p><ul><li><p>context specific stressor-response curve data</p></li>
+<li><p>sheet name must match stressor names in Main sheet, otherwise "Bad worksheet names" error message.</p></li>
+<li><p>sheets must contain columns for <code>&lt;stressor_name&gt;</code>, <code>Mean System Capacity (%)</code>, <code>SD</code>, <code>low.limit</code>, and <code>up.limit</code></p></li>
+</ul></li>
+</ul></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
