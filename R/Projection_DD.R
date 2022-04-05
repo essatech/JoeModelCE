@@ -2,7 +2,7 @@
 #'
 #' @description Project the matrix model forward in time with density dependence.
 #'
-#' @details All population modeling components are contained within this function. Users define a projection matrix, density-dependence matrix, harm projection matrix, life history parameters, years to simulate, carrying capacity, catastrophic event probabilities and a cumulative effects data frame (CE_df). When run this function will project the population forward in time. See the vignette tutorial Population Model Overview for details and instructions.
+#' @details Builds deterministic projection matrix using `popbio::stable.stage` with initial parameters based on arguments provided. Applies CE stressors to appropriate targets based on `CE_df`. All population modeling components are contained within this function. Users define a projection matrix, density-dependence matrix, harm projection matrix, life history parameters, years to simulate, carrying capacity, catastrophic event probabilities and a cumulative effects data frame (CE_df). When run this function will project the population forward in time. See the vignette tutorial Population Model Overview for details and instructions.
 #'
 #' @param M.mx A projection matrix expression
 #' @param D.mx A matrix of density-dependence effect
@@ -11,8 +11,10 @@
 #' @param Nyears Years to run simulation
 #' @param K The population carrying Capacity
 #' @param p.cat Probability of catastrophic event.
-#' @param CE_df Cumulative effect dataframe
+#' @param CE_df Cumulative effect dataframe. Data frame identifying cumulative effects stressors targets (system capacity or population parameter, or both, and target life stages.
 #' @importFrom rlang .data
+#'
+#'@returns A list object with projected years, population size, lambda, fecundity, survival, catastrophic events.
 #'
 #' @export
 Projection_DD <- function(M.mx = NA,

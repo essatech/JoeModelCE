@@ -23,7 +23,7 @@ JoeModel_Run(
 
 \item{adult_sys_cap}{Should the Joe Model be run only with variables identified for adult system capacity.
 
-  set number of Monte Carlo simulations for the Joe model.}
+set number of Monte Carlo simulations for the Joe model.}
 }
 \description{
 Runs the Joe Model.

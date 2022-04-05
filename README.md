@@ -4,7 +4,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The Joe Model Cumulative Effects package (JoeModelCE) is a collection of tools and functions designed to support the implementation of the ‘Alberta Environmental Parks Cumulative Effects Assessment Joe Model’ [source](https://waves-vagues.dfo-mpo.gc.ca/Library/40871344.pdf) to other systems. The JoeModelCE r package is coupled with a flexible population modeling framework so that users may compare and contrast simple watershed level roll-ups with more rigorous population models. This package is accompanied by an interactive [web application ](https://essa.shinyapps.io/JoeModelCEShiny). For more details see the [project website](https://essatech.github.io/JoeModelCE/index.html) for tutorial articles and case studies.
+The Joe Model Cumulative Effects package (JoeModelCE) is a collection of tools and functions designed to support the implementation of the ‘Alberta Environmental Parks Cumulative Effects Assessment Joe Model’ [source](https://waves-vagues.dfo-mpo.gc.ca/Library/40871344.pdf) to other systems. The JoeModelCE r package is coupled with a flexible population modeling framework so that users may compare and contrast simple watershed level roll-ups with more rigorous population models. This package is accompanied by an interactive [web application](https://essa.shinyapps.io/JoeModelCEShiny). For more details see the [project website](https://essatech.github.io/JoeModelCE/index.html) for tutorial articles and case studies.
 
 **[Shiny App Tutorial Video](https://youtu.be/Cp3UdWlkaKU)** [access the tool](https://essa.shinyapps.io/JoeModelCEShiny)
 
@@ -12,20 +12,18 @@ The Joe Model Cumulative Effects package (JoeModelCE) is a collection of tools a
 
 
 ## Package Contributors:
-The JoeModelCE package is being developed as part of a larger initiative between the following individuals and organizations: 
+This is a broad collaboration between Fisheries and Oceans Canada (DFO), B.C. Ministry of Environment and Climate Change Strategy (ECCS), Alberta Environment and Parks (AEP), and Simon Fraser University (SFU). 
 
-- Jordan Rosenfled
-- Eva Enders
-- [Andrew Paul](https://github.com/andrewpaul68)
-- [Kyle Wilson](https://github.com/klwilson23)
-- Isuru Dharmasena
-- [ESSA Technologies Ltd](https://essa.com/)
-  - [Matthew Bayly](https://github.com/mattjbayly)
-  - Marc Porter
-  - Alejandra Urcelay
-  - [Julian Heavyside](https://github.com/julianheavyside)
-- Lauren Jarvis
-- Pedro Gonzalez
+Contributors include:
+
+-   [Dr. Eva Enders](https://profils-profiles.science.gc.ca/en/profile/eva-enders): Project Lead; DFO Research Scientist
+-   [Dr. Jordan Rosenfeld](http://www.aferu.ca/rosenfeld-lab): Project design and coordination; ECCS Aquatic Ecologist
+-   [Dr. Andrew Paul](https://github.com/andrewpaul68): Collaborator; AEP Research Scientist
+-   [Dr. Kyle Wilson](https://github.com/klwilson23): Population model development.
+-   [Isuru Dharmasena](https://www.linkedin.com/in/isuru-dharmasena-90269895/?originalSubdomain=ca): Core Shiny app development
+-   [Matthew Bayly](https://github.com/mattjbayly), Marc Porter, Alejandra Urcelay, and [Julian Heavyside](https://github.com/julianheavyside) from [ESSA Technologies Ltd](https://essa.com/): R package and Shiny app development support.
+-   Lauren Jarvis
+-   Pedro Gonzalez
 
 
 ## Features
