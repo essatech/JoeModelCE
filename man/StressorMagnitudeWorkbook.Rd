@@ -12,11 +12,11 @@ StressorMagnitudeWorkbook(filename = NA, scenario_worksheet = NA)
 \item{scenario_worksheet}{A string. Worksheet name for the scenario.}
 }
 \value{
-...
+A stressor magnitude list object for the JoeModelCE
 }
 \description{
 Extract the stressor magnitude data from each sheet in the Excel workbook.
 }
 \details{
-TODO add details.
+For more information about data format requirements, see the Data Upload section of the vignette.
 }

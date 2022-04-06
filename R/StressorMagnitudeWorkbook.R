@@ -2,12 +2,12 @@
 #'
 #' @description Extract the stressor magnitude data from each sheet in the Excel workbook.
 #'
-#' @details TODO add details.
+#' @details For more information about data format requirements, see the Data Upload section of the vignette.
 #'
 #' @param filename A string. Relative file name to the stressor magnitude Excel workbook.
 #' @param scenario_worksheet A string. Worksheet name for the scenario.
 #'
-#' @returns ...
+#' @returns A stressor magnitude list object for the JoeModelCE
 #'
 #' @export
 StressorMagnitudeWorkbook <- function(filename = NA, scenario_worksheet = NA) {
