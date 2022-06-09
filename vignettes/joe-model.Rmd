@@ -66,7 +66,7 @@ TODO describe the columns in the workbook
 ### Stressor Dose-Response Worksheets
 TODO placeholder text
 
-After the stressor response Excel workbook then must have individual worksheets for each of the stressors after the ```Main``` sheet. Please ensure that the spelling is identicle between the ```Stressors``` column in the ```Main``` sheet and the work sheet name for each stressor.
+After the stressor response Excel workbook then must have individual worksheets for each of the stressors after the ```Main``` sheet. Please ensure that the spelling is identical between the ```Stressors``` column in the ```Main``` sheet and the work sheet name for each stressor.
 
 Each doese response curve is provided on a seperate worksheet. The example below shows the dose-response curve of water temperature (C) and the Adult system capacity.
 
