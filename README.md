@@ -39,7 +39,7 @@ The easiest way to install the `JoeModelCE` package is from within the [RStudio 
 ``` r
 # You may need to install remotes
 library(remotes)
-remotes::install_github("mattjbayly/JoeModelCE")
+remotes::install_github("essatech/JoeModelCE")
 ```
 
 ## Usage
