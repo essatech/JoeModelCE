@@ -1,5 +1,4 @@
 test_that("Excel imports work", {
-  library(JoeModelCE)
 
   # Next ----------------------------------------
   # Import of stressor response and magnitude workbook
@@ -30,4 +29,24 @@ test_that("Excel imports work", {
   expect_true(setequal(s1, s2))
   expect_true(setequal(s1, s3))
   expect_true(setequal(s2, s3))
+
+
+  # Test ---------------------------------------
+  # Test that external workbook with interaction
+  # term loads correctly.
+  if(FALSE) {
+    filename_sr <- "C:/Users/mbayly/Desktop/Projects/EN2691 CEPopMod/2022 Extension/stressor_response_Interaction.xlsx"
+    srw <- StressorResponseWorkbook(filename = filename_sr)
+
+
+  } else {
+    print("TODO... FIX THIS...")
+    print("TODO... FIX THIS...")
+    print("TODO... FIX THIS...")
+    print("TODO... FIX THIS...")
+    print("TODO... FIX THIS...")
+  }
+
+
+
 })

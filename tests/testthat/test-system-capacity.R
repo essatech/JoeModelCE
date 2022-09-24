@@ -1,7 +1,5 @@
 test_that("System Capacity", {
 
-  library(JoeModelCE)
-
   # ----------------------------------------
   # Import of stressor response and magnitude workbook
   filename_rm <- system.file("extdata", "stressor_magnitude_unc_ARTR.xlsx", package = "JoeModelCE")

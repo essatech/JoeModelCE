@@ -43,6 +43,19 @@ StressorResponseWorkbook <- function(filename = NA) {
   snames <- readxl::excel_sheets(filename)
   snames <- snames[2:length(snames)]
 
+
+  # Check if there are any matrix interactions
+  if(any(grepl("MInt_", snames))) {
+    mint_names <- snames[grepl("MInt_", snames)]
+  } else {
+    mint_names <- NULL
+  }
+
+
+  # Ignore any custom matrix interaction terms
+  snames <- snames[!(grepl("MInt_", snames))]
+
+
   if (!(all(snames %in% stressor_names))) {
     return("Bad worksheet names")
   }
@@ -88,6 +101,7 @@ StressorResponseWorkbook <- function(filename = NA) {
   ret_obj$stressor_names <- stressor_names
   ret_obj$pretty_names <- pretty_names
   ret_obj$sr_dat <- sr_dat
+  ret_obj$MInt <- NA
 
   return(ret_obj)
 }

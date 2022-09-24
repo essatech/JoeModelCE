@@ -29,20 +29,32 @@ StressorMagnitudeWorkbook <- function(filename = NA, scenario_worksheet = NA) {
   dups <- paste0(data$HUC_ID, data$Stressor)
 
   if (any(duplicated(dups))) {
-    print(dups[which(duplicated(dups))])
-    return("Duplicated values in stressor magnitude worksheet")
+    # print(dups[which(duplicated(dups))])
+    print("Duplicated values in stressor magnitude worksheet...")
   }
+
+
+  # If HUC_ID column is missing create it from HUC_10
+  if(!("HUC_ID" %in% colnames(data))) {
+    if("HUC_10" %in% colnames(data)) {
+      data$HUC_ID <- data$HUC_10
+    } else {
+      stop("Missing HUC ID column")
+    }
+  }
+
+
 
   # Ensure that all values are formatted properly
-
   target_columns <- c(
     "HUC_ID", "NAME", "Stressor", "Stressor_cat", "Mean", "SD",
-    "Distribution", "Low_Limit", "Up_Limit", "Comments"
+    "Distribution", "Low_Limit", "Up_Limit"
   )
 
-  if (any(colnames(data) != target_columns)) {
-    return(paste0("Bad column names. Expect columns to be ", paste(target_columns, collapse = ", ")))
+  if(!(all(target_columns %in% colnames(data)))) {
+    stop(paste0("Bad column names. Expect columns to be ", paste(target_columns, collapse = ", ")))
   }
+
 
   data$SD <- as.numeric(data$SD)
   data$Mean <- as.numeric(data$Mean)

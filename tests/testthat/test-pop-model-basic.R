@@ -1,7 +1,5 @@
 test_that("Basic population model runs ok", {
 
-  # Load the JoeModelCE package.
-  library(JoeModelCE)
 
   filename_lc <- system.file("extdata", "life_cycles.csv", package = "JoeModelCE")
   life_cycles <- read.csv(filename_lc)

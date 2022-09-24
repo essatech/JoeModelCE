@@ -61,10 +61,10 @@
 
 <script src="joe-model_files/kePrint-0.0.1/kePrint.js"></script><link href="joe-model_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Joe Model Overview</h1>
             
-            <h4 data-toc-skip class="date">2022-04-05</h4>
+            <h4 data-toc-skip class="date">2022-07-07</h4>
       
       
       <div class="d-none name"><code>joe-model.Rmd</code></div>
@@ -75,12 +75,18 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>The following tutorial provides an overview of running the Joe Model offline from within R. Users following this tutorial should have R, RStudio and the R package <code>devtools</code> installed on their machine.</p>
+<p>The following tutorial provides an overview of running the Joe Model
+offline from within R. Users following this tutorial should have R,
+RStudio and the R package <code>devtools</code> installed on their
+machine.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>At this time the Joe Model R package is hosted on GitHub and can be installed using devtools. Hopefully in the near future the near future the package will be available on R-CRAN for standard installation and loading.</p>
+<p>At this time the Joe Model R package is hosted on GitHub and can be
+installed using devtools. Hopefully in the near future the near future
+the package will be available on R-CRAN for standard installation and
+loading.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span>
 <span class="co"># install_github("essatech/JoeModelCE")</span>
@@ -89,11 +95,15 @@
 <div class="section level2">
 <h2 id="import-data">Import Data<a class="anchor" aria-label="anchor" href="#import-data"></a>
 </h2>
-<p>There are two input datasets needed to run the Joe Model The Joe Model requires two key datasets, a stressor-response workbook and a stressor magnitude workbook. The stressor-response workbook… and the stressor magnitude workbook…</p>
+<p>There are two input datasets needed to run the Joe Model The Joe
+Model requires two key datasets, a stressor-response workbook and a
+stressor magnitude workbook. The stressor-response workbook… and the
+stressor magnitude workbook…</p>
 <div class="section level3">
 <h3 id="stressor-response-workbook">Stressor Response Workbook<a class="anchor" aria-label="anchor" href="#stressor-response-workbook"></a>
 </h3>
-<p>The stressor-response Excel workbook must follow a standardized format. The first worksheet should be titled <code>Main</code>.</p>
+<p>The stressor-response Excel workbook must follow a standardized
+format. The first worksheet should be titled <code>Main</code>.</p>
 <div class="section level4">
 <h4 id="main-worksheet">Main Worksheet<a class="anchor" aria-label="anchor" href="#main-worksheet"></a>
 </h4>
@@ -302,30 +312,45 @@ Joe Model
 <li>
 <strong>Stressors</strong> Name of the stressor…</li>
 <li>
-<strong>Stressor_cat</strong> Name of the stressor category (only relevant to population model)…</li>
+<strong>Stressor_cat</strong> Name of the stressor category (only
+relevant to population model)…</li>
 <li>
-<strong>Interaction</strong> Can be either blank or NA with the default of multiplicative, ‘Additive’ or ‘Minimum’…</li>
+<strong>Interaction</strong> Can be either blank or NA with the
+default of multiplicative, ‘Additive’ or ‘Minimum’…</li>
 <li>
 <strong>Linked</strong> For variables with minimum interaction…</li>
 <li>
-<strong>Stress_Scale</strong> Can be either <code>'linear'</code> or <code>'logarithmic'</code>…</li>
+<strong>Stress_Scale</strong> Can be either <code>'linear'</code> or
+<code>'logarithmic'</code>…</li>
 <li>
-<strong>Function</strong> Can be either <code>'continuious'</code> or <code>'step'</code>…</li>
+<strong>Function</strong> Can be either <code>'continuious'</code>
+or <code>'step'</code>…</li>
 <li>
-<strong>Life_stages</strong> Can be either <code>'fry_parr'</code>, <code>'alevin'</code>, <code>'sub_adult'</code> or <code>'adult'</code>,…</li>
+<strong>Life_stages</strong> Can be either <code>'fry_parr'</code>,
+<code>'alevin'</code>, <code>'sub_adult'</code> or
+<code>'adult'</code>,…</li>
 <li>
-<strong>Parameters</strong> Can be blank or NA (default), which implys the relationship is for system capacity or linked to a vital rate <code>'survival'</code>, <code>'capacity'</code>…</li>
+<strong>Parameters</strong> Can be blank or NA (default), which
+implys the relationship is for system capacity or linked to a vital rate
+<code>'survival'</code>, <code>'capacity'</code>…</li>
 </ol>
 </div>
 <div class="section level4">
 <h4 id="stressor-dose-response-worksheets">Stressor Dose-Response Worksheets<a class="anchor" aria-label="anchor" href="#stressor-dose-response-worksheets"></a>
 </h4>
 <p>TODO placeholder text</p>
-<p>After the stressor response Excel workbook then must have individual worksheets for each of the stressors after the <code>Main</code> sheet. Please ensure that the spelling is identicle between the <code>Stressors</code> column in the <code>Main</code> sheet and the work sheet name for each stressor.</p>
-<p>Each doese response curve is provided on a seperate worksheet. The example below shows the dose-response curve of water temperature (C) and the Adult system capacity.</p>
+<p>After the stressor response Excel workbook then must have individual
+worksheets for each of the stressors after the <code>Main</code> sheet.
+Please ensure that the spelling is identical between the
+<code>Stressors</code> column in the <code>Main</code> sheet and the
+work sheet name for each stressor.</p>
+<p>Each doese response curve is provided on a seperate worksheet. The
+example below shows the dose-response curve of water temperature (C) and
+the Adult system capacity.</p>
 <table class="table  lightable-classic" style="font-family: Cambria; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Table 2: Example ‘Temperature’ dose-response curve data for temperature (x-axis) and system capacity (y-axis)
+Table 2: Example ‘Temperature’ dose-response curve data for temperature
+(x-axis) and system capacity (y-axis)
 </caption>
 <thead><tr>
 <th style="text-align:right;">
@@ -503,22 +528,34 @@ up.limit
 <p>TODO describe the columns in the workbook</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Temperature</strong> The first column should be the name of the stressor…</li>
+<strong>Temperature</strong> The first column should be the name of
+the stressor…</li>
 <li>
-<strong>Mean System Capacity (%)</strong> The next column is the mean system capacity (from 0 - 100)..</li>
+<strong>Mean System Capacity (%)</strong> The next column is the
+mean system capacity (from 0 - 100)..</li>
 <li>
-<strong>SD</strong> The third column is the standard deviation for the mean system capacity. This is useful to represent uncertianty in the relationship. For example, a temperature of 12C will not always equate to a system capacity of exactly 90%…</li>
+<strong>SD</strong> The third column is the standard deviation for
+the mean system capacity. This is useful to represent uncertianty in the
+relationship. For example, a temperature of 12C will not always equate
+to a system capacity of exactly 90%…</li>
 <li>
-<strong>low.limit</strong> Lower limits for the cumulative system capacity…</li>
+<strong>low.limit</strong> Lower limits for the cumulative system
+capacity…</li>
 <li>
-<strong>up.limit</strong> Upper limits for the cumulative system capacity…</li>
+<strong>up.limit</strong> Upper limits for the cumulative system
+capacity…</li>
 </ol>
 <div class="figure" style="text-align: center">
 <img src="joe-model_files/figure-html/dr_sample-1.png" alt="Example Stressor-Response Curve" width="576"><p class="caption">
 Example Stressor-Response Curve
 </p>
 </div>
-<p>The figure above shows a stressor response curve. The raw values of the stressor are plotted on the x-axis and the mean system capacity is showen on the y-axis. For each stressor and each simulation values for the mean system capacity will be drawn from a normal distribution with a mean and standard deviation (error bars) bound by the lower and upper limits (grey shading).</p>
+<p>The figure above shows a stressor response curve. The raw values of
+the stressor are plotted on the x-axis and the mean system capacity is
+showen on the y-axis. For each stressor and each simulation values for
+the mean system capacity will be drawn from a normal distribution with a
+mean and standard deviation (error bars) bound by the lower and upper
+limits (grey shading).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  <span class="co"># Load default file from Joe Model Package</span>
   <span class="va">filename_sr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"stressor_response_fixed_ARTR.xlsx"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span>
@@ -702,23 +739,34 @@ NA
 <p>Column names should be as follows:</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>HUC_ID</strong> Unique (numeric) identifer for a location of interest. Formally from Hydrologial Unit Code (HUC) representing unique subbasins, but can be anything…</li>
+<strong>HUC_ID</strong> Unique (numeric) identifer for a location of
+interest. Formally from Hydrologial Unit Code (HUC) representing unique
+subbasins, but can be anything…</li>
 <li>
-<strong>NAME</strong> Name (character) of a given location. Note that this column is used for display purposes only…</li>
+<strong>NAME</strong> Name (character) of a given location. Note
+that this column is used for display purposes only…</li>
 <li>
-<strong>Stressor</strong> Name of the stressor. Note that this mutch match the spelling used in the stressor response workbook…</li>
+<strong>Stressor</strong> Name of the stressor. Note that this mutch
+match the spelling used in the stressor response workbook…</li>
 <li>
-<strong>Stressor_cat</strong> Name of the Stressor ctegory. Note that this mutch match the spelling used in the stressor response workbook…</li>
+<strong>Stressor_cat</strong> Name of the Stressor ctegory. Note
+that this mutch match the spelling used in the stressor response
+workbook…</li>
 <li>
 <strong>Mean</strong> Mean value for the specific location…</li>
 <li>
-<strong>SD</strong> Standard deviation for the specific stressor for that location. The value of each stressor and combination will be resampled for each simulation…</li>
+<strong>SD</strong> Standard deviation for the specific stressor for
+that location. The value of each stressor and combination will be
+resampled for each simulation…</li>
 <li>
-<strong>Distribution</strong> Resampling distribution either <code>'lognormal'</code> or <code>'normal'</code>…</li>
+<strong>Distribution</strong> Resampling distribution either
+<code>'lognormal'</code> or <code>'normal'</code>…</li>
 <li>
-<strong>Low_Limit</strong> Lower limits for the locaiton-speific stressor…</li>
+<strong>Low_Limit</strong> Lower limits for the locaiton-speific
+stressor…</li>
 <li>
-<strong>Up_Limit</strong> Upper limits for the locaiton-speific stressor….</li>
+<strong>Up_Limit</strong> Upper limits for the locaiton-speific
+stressor….</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  <span class="co"># Load default file from Joe Model Package</span>
@@ -733,7 +781,8 @@ NA
 <div class="section level2">
 <h2 id="cumulative-system-capacity">Cumulative System Capacity<a class="anchor" aria-label="anchor" href="#cumulative-system-capacity"></a>
 </h2>
-<p>TODO placeholder text … Run the cumulative system capacity for a single watershed</p>
+<p>TODO placeholder text … Run the cumulative system capacity for a
+single watershed</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># Stressor Response Workbook object = sr_wb_dat</span>
@@ -780,7 +829,8 @@ Mean System Capacity for temperature for a hypothetical watershed
 <div class="section level2">
 <h2 id="joe-model">Joe Model<a class="anchor" aria-label="anchor" href="#joe-model"></a>
 </h2>
-<p>TODO placeholder text What about all variables and all stressors - run the full Joe Model…</p>
+<p>TODO placeholder text What about all variables and all stressors -
+run the full Joe Model…</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Import of stressor response and magnitude workbook</span>
 <span class="va">filename_rm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"stressor_magnitude_unc_ARTR.xlsx"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span>
@@ -804,7 +854,8 @@ Mean System Capacity for temperature for a hypothetical watershed
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">msc</span>, xlab <span class="op">=</span> <span class="st">"Mean System Capacity (%)"</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="joe-model_files/figure-html/msc_plot-1.png" alt="Mean System Capacity for all stressors and all watersheds across all simulations" width="576"><p class="caption">
-Mean System Capacity for all stressors and all watersheds across all simulations
+Mean System Capacity for all stressors and all watersheds across all
+simulations
 </p>
 </div>
 <div class="section level3">
@@ -836,7 +887,7 @@ Mean System Capacity for all stressors and all watersheds across all simulations
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer>

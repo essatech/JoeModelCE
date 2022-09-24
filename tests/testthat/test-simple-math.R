@@ -1,7 +1,4 @@
 test_that("Simple Math Works", {
-  library(JoeModelCE)
-
-
 
   # ---------------------------------------------------
   # rtnorm_TruncatedDistributions()

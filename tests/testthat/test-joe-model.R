@@ -1,7 +1,5 @@
 test_that("Joe Model Setup", {
 
-  library(JoeModelCE)
-
   # ----------------------------------------
   # Import of stressor response and magnitude workbook
   filename_rm <- system.file("extdata", "stressor_magnitude_unc_ARTR.xlsx", package = "JoeModelCE")
@@ -16,6 +14,7 @@ test_that("Joe Model Setup", {
   # ----------------------------------------------------------
 
   nsims <- 10
+
   jmr <- JoeModel_Run(dose = dose, sr_wb_dat = sr_wb_dat, MC_sims = nsims)
 
 

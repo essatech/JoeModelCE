@@ -1,7 +1,4 @@
 test_that("Mean Response", {
-  library(JoeModelCE)
-
-
 
   # ----------------------------------------
   # Import of stressor response and magnitude workbook

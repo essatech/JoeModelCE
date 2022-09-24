@@ -70,11 +70,12 @@ pop_model_setup <- function(life_cycles = NA) {
 
   life_stages[pos] <- paste("tr", 1:Nstage, sep = "_")
 
+  # Note in above line there will always be transitions beyond limit
   life_stages <-
-    matrix(life_stages,
+    suppressWarnings({ matrix(life_stages,
            nrow = Nstage,
            ncol = Nstage,
-           byrow = TRUE)
+           byrow = TRUE) })
 
   # identify the reproductive stage
   life_stages[1, which(mat > 0)] <-
