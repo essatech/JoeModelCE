@@ -1,7 +1,4 @@
-url: ~
+url: https://essatech.github.io/JoeModelCE/
 template:
   bootstrap: 5
-home:
-  sidebar:
-    structure: [links, community, citation, authors, dev]
 
