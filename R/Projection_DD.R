@@ -109,8 +109,19 @@ Projection_DD <- function(M.mx = NA,
   # flexible to other life history types ...
 
   # Apply CE stressors to population parameters
-  dat <- pop_model_ce_apply(CE_df = CE_df, dat = dat, alevin_stage = alevin_stage, all_juv = all_juv, fry_stages = fry_stages, fry_parr_stages = fry_parr_stages, parr_stages = parr_stages, juv_stages = juv_stages, subadult_stages = subadult_stages, adult_stages = adult_stages)
-
+  # if not null
+  if (!(is.null(CE_df))) {
+    dat <- pop_model_ce_apply(
+      CE_df = CE_df,
+      dat = dat,
+      alevin_stage = alevin_stage,
+      all_juv = all_juv,
+      fry_stages = fry_stages,
+      fry_parr_stages = fry_parr_stages,
+      parr_stages = parr_stages,
+      subadult_stages = subadult_stages,
+      adult_stages = adult_stages)
+  }
 
 
   # YOY carrying capacity
@@ -181,11 +192,16 @@ Projection_DD <- function(M.mx = NA,
       # check if any survival rates > 1
       s.test <- d.vec * st[[t + 1]] # survival rate after DD effects
 
+
+      # MJB added to deal with NA bug
+      s.test <- ifelse(is.na(s.test), 0, s.test)
+
+
       if (any(s.test > 1)) {
-        # any s.test > 1?
-        s.err <- which(s.test > 1) # ID which is > 1
-        d.vec[s.err] <-
-          1 / st[[t + 1]][s.err] # set density depenence effect ot 1/surivval - give s = 1 after DD effects
+          # any s.test > 1?
+          s.err <- which(s.test > 1) # ID which is > 1
+          d.vec[s.err] <-
+            1 / st[[t + 1]][s.err] # set density depenence effect ot 1/surivval - give s = 1 after DD effects
       }
 
       # create density dependence effects matrix

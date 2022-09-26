@@ -11,7 +11,8 @@ PopulationModel_Run(
   HUC_ID = NA,
   n_years = 100,
   MC_sims = 10,
-  stressors = NA
+  stressors = NA,
+  output_type = "full"
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ Carlo simulations for the Population Model.}
 names to include in the Population Model. Leave the default
 value as NA if you wish to include all stressors
 applicable to the population model.}
+
+\item{output_type}{(optional) character. Set to "full" for all data of "adults" for only adult data.}
 }
 \description{
 Runs the population model
@@ -48,27 +51,6 @@ workbooks as well as the life cycle parameters table.
 \examples{
 \dontrun{
 library(JoeModelCE)
-
-# Load in the sample data from the reference Excel workbook
-filename_rm <- system.file("extdata", "stressor_magnitude_unc_ARTR.xlsx", package = "JoeModelCE")
-filename_sr <- system.file("extdata", "stressor_response_fixed_ARTR.xlsx", package = "JoeModelCE")
-# Stessor Magnitue and Doese Response Workbooks
-dose <- StressorMagnitudeWorkbook(filename = filename_rm)
-sr_wb_dat <- StressorResponseWorkbook(filename = filename_sr)
-
-# Run the Joe Model
-jmr <- JoeModel_Run(
-    dose = dose,
-    sr_wb_dat = sr_wb_dat,
-    MC_sims = 100
-)
-
-# The Joe model holds cumulative effects data frame
-# and sc.dose.df for individual stressors
-names(jmr)
-
-# Evaluate the cumulative system capacity
-summary(jmr$ce.df$CE)
 }
 
 }

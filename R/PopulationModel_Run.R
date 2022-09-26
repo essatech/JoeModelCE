@@ -21,33 +21,13 @@
 #'  names to include in the Population Model. Leave the default
 #'  value as NA if you wish to include all stressors
 #'  applicable to the population model.
+#' @param output_type (optional) character. Set to "full" for all data of "adults" for only adult data.
 #'
 #' @importFrom rlang .data
 #'
 #' @examples
 #' \dontrun{
 #' library(JoeModelCE)
-#'
-#' # Load in the sample data from the reference Excel workbook
-#' filename_rm <- system.file("extdata", "stressor_magnitude_unc_ARTR.xlsx", package = "JoeModelCE")
-#' filename_sr <- system.file("extdata", "stressor_response_fixed_ARTR.xlsx", package = "JoeModelCE")
-#' # Stessor Magnitue and Doese Response Workbooks
-#' dose <- StressorMagnitudeWorkbook(filename = filename_rm)
-#' sr_wb_dat <- StressorResponseWorkbook(filename = filename_sr)
-#'
-#' # Run the Joe Model
-#' jmr <- JoeModel_Run(
-#'     dose = dose,
-#'     sr_wb_dat = sr_wb_dat,
-#'     MC_sims = 100
-#' )
-#'
-#' # The Joe model holds cumulative effects data frame
-#' # and sc.dose.df for individual stressors
-#' names(jmr)
-#'
-#' # Evaluate the cumulative system capacity
-#' summary(jmr$ce.df$CE)
 #' }
 #'
 #' @export
@@ -57,35 +37,11 @@ PopulationModel_Run <- function(dose = NA,
                                 HUC_ID = NA,
                                 n_years = 100,
                                 MC_sims = 10,
-                                stressors = NA) {
+                                stressors = NA,
+                                output_type = "full") {
 
     # Define variables in function as null
-    .data <- HUC <- simulation <- NULL
-
-
-    # TEMP SETUP
-    library(JoeModelCE)
-    # rm(list = ls())
-
-    filename_rm <- system.file("extdata", "stressor_magnitude_unc_ARTR.xlsx", package = "JoeModelCE")
-    filename_sr <- system.file("extdata", "stressor_response_fixed_ARTR.xlsx", package = "JoeModelCE")
-
-    dose <- StressorMagnitudeWorkbook(filename = filename_rm, scenario_worksheet = "natural_unc")
-    sr_wb_dat <- StressorResponseWorkbook(filename = filename_sr)
-
-    filename_lc <- system.file("extdata", "life_cycles.csv", package = "JoeModelCE")
-    life_cycle_params <- read.csv(filename_lc)
-
-    HUC_ID <- "1701010203"
-    n_years <- 100
-    MC_sims <- 10
-    stressors <- NA
-    # END TEMP SETUP
-
-
-
-
-
+    # .data <- HUC <- simulation <- NULL
 
     #------------------------------------------------------------------------
     # Run the population model time series projection for a target watershed
@@ -180,6 +136,7 @@ PopulationModel_Run <- function(dose = NA,
 
     # Return cleaned object
     CE_df <- m_all
+
 
     #------------------------------------------------------------------------
     # Setup the population model to project the populaiton forward in time
@@ -303,10 +260,41 @@ PopulationModel_Run <- function(dose = NA,
         counter_sim <- counter_sim + 1
     }
 
-    # Add HUCs to master list
-    all_outputs[[counter_huc]] <- huc_outputs
-    all_outputs_baseline[[counter_huc]] <-
-        huc_outputs_baseline
+    #------------------------------------------------------------------------
+    # Gather the outputs from the population model
 
-    counter_huc <- 1 + counter_huc
+    full_output <- list()
+    full_output[["ce"]] <- huc_outputs
+    full_output[["baseline"]] <- huc_outputs_baseline
+    full_output[["MC_sims"]] <- MC_sims
+
+
+    #------------------------------------------------------------------------
+    # Return the adult population vectors in a clean dataframe
+    if (output_type == "adults") {
+        # Gather the adult vectors
+        getPopvec <- function(x) {
+            x[["pop"]]
+        }
+        n_adults <- lapply(full_output[["ce"]], getPopvec)
+        avec <- do.call("rbind", n_adults)
+        avec$MC_sim <- rep(1:MC_sims, each = n_years + 1)
+        avec$group <- "ce"
+
+        n_adults <- lapply(full_output[["baseline"]], getPopvec)
+        bvec <- do.call("rbind", n_adults)
+        bvec$MC_sim <- rep(1:MC_sims, each = n_years + 1)
+        bvec$group <- "baseline"
+       
+        # Gather the population vectors
+        vec_all <- rbind(avec, bvec)
+        return(vec_all)
+    }
+
+
+        #------------------------------------------------------------------------
+    # Return all the data in a full list format
+    if (output_type == "full") {
+        return(full_output)
+    }
 }

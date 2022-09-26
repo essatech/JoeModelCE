@@ -27,6 +27,10 @@ pop_model_ce_apply <- function(dat = NA, CE_df = NA, alevin_stage = NA, all_juv 
             for (i in 1:nrow(CE_fecund)) {
                 # Multiply effects additively for fecundity
                 trow <- CE_fecund[i, ]
+                if(is.na(trow$sys.cap)) {
+                    # Skip is missing data
+                    next
+                }
                 # eps = eggs per female
                 dat$eps <- dat$eps * trow$sys.cap
             }
@@ -39,6 +43,11 @@ pop_model_ce_apply <- function(dat = NA, CE_df = NA, alevin_stage = NA, all_juv 
             for (i in 1:nrow(CE_surv)) {
                 # Multiply effects additively for survival
                 trow <- CE_surv[i, ]
+
+                if(is.na(trow$sys.cap)) {
+                    # Skip is missing data
+                    next
+                }
 
                 # Check that life stage is valid
                 valid_stage <- c("egg", "alevin", "all_juv", "fry", "parr", "fry_parr", "juv", "adult", "sub_adult", "all")
@@ -85,6 +94,11 @@ pop_model_ce_apply <- function(dat = NA, CE_df = NA, alevin_stage = NA, all_juv 
             for (i in 1:nrow(CE_cap)) {
                 # Multiply effects additively for cc
                 trow <- CE_cap[i, ]
+
+                if(is.na(trow$sys.cap)) {
+                    # Skip is missing data
+                    next
+                }
 
                 # Check that life stage is valid
                 valid_stage <- c("egg", "alevin", "all_juv", "fry", "parr", "fry_parr", "juv", "adult", "sub_adult", "all")
