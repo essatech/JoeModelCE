@@ -8,8 +8,8 @@
 <meta name="description" content="JoeModelCE">
 <title>Joe Model Overview • JoeModelCE</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Joe Model Overview">
 <meta property="og:description" content="JoeModelCE">
@@ -42,6 +42,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/joe-model.html">Joe Model Overview</a>
+    <a class="dropdown-item" href="../articles/population-model-batch-run.html">Population Model Batch Run</a>
     <a class="dropdown-item" href="../articles/population-model.html">Population Model Overview</a>
   </div>
 </li>
@@ -64,7 +65,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Joe Model Overview</h1>
             
-            <h4 data-toc-skip class="date">2022-07-07</h4>
+            <h4 data-toc-skip class="date">2022-09-26</h4>
       
       
       <div class="d-none name"><code>joe-model.Rmd</code></div>
@@ -88,9 +89,9 @@ installed using devtools. Hopefully in the near future the near future
 the package will be available on R-CRAN for standard installation and
 loading.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span>
-<span class="co"># install_github("essatech/JoeModelCE")</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">JoeModelCE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
+<span><span class="co"># install_github("essatech/JoeModelCE")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">JoeModelCE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="import-data">Import Data<a class="anchor" aria-label="anchor" href="#import-data"></a>
@@ -557,12 +558,13 @@ the mean system capacity will be drawn from a normal distribution with a
 mean and standard deviation (error bars) bound by the lower and upper
 limits (grey shading).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  <span class="co"># Load default file from Joe Model Package</span>
-  <span class="va">filename_sr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"stressor_response_fixed_ARTR.xlsx"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span>
-  <span class="co"># Use the StressorResponseWorkbook() function from the JoeModelCE package to format the data and check for errors and issues</span>
-  <span class="va">sr_wb_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/StressorResponseWorkbook.html">StressorResponseWorkbook</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="va">filename_sr</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">sr_wb_dat</span><span class="op">)</span>
-<span class="co">#&gt; [1] "main_sheet"     "stressor_names" "pretty_names"   "sr_dat"</span></code></pre></div>
+<code class="sourceCode R"><span>  <span class="co"># Load default file from Joe Model Package</span></span>
+<span>  <span class="va">filename_sr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"stressor_response_fixed_ARTR.xlsx"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span></span>
+<span>  <span class="co"># Use the StressorResponseWorkbook() function from the JoeModelCE package to format the data and check for errors and issues</span></span>
+<span>  <span class="va">sr_wb_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/StressorResponseWorkbook.html">StressorResponseWorkbook</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="va">filename_sr</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">sr_wb_dat</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "main_sheet"     "stressor_names" "pretty_names"   "sr_dat"        </span></span>
+<span><span class="co">#&gt; [5] "MInt"</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -769,13 +771,13 @@ stressor…</li>
 stressor….</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  <span class="co"># Load default file from Joe Model Package</span>
-  <span class="va">filename_rm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"stressor_magnitude_unc_ARTR.xlsx"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span>
-  <span class="co"># Use the StressorMagnitudeWorkbook() function from the JoeModelCE package to format the data and check for errors and issues</span>
-  <span class="va">smw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/StressorMagnitudeWorkbook.html">StressorMagnitudeWorkbook</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="va">filename_rm</span>, scenario_worksheet <span class="op">=</span> <span class="st">"natural_unc"</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">smw</span><span class="op">)</span>
-<span class="co">#&gt;  [1] "HUC_ID"       "NAME"         "Stressor"     "Stressor_cat" "Mean"        </span>
-<span class="co">#&gt;  [6] "SD"           "Distribution" "Low_Limit"    "Up_Limit"     "Comments"</span></code></pre></div>
+<code class="sourceCode R"><span>  <span class="co"># Load default file from Joe Model Package</span></span>
+<span>  <span class="va">filename_rm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"stressor_magnitude_unc_ARTR.xlsx"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span></span>
+<span>  <span class="co"># Use the StressorMagnitudeWorkbook() function from the JoeModelCE package to format the data and check for errors and issues</span></span>
+<span>  <span class="va">smw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/StressorMagnitudeWorkbook.html">StressorMagnitudeWorkbook</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="va">filename_rm</span>, scenario_worksheet <span class="op">=</span> <span class="st">"natural_unc"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">smw</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "HUC_ID"       "NAME"         "Stressor"     "Stressor_cat" "Mean"        </span></span>
+<span><span class="co">#&gt;  [6] "SD"           "Distribution" "Low_Limit"    "Up_Limit"     "Comments"</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -784,42 +786,42 @@ stressor….</li>
 <p>TODO placeholder text … Run the cumulative system capacity for a
 single watershed</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Stressor Response Workbook object = sr_wb_dat</span>
-
-<span class="co"># Run the mean_Response() function to create response curves.</span>
-<span class="co"># Note that this intermediate object is need throughout</span>
-<span class="va">mean.resp.list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mean_Response.html">mean_Response</a></span><span class="op">(</span>
-  n.stressors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">main_sheet</span><span class="op">)</span>,
-  str.list <span class="op">=</span> <span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">sr_dat</span>,
-  main <span class="op">=</span> <span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">main_sheet</span>
-<span class="op">)</span>
-
-<span class="co"># Set up objects for system capacity function - for "Temperature_adult"</span>
-<span class="va">f.main.df</span> <span class="op">&lt;-</span> <span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">main_sheet</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">main_sheet</span><span class="op">$</span><span class="va">Stressors</span> <span class="op">==</span> <span class="st">"Temperature_adult"</span><span class="op">)</span>, <span class="op">]</span>
-<span class="va">f.stressor.df</span> <span class="op">&lt;-</span> <span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">sr_dat</span><span class="op">[[</span><span class="st">"Temperature_adult"</span><span class="op">]</span><span class="op">]</span>
-<span class="va">f.mean.resp.list</span> <span class="op">&lt;-</span> <span class="va">mean.resp.list</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">main_sheet</span><span class="op">$</span><span class="va">Stressors</span> <span class="op">==</span> <span class="st">"Temperature_adult"</span><span class="op">)</span><span class="op">]</span><span class="op">]</span>
-
-<span class="co"># Stressor Magnitude: Make up fake data for a sample watershed (e.g., HUC_ID: 1701010208)</span>
-<span class="va">smw_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>HUC_ID <span class="op">=</span> <span class="fl">0</span>, NAME <span class="op">=</span> <span class="st">"Location Name"</span>,
-                      Stressor <span class="op">=</span> <span class="st">"Temperature_adult"</span>, Stressor_cat <span class="op">=</span> <span class="st">"Temperature"</span>,
-                      Mean <span class="op">=</span> <span class="fl">14</span>, SD <span class="op">=</span> <span class="fl">3</span>, Distribution <span class="op">=</span> <span class="st">"normal"</span>,
-                      Low_Limit <span class="op">=</span> <span class="fl">4</span>, Up_Limit <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>
-
-<span class="co"># ?SystemCapacity # Preview help function</span>
-
-<span class="va">test_sc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SystemCapacity.html">SystemCapacity</a></span><span class="op">(</span>f.dose.df <span class="op">=</span> <span class="va">smw_sample</span>,
-                          f.main.df <span class="op">=</span> <span class="va">f.main.df</span>,
-                          f.stressor.df <span class="op">=</span> <span class="va">f.stressor.df</span>,
-                          f.mean.resp.list <span class="op">=</span> <span class="va">f.mean.resp.list</span>,
-                          n.sims <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">test_sc</span><span class="op">)</span>
-<span class="co">#&gt; [1] "sys.cap"  "dose"     "dose.mat"</span>
-
-<span class="co"># Look at system capacity for one variable and one stressor</span>
-<span class="va">sys_cap</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">test_sc</span><span class="op">$</span><span class="va">sys.cap</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Stressor Response Workbook object = sr_wb_dat</span></span>
+<span></span>
+<span><span class="co"># Run the mean_Response() function to create response curves.</span></span>
+<span><span class="co"># Note that this intermediate object is need throughout</span></span>
+<span><span class="va">mean.resp.list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mean_Response.html">mean_Response</a></span><span class="op">(</span></span>
+<span>  n.stressors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">main_sheet</span><span class="op">)</span>,</span>
+<span>  str.list <span class="op">=</span> <span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">sr_dat</span>,</span>
+<span>  main <span class="op">=</span> <span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">main_sheet</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Set up objects for system capacity function - for "Temperature_adult"</span></span>
+<span><span class="va">f.main.df</span> <span class="op">&lt;-</span> <span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">main_sheet</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">main_sheet</span><span class="op">$</span><span class="va">Stressors</span> <span class="op">==</span> <span class="st">"Temperature_adult"</span><span class="op">)</span>, <span class="op">]</span></span>
+<span><span class="va">f.stressor.df</span> <span class="op">&lt;-</span> <span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">sr_dat</span><span class="op">[[</span><span class="st">"Temperature_adult"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">f.mean.resp.list</span> <span class="op">&lt;-</span> <span class="va">mean.resp.list</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">sr_wb_dat</span><span class="op">$</span><span class="va">main_sheet</span><span class="op">$</span><span class="va">Stressors</span> <span class="op">==</span> <span class="st">"Temperature_adult"</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Stressor Magnitude: Make up fake data for a sample watershed (e.g., HUC_ID: 1701010208)</span></span>
+<span><span class="va">smw_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>HUC_ID <span class="op">=</span> <span class="fl">0</span>, NAME <span class="op">=</span> <span class="st">"Location Name"</span>,</span>
+<span>                      Stressor <span class="op">=</span> <span class="st">"Temperature_adult"</span>, Stressor_cat <span class="op">=</span> <span class="st">"Temperature"</span>,</span>
+<span>                      Mean <span class="op">=</span> <span class="fl">14</span>, SD <span class="op">=</span> <span class="fl">3</span>, Distribution <span class="op">=</span> <span class="st">"normal"</span>,</span>
+<span>                      Low_Limit <span class="op">=</span> <span class="fl">4</span>, Up_Limit <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># ?SystemCapacity # Preview help function</span></span>
+<span></span>
+<span><span class="va">test_sc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SystemCapacity.html">SystemCapacity</a></span><span class="op">(</span>f.dose.df <span class="op">=</span> <span class="va">smw_sample</span>,</span>
+<span>                          f.main.df <span class="op">=</span> <span class="va">f.main.df</span>,</span>
+<span>                          f.stressor.df <span class="op">=</span> <span class="va">f.stressor.df</span>,</span>
+<span>                          f.mean.resp.list <span class="op">=</span> <span class="va">f.mean.resp.list</span>,</span>
+<span>                          n.sims <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">test_sc</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "sys.cap"  "dose"     "dose.mat"</span></span>
+<span></span>
+<span><span class="co"># Look at system capacity for one variable and one stressor</span></span>
+<span><span class="va">sys_cap</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">test_sc</span><span class="op">$</span><span class="va">sys.cap</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">sys_cap</span>, xlab <span class="op">=</span> <span class="st">"Mean System Capacity (%)"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">sys_cap</span>, xlab <span class="op">=</span> <span class="st">"Mean System Capacity (%)"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="joe-model_files/figure-html/tmsc_plot-1.png" alt="Mean System Capacity for temperature for a hypothetical watershed" width="576"><p class="caption">
 Mean System Capacity for temperature for a hypothetical watershed
@@ -832,26 +834,26 @@ Mean System Capacity for temperature for a hypothetical watershed
 <p>TODO placeholder text What about all variables and all stressors -
 run the full Joe Model…</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Import of stressor response and magnitude workbook</span>
-<span class="va">filename_rm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"stressor_magnitude_unc_ARTR.xlsx"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span>
-<span class="va">filename_sr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"stressor_response_fixed_ARTR.xlsx"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span>
-
-<span class="va">dose</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/StressorMagnitudeWorkbook.html">StressorMagnitudeWorkbook</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="va">filename_rm</span>, scenario_worksheet <span class="op">=</span> <span class="st">"natural_unc"</span><span class="op">)</span>
-<span class="va">sr_wb_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/StressorResponseWorkbook.html">StressorResponseWorkbook</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="va">filename_sr</span><span class="op">)</span>
-
-<span class="co"># ----------------------------------------------------------</span>
-<span class="co"># Run the Basic Joe Model</span>
-<span class="va">jmr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/JoeModel_Run.html">JoeModel_Run</a></span><span class="op">(</span>dose <span class="op">=</span> <span class="va">dose</span>, <span class="co"># Stressor Magnitude Object</span>
-                    sr_wb_dat <span class="op">=</span> <span class="va">sr_wb_dat</span>, <span class="co"># Stressor Response Object</span>
-                    MC_sims <span class="op">=</span> <span class="fl">10</span> <span class="co"># Number of Monte Carlo simulations</span>
-                    <span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">jmr</span><span class="op">)</span>
-<span class="co">#&gt; [1] "ce.df"      "sc.dose.df"</span>
-<span class="co"># ce.df = Mean system capacity for each HUC_ID for each simulation</span>
-<span class="co"># sc.dose.df = Mean system capacity for each variable for each HUC_ID for each simulation</span>
-<span class="va">msc</span> <span class="op">&lt;-</span> <span class="va">jmr</span><span class="op">$</span><span class="va">ce.df</span><span class="op">$</span><span class="va">CE</span> <span class="op">*</span> <span class="fl">100</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Import of stressor response and magnitude workbook</span></span>
+<span><span class="va">filename_rm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"stressor_magnitude_unc_ARTR.xlsx"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span></span>
+<span><span class="va">filename_sr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"stressor_response_fixed_ARTR.xlsx"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dose</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/StressorMagnitudeWorkbook.html">StressorMagnitudeWorkbook</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="va">filename_rm</span>, scenario_worksheet <span class="op">=</span> <span class="st">"natural_unc"</span><span class="op">)</span></span>
+<span><span class="va">sr_wb_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/StressorResponseWorkbook.html">StressorResponseWorkbook</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="va">filename_sr</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># ----------------------------------------------------------</span></span>
+<span><span class="co"># Run the Basic Joe Model</span></span>
+<span><span class="va">jmr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/JoeModel_Run.html">JoeModel_Run</a></span><span class="op">(</span>dose <span class="op">=</span> <span class="va">dose</span>, <span class="co"># Stressor Magnitude Object</span></span>
+<span>                    sr_wb_dat <span class="op">=</span> <span class="va">sr_wb_dat</span>, <span class="co"># Stressor Response Object</span></span>
+<span>                    MC_sims <span class="op">=</span> <span class="fl">10</span> <span class="co"># Number of Monte Carlo simulations</span></span>
+<span>                    <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">jmr</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "ce.df"      "sc.dose.df"</span></span>
+<span><span class="co"># ce.df = Mean system capacity for each HUC_ID for each simulation</span></span>
+<span><span class="co"># sc.dose.df = Mean system capacity for each variable for each HUC_ID for each simulation</span></span>
+<span><span class="va">msc</span> <span class="op">&lt;-</span> <span class="va">jmr</span><span class="op">$</span><span class="va">ce.df</span><span class="op">$</span><span class="va">CE</span> <span class="op">*</span> <span class="fl">100</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">msc</span>, xlab <span class="op">=</span> <span class="st">"Mean System Capacity (%)"</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">msc</span>, xlab <span class="op">=</span> <span class="st">"Mean System Capacity (%)"</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="joe-model_files/figure-html/msc_plot-1.png" alt="Mean System Capacity for all stressors and all watersheds across all simulations" width="576"><p class="caption">
 Mean System Capacity for all stressors and all watersheds across all
@@ -887,7 +889,7 @@ simulations
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>

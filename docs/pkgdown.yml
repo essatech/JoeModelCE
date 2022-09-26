@@ -1,8 +1,9 @@
-pandoc: 2.17.1.1
-pkgdown: 2.0.4
+pandoc: '2.18'
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   joe-model: joe-model.html
+  population-model-batch-run: population-model-batch-run.html
   population-model: population-model.html
-last_built: 2022-07-07T21:29Z
+last_built: 2022-09-26T17:46Z
 

@@ -8,8 +8,8 @@
 <meta name="description" content="JoeModelCE">
 <title>Population Model Overview • JoeModelCE</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Population Model Overview">
 <meta property="og:description" content="JoeModelCE">
@@ -42,6 +42,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/joe-model.html">Joe Model Overview</a>
+    <a class="dropdown-item" href="../articles/population-model-batch-run.html">Population Model Batch Run</a>
     <a class="dropdown-item" href="../articles/population-model.html">Population Model Overview</a>
   </div>
 </li>
@@ -64,7 +65,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Population Model Overview</h1>
             
-            <h4 data-toc-skip class="date">2022-07-07</h4>
+            <h4 data-toc-skip class="date">2022-09-26</h4>
       
       
       <div class="d-none name"><code>population-model.Rmd</code></div>
@@ -105,47 +106,47 @@ revisions have been made in the code to accommodate stressors and
 stressor-magnitude functions in a simular magnitude to the Joe Model
 frawork.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Install the JoeModelCE (first-time users)</span>
-<span class="co"># library(devtools)</span>
-<span class="co"># devtools::install_github("essatech/JoeModelCE")</span>
-
-<span class="co"># Load the JoeModelCE package.</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">JoeModelCE</span><span class="op">)</span>
-
-<span class="va">filename_lc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"life_cycles.csv"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span>
-<span class="va">life_cycles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">filename_lc</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">life_cycles</span><span class="op">)</span>
-<span class="co">#&gt;                                              Parameters    Name  Value</span>
-<span class="co">#&gt; 1                                 Number of life stages  Nstage    4.0</span>
-<span class="co">#&gt; 2                                        Adult capacity       k  100.0</span>
-<span class="co">#&gt; 3                               Spawn events per female  events    1.0</span>
-<span class="co">#&gt; 4                                 Eggs per female spawn     eps 3000.0</span>
-<span class="co">#&gt; 5                                     spawning interval     int    1.0</span>
-<span class="co">#&gt; 6                                          egg survival      SE    0.1</span>
-<span class="co">#&gt; 7                                          yoy survival      S0    0.3</span>
-<span class="co">#&gt; 8                                             sex ratio      SR    0.5</span>
-<span class="co">#&gt; 9                                    Hatchling Survival  surv_1    0.3</span>
-<span class="co">#&gt; 10                                    Juvenile Survival  surv_2    0.3</span>
-<span class="co">#&gt; 11                                   Sub-adult Survival  surv_3    0.9</span>
-<span class="co">#&gt; 12                                       Adult Survival  surv_4    0.9</span>
-<span class="co">#&gt; 13                                   Years as hatchling  year_1    1.0</span>
-<span class="co">#&gt; 14                                    years as juvenile  year_2    2.0</span>
-<span class="co">#&gt; 15                                    years as subadult  year_3    2.0</span>
-<span class="co">#&gt; 16                                       years as adult  year_4    5.0</span>
-<span class="co">#&gt; 17                      egg survival compensation ratio    cr_E    1.0</span>
-<span class="co">#&gt; 18                      yoy survival compensation ratio    cr_0    3.0</span>
-<span class="co">#&gt; 19                hatchling survival compensation ratio    cr_1    2.5</span>
-<span class="co">#&gt; 20                 juvenile survival compensation ratio    cr_2    2.0</span>
-<span class="co">#&gt; 21                 subadult survival compensation ratio    cr_3    1.1</span>
-<span class="co">#&gt; 22                    adult survival compensation ratio    cr_4    1.0</span>
-<span class="co">#&gt; 23                                maturity as hatchling   mat_1    0.0</span>
-<span class="co">#&gt; 24                                 maturity as juvenile   mat_2    0.0</span>
-<span class="co">#&gt; 25                                 maturity as subadult   mat_3    0.0</span>
-<span class="co">#&gt; 26                                    maturity as adult   mat_4    1.0</span>
-<span class="co">#&gt; 27                          variance in eggs per female  eps_sd 1000.0</span>
-<span class="co">#&gt; 28            correlation in egg fecundity through time egg_rho    0.1</span>
-<span class="co">#&gt; 29 coefficient of variation in stage-specific mortality    M.cv    0.1</span>
-<span class="co">#&gt; 30                correlation in mortality through time   M.rho    0.1</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Install the JoeModelCE (first-time users)</span></span>
+<span><span class="co"># library(devtools)</span></span>
+<span><span class="co"># devtools::install_github("essatech/JoeModelCE")</span></span>
+<span></span>
+<span><span class="co"># Load the JoeModelCE package.</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">JoeModelCE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">filename_lc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"life_cycles.csv"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span></span>
+<span><span class="va">life_cycles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">filename_lc</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">life_cycles</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                                              Parameters    Name  Value</span></span>
+<span><span class="co">#&gt; 1                                 Number of life stages  Nstage    4.0</span></span>
+<span><span class="co">#&gt; 2                                        Adult capacity       k  100.0</span></span>
+<span><span class="co">#&gt; 3                               Spawn events per female  events    1.0</span></span>
+<span><span class="co">#&gt; 4                                 Eggs per female spawn     eps 3000.0</span></span>
+<span><span class="co">#&gt; 5                                     spawning interval     int    1.0</span></span>
+<span><span class="co">#&gt; 6                                          egg survival      SE    0.1</span></span>
+<span><span class="co">#&gt; 7                                          yoy survival      S0    0.3</span></span>
+<span><span class="co">#&gt; 8                                             sex ratio      SR    0.5</span></span>
+<span><span class="co">#&gt; 9                                    Hatchling Survival  surv_1    0.3</span></span>
+<span><span class="co">#&gt; 10                                    Juvenile Survival  surv_2    0.3</span></span>
+<span><span class="co">#&gt; 11                                   Sub-adult Survival  surv_3    0.9</span></span>
+<span><span class="co">#&gt; 12                                       Adult Survival  surv_4    0.9</span></span>
+<span><span class="co">#&gt; 13                                   Years as hatchling  year_1    1.0</span></span>
+<span><span class="co">#&gt; 14                                    years as juvenile  year_2    2.0</span></span>
+<span><span class="co">#&gt; 15                                    years as subadult  year_3    2.0</span></span>
+<span><span class="co">#&gt; 16                                       years as adult  year_4    5.0</span></span>
+<span><span class="co">#&gt; 17                      egg survival compensation ratio    cr_E    1.0</span></span>
+<span><span class="co">#&gt; 18                      yoy survival compensation ratio    cr_0    3.0</span></span>
+<span><span class="co">#&gt; 19                hatchling survival compensation ratio    cr_1    2.5</span></span>
+<span><span class="co">#&gt; 20                 juvenile survival compensation ratio    cr_2    2.0</span></span>
+<span><span class="co">#&gt; 21                 subadult survival compensation ratio    cr_3    1.1</span></span>
+<span><span class="co">#&gt; 22                    adult survival compensation ratio    cr_4    1.0</span></span>
+<span><span class="co">#&gt; 23                                maturity as hatchling   mat_1    0.0</span></span>
+<span><span class="co">#&gt; 24                                 maturity as juvenile   mat_2    0.0</span></span>
+<span><span class="co">#&gt; 25                                 maturity as subadult   mat_3    0.0</span></span>
+<span><span class="co">#&gt; 26                                    maturity as adult   mat_4    1.0</span></span>
+<span><span class="co">#&gt; 27                          variance in eggs per female  eps_sd 1000.0</span></span>
+<span><span class="co">#&gt; 28            correlation in egg fecundity through time egg_rho    0.1</span></span>
+<span><span class="co">#&gt; 29 coefficient of variation in stage-specific mortality    M.cv    0.1</span></span>
+<span><span class="co">#&gt; 30                correlation in mortality through time   M.rho    0.1</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="setup-the-matrix">Setup the matrix<a class="anchor" aria-label="anchor" href="#setup-the-matrix"></a>
@@ -157,21 +158,21 @@ the data objects generated from these functions which include some
 density-independent components of a matrix model. Below we can see the
 transition matrix.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Setup objects for population model</span>
-<span class="va">pop_mod_setup</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pop_model_setup.html">pop_model_setup</a></span><span class="op">(</span>life_cycles <span class="op">=</span> <span class="va">life_cycles</span><span class="op">)</span>
-
-<span class="co"># Build matrix elements for population model</span>
-<span class="va">pop_mod_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pop_model_matrix_elements.html">pop_model_matrix_elements</a></span><span class="op">(</span>pop_mod_setup <span class="op">=</span> <span class="va">pop_mod_setup</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">pop_mod_mat</span><span class="op">)</span>
-<span class="co">#&gt; [1] "projection_matrix"      "life_histories"         "life_stages_symbolic"  </span>
-<span class="co">#&gt; [4] "density_stage_symbolic"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pop_mod_mat</span><span class="op">$</span><span class="va">projection_matrix</span><span class="op">)</span>
-<span class="co">#&gt;      [,1]       [,2]      [,3]       [,4]</span>
-<span class="co">#&gt; [1,]  0.0 0.00000000 0.0000000 45.0000000</span>
-<span class="co">#&gt; [2,]  0.3 0.23076923 0.0000000  0.0000000</span>
-<span class="co">#&gt; [3,]  0.0 0.06923077 0.4736842  0.0000000</span>
-<span class="co">#&gt; [4,]  0.0 0.00000000 0.4263158  0.7558057</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Setup objects for population model</span></span>
+<span><span class="va">pop_mod_setup</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pop_model_setup.html">pop_model_setup</a></span><span class="op">(</span>life_cycles <span class="op">=</span> <span class="va">life_cycles</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Build matrix elements for population model</span></span>
+<span><span class="va">pop_mod_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pop_model_matrix_elements.html">pop_model_matrix_elements</a></span><span class="op">(</span>pop_mod_setup <span class="op">=</span> <span class="va">pop_mod_setup</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">pop_mod_mat</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "projection_matrix"      "life_histories"         "life_stages_symbolic"  </span></span>
+<span><span class="co">#&gt; [4] "density_stage_symbolic"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pop_mod_mat</span><span class="op">$</span><span class="va">projection_matrix</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      [,1]       [,2]      [,3]       [,4]</span></span>
+<span><span class="co">#&gt; [1,]  0.0 0.00000000 0.0000000 45.0000000</span></span>
+<span><span class="co">#&gt; [2,]  0.3 0.23076923 0.0000000  0.0000000</span></span>
+<span><span class="co">#&gt; [3,]  0.0 0.06923077 0.4736842  0.0000000</span></span>
+<span><span class="co">#&gt; [4,]  0.0 0.00000000 0.4263158  0.7558057</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="calculate-simple-matrix-elements-from-the-popbio-package">Calculate simple matrix elements from the popbio package<a class="anchor" aria-label="anchor" href="#calculate-simple-matrix-elements-from-the-popbio-package"></a>
@@ -184,21 +185,21 @@ elasticities etc). Note that these elements consider density-independent
 growth. In the next section we project the population forward while
 accounting for density-dependent growth.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Preview density-independent transition projection_matrix</span>
-  <span class="va">A</span> <span class="op">&lt;-</span> <span class="va">pop_mod_mat</span><span class="op">$</span><span class="va">projection_matrix</span>
-<span class="co"># Assign nicknames for each stage</span>
-  <span class="va">snames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"egg_yoy"</span>, <span class="st">"juv"</span>, <span class="st">"subadult"</span>, <span class="st">"adult"</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">snames</span>
-<span class="co"># Simple density-independent lambda estimate</span>
-  <span class="fu">popbio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popbio/man/lambda.html" class="external-link">lambda</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>
-<span class="co">#&gt; [1] 1.211018</span>
-<span class="co"># Simple Eigen analysis</span>
-  <span class="fu">popbio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popbio/man/eigen.analysis.html" class="external-link">eigen.analysis</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">$</span><span class="va">elasticities</span>
-<span class="co">#&gt;            egg_yoy       juv   subadult     adult</span>
-<span class="co">#&gt; egg_yoy  0.0000000 0.0000000 0.00000000 0.1529476</span>
-<span class="co">#&gt; juv      0.1529476 0.0360068 0.00000000 0.0000000</span>
-<span class="co">#&gt; subadult 0.0000000 0.1529476 0.09825795 0.0000000</span>
-<span class="co">#&gt; adult    0.0000000 0.0000000 0.15294763 0.2539447</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Preview density-independent transition projection_matrix</span></span>
+<span>  <span class="va">A</span> <span class="op">&lt;-</span> <span class="va">pop_mod_mat</span><span class="op">$</span><span class="va">projection_matrix</span></span>
+<span><span class="co"># Assign nicknames for each stage</span></span>
+<span>  <span class="va">snames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"egg_yoy"</span>, <span class="st">"juv"</span>, <span class="st">"subadult"</span>, <span class="st">"adult"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">snames</span></span>
+<span><span class="co"># Simple density-independent lambda estimate</span></span>
+<span>  <span class="fu">popbio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popbio/man/lambda.html" class="external-link">lambda</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1.211018</span></span>
+<span><span class="co"># Simple Eigen analysis</span></span>
+<span>  <span class="fu">popbio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popbio/man/eigen.analysis.html" class="external-link">eigen.analysis</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">$</span><span class="va">elasticities</span></span>
+<span><span class="co">#&gt;            egg_yoy       juv   subadult     adult</span></span>
+<span><span class="co">#&gt; egg_yoy  0.0000000 0.0000000 0.00000000 0.1529476</span></span>
+<span><span class="co">#&gt; juv      0.1529476 0.0360068 0.00000000 0.0000000</span></span>
+<span><span class="co">#&gt; subadult 0.0000000 0.1529476 0.09825795 0.0000000</span></span>
+<span><span class="co">#&gt; adult    0.0000000 0.0000000 0.15294763 0.2539447</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="density-dependent-time-series-population-projections">Density-dependent time series population projections<a class="anchor" aria-label="anchor" href="#density-dependent-time-series-population-projections"></a>
@@ -213,41 +214,41 @@ See van der Lee and Koops (2020) for additional details. Note that at
 this point we are not considering any stressors as the cumulative effect
 dataframe (<code>CE_df</code>) is set to NULL.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Set the K.adj (K adjustment prior to pop model run)</span>
-<span class="va">life_histories</span> <span class="op">&lt;-</span> <span class="va">pop_mod_mat</span><span class="op">$</span><span class="va">life_histories</span>
-<span class="co"># Mathematical expression of the transition matrix</span>
-<span class="va">life_stages_symbolic</span> <span class="op">&lt;-</span> <span class="va">pop_mod_mat</span><span class="op">$</span><span class="va">life_stages_symbolic</span>
-<span class="co"># Mathematical expression of the density matrix</span>
-<span class="va">density_stage_symbolic</span> <span class="op">&lt;-</span> <span class="va">pop_mod_mat</span><span class="op">$</span><span class="va">density_stage_symbolic</span>
-
-<span class="co"># Run simple population projection - project forward through time</span>
-<span class="va">baseline</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/Projection_DD.html">Projection_DD</a></span><span class="op">(</span>
-    M.mx <span class="op">=</span> <span class="va">life_stages_symbolic</span>,
-    <span class="co"># projection matrix expression</span>
-    D.mx <span class="op">=</span> <span class="va">density_stage_symbolic</span>,
-    <span class="co"># density-dependence matrix</span>
-    H.mx <span class="op">=</span> <span class="cn">NULL</span>,
-    dat <span class="op">=</span> <span class="va">life_histories</span>,
-    <span class="co"># life history data</span>
-    K <span class="op">=</span> <span class="va">life_histories</span><span class="op">$</span><span class="va">Ka</span>,
-    <span class="co"># initial pop size as stage-structure vector</span>
-    Nyears <span class="op">=</span> <span class="fl">100</span>,
-    <span class="co"># years to run simulation</span>
-    p.cat <span class="op">=</span> <span class="fl">0</span>,      <span class="co"># Probability of catastrophe</span>
-    CE_df <span class="op">=</span> <span class="cn">NULL</span>
-  <span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">baseline</span><span class="op">)</span>
-<span class="co">#&gt; [1] "pop"     "N"       "lambdas" "vars"    "Cat."</span>
-
-<span class="co"># Time series of the population</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">baseline</span><span class="op">$</span><span class="va">pop</span>, type <span class="op">=</span> <span class="st">'l'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Set the K.adj (K adjustment prior to pop model run)</span></span>
+<span><span class="va">life_histories</span> <span class="op">&lt;-</span> <span class="va">pop_mod_mat</span><span class="op">$</span><span class="va">life_histories</span></span>
+<span><span class="co"># Mathematical expression of the transition matrix</span></span>
+<span><span class="va">life_stages_symbolic</span> <span class="op">&lt;-</span> <span class="va">pop_mod_mat</span><span class="op">$</span><span class="va">life_stages_symbolic</span></span>
+<span><span class="co"># Mathematical expression of the density matrix</span></span>
+<span><span class="va">density_stage_symbolic</span> <span class="op">&lt;-</span> <span class="va">pop_mod_mat</span><span class="op">$</span><span class="va">density_stage_symbolic</span></span>
+<span></span>
+<span><span class="co"># Run simple population projection - project forward through time</span></span>
+<span><span class="va">baseline</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/Projection_DD.html">Projection_DD</a></span><span class="op">(</span></span>
+<span>    M.mx <span class="op">=</span> <span class="va">life_stages_symbolic</span>,</span>
+<span>    <span class="co"># projection matrix expression</span></span>
+<span>    D.mx <span class="op">=</span> <span class="va">density_stage_symbolic</span>,</span>
+<span>    <span class="co"># density-dependence matrix</span></span>
+<span>    H.mx <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    dat <span class="op">=</span> <span class="va">life_histories</span>,</span>
+<span>    <span class="co"># life history data</span></span>
+<span>    K <span class="op">=</span> <span class="va">life_histories</span><span class="op">$</span><span class="va">Ka</span>,</span>
+<span>    <span class="co"># initial pop size as stage-structure vector</span></span>
+<span>    Nyears <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>    <span class="co"># years to run simulation</span></span>
+<span>    p.cat <span class="op">=</span> <span class="fl">0</span>,      <span class="co"># Probability of catastrophe</span></span>
+<span>    CE_df <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">baseline</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "pop"     "N"       "lambdas" "vars"    "Cat."</span></span>
+<span></span>
+<span><span class="co"># Time series of the population</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">baseline</span><span class="op">$</span><span class="va">pop</span>, type <span class="op">=</span> <span class="st">'l'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="population-model_files/figure-html/m3-1.png" width="672"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Time series of lambda values</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">baseline</span><span class="op">$</span><span class="va">lambdas</span>, type <span class="op">=</span> <span class="st">'l'</span>, ylab <span class="op">=</span> <span class="st">"lambda"</span>, xlab <span class="op">=</span> <span class="st">"year"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Time series of lambda values</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">baseline</span><span class="op">$</span><span class="va">lambdas</span>, type <span class="op">=</span> <span class="st">'l'</span>, ylab <span class="op">=</span> <span class="st">"lambda"</span>, xlab <span class="op">=</span> <span class="st">"year"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="population-model_files/figure-html/m3-2.png" width="672"></p>
 </div>
 <div class="section level2">
@@ -261,59 +262,59 @@ respectively. The first stressor (<code>My Stressor1</code>) reduces the
 fry carrying capacity by 18% (0.82) and the second stressor decreases
 the fry survival by 5% (0.95).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Very simple CE data frame of one watershed </span>
-<span class="co"># and two stressors (My Stressor1, My Stressor2)</span>
-<span class="va">CE_df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>HUC <span class="op">=</span> <span class="fl">123</span>,
-           Stressor <span class="op">=</span> <span class="st">"My Stressor1"</span>,
-           dose <span class="op">=</span> <span class="fl">123</span>,      <span class="co"># Stressor magnitude</span>
-           sys.cap <span class="op">=</span> <span class="fl">0.82</span>,  <span class="co"># Effect of vital rate (dose:response)</span>
-           life_stage <span class="op">=</span> <span class="st">"fry_parr"</span>,
-           parameter <span class="op">=</span> <span class="st">"capacity"</span>,
-           Stressor_cat <span class="op">=</span> <span class="st">"My Stressor1"</span><span class="op">)</span>
-<span class="co"># Second stressor - fake data</span>
-<span class="va">CE_df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>HUC <span class="op">=</span> <span class="fl">123</span>,
-                    Stressor <span class="op">=</span> <span class="st">"My Stressor2"</span>,
-                    dose <span class="op">=</span> <span class="fl">123</span>,
-                    sys.cap <span class="op">=</span> <span class="fl">0.95</span>,
-                    life_stage <span class="op">=</span> <span class="st">"all_juv"</span>,
-                    parameter <span class="op">=</span> <span class="st">"survival"</span>,
-                    Stressor_cat <span class="op">=</span> <span class="st">"My Stressor2"</span><span class="op">)</span>
-<span class="co"># Stressors dataframe</span>
-<span class="va">CE_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">CE_df1</span>, <span class="va">CE_df2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Very simple CE data frame of one watershed </span></span>
+<span><span class="co"># and two stressors (My Stressor1, My Stressor2)</span></span>
+<span><span class="va">CE_df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>HUC <span class="op">=</span> <span class="fl">123</span>,</span>
+<span>           Stressor <span class="op">=</span> <span class="st">"My Stressor1"</span>,</span>
+<span>           dose <span class="op">=</span> <span class="fl">123</span>,      <span class="co"># Stressor magnitude</span></span>
+<span>           sys.cap <span class="op">=</span> <span class="fl">0.82</span>,  <span class="co"># Effect of vital rate (dose:response)</span></span>
+<span>           life_stage <span class="op">=</span> <span class="st">"fry_parr"</span>,</span>
+<span>           parameter <span class="op">=</span> <span class="st">"capacity"</span>,</span>
+<span>           Stressor_cat <span class="op">=</span> <span class="st">"My Stressor1"</span><span class="op">)</span></span>
+<span><span class="co"># Second stressor - fake data</span></span>
+<span><span class="va">CE_df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>HUC <span class="op">=</span> <span class="fl">123</span>,</span>
+<span>                    Stressor <span class="op">=</span> <span class="st">"My Stressor2"</span>,</span>
+<span>                    dose <span class="op">=</span> <span class="fl">123</span>,</span>
+<span>                    sys.cap <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>                    life_stage <span class="op">=</span> <span class="st">"all_juv"</span>,</span>
+<span>                    parameter <span class="op">=</span> <span class="st">"survival"</span>,</span>
+<span>                    Stressor_cat <span class="op">=</span> <span class="st">"My Stressor2"</span><span class="op">)</span></span>
+<span><span class="co"># Stressors dataframe</span></span>
+<span><span class="va">CE_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">CE_df1</span>, <span class="va">CE_df2</span><span class="op">)</span></span></code></pre></div>
 <p>Rerun the population model. Note the plots below the black line is
 the baseline and the red line is the population projection run with
 stressors included. In each example the population is supressed when the
 stressors are included.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ce_pop</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Projection_DD.html">Projection_DD</a></span><span class="op">(</span>M.mx <span class="op">=</span> <span class="va">life_stages_symbolic</span>,
-                        D.mx <span class="op">=</span> <span class="va">density_stage_symbolic</span>,
-                        H.mx <span class="op">=</span> <span class="cn">NULL</span>,
-                        dat <span class="op">=</span> <span class="va">life_histories</span>,
-                        K <span class="op">=</span> <span class="va">life_histories</span><span class="op">$</span><span class="va">Ka</span>,
-                        Nyears <span class="op">=</span> <span class="fl">100</span>,
-                        p.cat <span class="op">=</span> <span class="fl">0</span>,
-                        CE_df <span class="op">=</span> <span class="va">CE_df</span>
-                        <span class="op">)</span>
-
-
-<span class="co"># Time series of the population with CE</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ce_pop</span><span class="op">$</span><span class="va">pop</span>, type <span class="op">=</span> <span class="st">'l'</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">200</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">baseline</span><span class="op">$</span><span class="va">pop</span>, type <span class="op">=</span> <span class="st">'l'</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">ce_pop</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Projection_DD.html">Projection_DD</a></span><span class="op">(</span>M.mx <span class="op">=</span> <span class="va">life_stages_symbolic</span>,</span>
+<span>                        D.mx <span class="op">=</span> <span class="va">density_stage_symbolic</span>,</span>
+<span>                        H.mx <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                        dat <span class="op">=</span> <span class="va">life_histories</span>,</span>
+<span>                        K <span class="op">=</span> <span class="va">life_histories</span><span class="op">$</span><span class="va">Ka</span>,</span>
+<span>                        Nyears <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>                        p.cat <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>                        CE_df <span class="op">=</span> <span class="va">CE_df</span></span>
+<span>                        <span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Time series of the population with CE</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ce_pop</span><span class="op">$</span><span class="va">pop</span>, type <span class="op">=</span> <span class="st">'l'</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">200</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">baseline</span><span class="op">$</span><span class="va">pop</span>, type <span class="op">=</span> <span class="st">'l'</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="population-model_files/figure-html/m4b-1.png" width="672"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Time series of lambda values</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ce_pop</span><span class="op">$</span><span class="va">lambdas</span>, type <span class="op">=</span> <span class="st">'l'</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">baseline</span><span class="op">$</span><span class="va">lambdas</span>, type <span class="op">=</span> <span class="st">'l'</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Time series of lambda values</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ce_pop</span><span class="op">$</span><span class="va">lambdas</span>, type <span class="op">=</span> <span class="st">'l'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">baseline</span><span class="op">$</span><span class="va">lambdas</span>, type <span class="op">=</span> <span class="st">'l'</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="population-model_files/figure-html/m4b-2.png" width="672"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Ratio Relative system capacity</span>
-<span class="va">baseline_sys_cap</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">baseline</span><span class="op">$</span><span class="va">pop</span><span class="op">$</span><span class="va">N</span><span class="op">[</span><span class="fl">50</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span><span class="op">)</span>
-<span class="va">ce_sys_cap</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">ce_pop</span><span class="op">$</span><span class="va">pop</span><span class="op">$</span><span class="va">N</span><span class="op">[</span><span class="fl">50</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span><span class="op">)</span>
-<span class="va">ce_sys_cap</span> <span class="op">/</span> <span class="va">baseline_sys_cap</span>
-<span class="co">#&gt; [1] 0.6550733</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Ratio Relative system capacity</span></span>
+<span><span class="va">baseline_sys_cap</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">baseline</span><span class="op">$</span><span class="va">pop</span><span class="op">$</span><span class="va">N</span><span class="op">[</span><span class="fl">50</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">ce_sys_cap</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">ce_pop</span><span class="op">$</span><span class="va">pop</span><span class="op">$</span><span class="va">N</span><span class="op">[</span><span class="fl">50</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">ce_sys_cap</span> <span class="op">/</span> <span class="va">baseline_sys_cap</span></span>
+<span><span class="co">#&gt; [1] 0.7001734</span></span></code></pre></div>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -329,7 +330,7 @@ stressors are included.</p>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>

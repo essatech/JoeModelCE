@@ -10,6 +10,9 @@
     <loc>/articles/joe-model.html</loc>
   </url>
   <url>
+    <loc>/articles/population-model-batch-run.html</loc>
+  </url>
+  <url>
     <loc>/articles/population-model.html</loc>
   </url>
   <url>
@@ -86,6 +89,12 @@
   </url>
   <url>
     <loc>/reference/pmx_eval.html</loc>
+  </url>
+  <url>
+    <loc>/reference/PopulationModel_Run.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pop_model_ce_apply.html</loc>
   </url>
   <url>
     <loc>/reference/pop_model_matrix_elements.html</loc>
