@@ -45,6 +45,14 @@ SystemCapacity <- function(f.dose.df,
 
   for (i in 1:n.dose) {
 
+    if(is.na(f.dose.df$Distribution[i])) {
+      f.dose.df$Distribution[i] <- "normal"
+    }
+    if(is.na(f.dose.df$SD[i])) {
+      f.dose.df$SD[i] <- 0
+    }
+
+
     # Randomly generate doses based on mean, SD, limits and distribution type
     if (f.dose.df$Distribution[i] == "lognormal") {
 
