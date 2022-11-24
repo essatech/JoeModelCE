@@ -1,11 +1,14 @@
 #' Population Model Setup
 #'
 #' @description Generate symbolic objects for the population model and
-#' then run parameterizing matrices.
+#' then generate parameter matrices.
 #'
-#' @details This is an intermediate setup function to run the population, but some of its outputs are useful on their own, especially for eigen analyses. pop_model_setup() is run before pop_model_matrix_elements() and Projection_DD().
+#' @details This is an intermediate setup function to run the population,
+#' but some of its outputs are useful on their own, especially for eigen
+#' analyses from the projection matrix. pop_model_setup() is run
+#' before pop_model_matrix_elements() and Projection_DD().
 #'
-#' Transition matrix:
+#' Transition Matrix:
 #' * Calculates stage-specific survivals and transition rates, survival probabilities, transition probabilities.
 #' * Initializes the survival/transition rates subject to a stage-specific density-dependence.
 #' * Checks for excessive compensation ratios.
@@ -14,7 +17,7 @@
 #' * transition probabilities
 #' * egg-survival, age-0 survival, and then stage-specific survival probabilities
 #' * spawning events per year
-#' * eggs per spawner
+#' * eggs-per-spawner
 #' * number of spawning intervals
 #' * adult carrying capacity
 #' * sex ratio
@@ -30,13 +33,17 @@ pop_model_setup <- function(life_cycles = NA) {
   # Are there problems with the input parameters
   possible_error_state <- "All Good"
 
-  # read in the species life cycles traits
+  # Load the species life cycles traits
   # must have N number of survival, years, and compensation ratios
 
   # Rename to match reference code
   life_pars <- life_cycles
   row.names(life_pars) <- life_pars$Name
   Nstage <- life_pars["Nstage", "Value"]
+
+  if(Nstage != 4) {
+    possible_error_state <- "Model only accepts 4 unique stages"
+  }
 
   stage_names <- paste("stage", 1:Nstage, sep = "_")
 
@@ -52,18 +59,22 @@ pop_model_setup <- function(life_cycles = NA) {
     possible_error_state <- "compensation ratios too high"
   }
 
+  # Sexual maturity vector
   mat <-
     life_pars[match(paste("mat", 1:Nstage, sep = "_"), life_pars$Name), "Value"]
 
   names(survival) <- names(years) <- names(cr) <- stage_names
 
-  # equilibrium adults
+  # Equilibrium adults population K
   N0 <- life_pars["k", "Value"]
 
-  # sensitivity to equilibrium
+  # Sensitivity to equilibrium
   sens <- life_pars["sens", "Value"]
+
+  # Build matrix
   life_stages <- matrix(0, nrow = Nstage, ncol = Nstage)
 
+  # Stay in current stage or transition to next
   diag(life_stages) <- paste("pr", 1:Nstage, sep = "_")
 
   pos <- Nstage * (1:Nstage) + (1:Nstage)
@@ -178,7 +189,6 @@ pop_model_setup <- function(life_cycles = NA) {
   density_stage_symbols[1, 2:Nstage] <- "sE * s0"
   diag(density_stage_symbols) <- paste("s", 1:Nstage, sep = "")
 
-  #life_stages_symbols <- as.data.frame(life_stages_symbols)
 
   temp_dens_symbol <- unlist(t(density_stage_symbols))
 

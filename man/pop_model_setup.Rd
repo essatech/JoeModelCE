@@ -14,12 +14,15 @@ a list object of symbolic objects.
 }
 \description{
 Generate symbolic objects for the population model and
-then run parameterizing matrices.
+then generate parameter matrices.
 }
 \details{
-This is an intermediate setup function to run the population, but some of its outputs are useful on their own, especially for eigen analyses. pop_model_setup() is run before pop_model_matrix_elements() and Projection_DD().
+This is an intermediate setup function to run the population,
+but some of its outputs are useful on their own, especially for eigen
+analyses from the projection matrix. pop_model_setup() is run
+before pop_model_matrix_elements() and Projection_DD().
 
-Transition matrix:
+Transition Matrix:
 \itemize{
 \item Calculates stage-specific survivals and transition rates, survival probabilities, transition probabilities.
 \item Initializes the survival/transition rates subject to a stage-specific density-dependence.
@@ -31,7 +34,7 @@ Dataset for life-histories:
 \item transition probabilities
 \item egg-survival, age-0 survival, and then stage-specific survival probabilities
 \item spawning events per year
-\item eggs per spawner
+\item eggs-per-spawner
 \item number of spawning intervals
 \item adult carrying capacity
 \item sex ratio

@@ -1,0 +1,31 @@
+Parameters,Name,Value
+Number of life stages,Nstage,4
+Adult capacity,k,100
+Spawn events per female,events,1
+Eggs per female spawn,eps,2500
+spawning interval,int,1
+egg survival,SE,0.429
+Coho fry survival first summer,S0,0.26
+sex ratio,SR,0.5
+Coho Fry-Parr Survival to smolts,surv_1,0.9
+Coho Smolt Survival and Marine Survival Yr 1,surv_2,0.234
+Coho Mature Adult at Sea Survival,surv_3,0.124
+Adult Spawner Survival,surv_4,0
+Years as hatchling,year_1,1
+years as juvenile,year_2,1
+years as subadult,year_3,1
+years as adult,year_4,1
+egg survival compensation ratio,cr_E,1.1
+yoy survival compensation ratio,cr_0,0.2
+hatchling survival compensation ratio,cr_1,0.1
+juvenile survival compensation ratio,cr_2,0.1
+subadult survival compensation ratio,cr_3,0.1
+adult survival compensation ratio,cr_4,0
+maturity as hatchling,mat_1,0
+maturity as juvenile,mat_2,0
+maturity as subadult,mat_3,0
+maturity as adult,mat_4,1
+variance in eggs per female,eps_sd,2.00E+02
+correlation in egg fecundity through time,egg_rho,0.1
+coefficient of variation in stage-specific mortality,M.cv,1.00E-01
+correlation in mortality through time,M.rho,0.1
