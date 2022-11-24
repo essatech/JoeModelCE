@@ -1,6 +1,6 @@
 Parameters,Name,Value
 Number of life stages,Nstage,4
-Adult capacity,k,100
+Adult capacity,k,929
 Spawn events per female,events,1
 Eggs per female spawn,eps,2500
 spawning interval,int,1

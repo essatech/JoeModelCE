@@ -31,9 +31,9 @@ test_that("Population model for anadromous species", {
   life_cycles <- read.csv(filename_lc)
   expect_true(nrow(life_cycles) > 5)
 
-  life_cycles$Value[which(life_cycles$Name == "M.rho")]   <- 0
-  life_cycles$Value[which(life_cycles$Name == "eps_sd")]  <- 0
-  life_cycles$Value[which(life_cycles$Name == "egg_rho")] <- 0
+  #life_cycles$Value[which(life_cycles$Name == "M.rho")]   <- 0
+  #life_cycles$Value[which(life_cycles$Name == "eps_sd")]  <- 0
+  #life_cycles$Value[which(life_cycles$Name == "egg_rho")] <- 0
 
 
   cr_E <- seq(0.2, 2, by = 0.3)
@@ -58,19 +58,6 @@ test_that("Population model for anadromous species", {
     life_cycles$Value[which(life_cycles$Name == "cr_1")]  <- params$cr_1
     life_cycles$Value[which(life_cycles$Name == "cr_2")]  <- params$cr_2
     life_cycles$Value[which(life_cycles$Name == "cr_3")]  <- params$cr_3
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -119,9 +106,11 @@ test_that("Population model for anadromous species", {
   expect_true(!(any(is.na(baseline$pop$N))))
 
   df <- baseline$pop[which(baseline$pop$year > 5), ]
-  #plot(df$year, df$N, type = 'l')
+  # plot(df$year, df$N, type = 'l')
 
   df <- data.frame(baseline$N)
+
+
   df <- df[50:nrow(df), ]
 
   cms <- colMeans(df)
