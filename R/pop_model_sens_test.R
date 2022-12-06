@@ -42,7 +42,6 @@ pop_model_sens_test <-
            sens_perc_change = 10,
            sens_param = NA) {
 
-    if(FALSE) {
 
     #################################################
     # Currently only looking at perc change in adult population in the last_years
@@ -474,6 +473,6 @@ pop_model_sens_test <-
     }#close the loop for the HUCs
     return(SA)
 
-    }
+
 
   } #close the loop for the function

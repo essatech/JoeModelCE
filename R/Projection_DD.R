@@ -12,6 +12,7 @@
 #' @param K The population carrying Capacity
 #' @param p.cat Probability of catastrophic event.
 #' @param CE_df Cumulative effect dataframe. Data frame identifying cumulative effects stressors targets (system capacity or population parameter, or both, and target life stages.
+#' @param K_adj Boolean. Should K_adj be run. Defaults to false.
 #' @importFrom rlang .data
 #'
 #' @returns A list object with projected years, population size, lambda, fecundity, survival, catastrophic events.
@@ -24,7 +25,8 @@ Projection_DD <- function(M.mx = NA,
                           Nyears = 100,
                           K = NA,
                           p.cat = NA,
-                          CE_df = NULL) {
+                          CE_df = NULL,
+                          K_adj = FALSE) {
 
 
   # Define variables in function as null
@@ -36,6 +38,21 @@ Projection_DD <- function(M.mx = NA,
     dat$K.adj <- 1
   }
   Ka <- K * dat$K.adj
+
+
+  # Make CC Adjustments run with K_adj (optional) but slower
+  if(K_adj) {
+    kadj <- pop_model_K_adj(replicates = 100,
+                    dat = dat,
+                    mx = life_stages_symbolic,
+                    dx = density_stage_symbolic,
+                    Nyears = 200)
+    dat$K.adj <- kadj$K.adj
+    Ka <- K * dat$K.adj
+  }
+
+
+
 
   # Set D = 1 if no density_depenence
   if (is.null(D.mx)) {
@@ -88,6 +105,8 @@ Projection_DD <- function(M.mx = NA,
   dat$K0 <- dat$Ke * dat$S["sE"]
 
   # Apply the harm matrix to K or S (if needed)
+
+  # Define nicknames for stages
   alevin_stage <- 2
   all_juv <- 3:5
   fry_stages <- 3

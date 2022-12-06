@@ -2,15 +2,16 @@
 % Please edit documentation in R/Utility_CumulativeEffect.R
 \name{bh_stage}
 \alias{bh_stage}
-\title{bh_stage}
+\title{pmx_eval}
 \usage{
 bh_stage(cr = 2, k = 100, x = 1)
 }
 \description{
-bh_stage
+pmx_eval
 }
 \details{
 functions used to calculate density dependence and stage-specific
 survival/transitions
 }
+\keyword{bh_stage}
 \keyword{internal}

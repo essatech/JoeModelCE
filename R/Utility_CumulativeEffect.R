@@ -24,12 +24,14 @@ proc <- function(e, env = parent.frame()) {
   e
 }
 
-#' pmx_eval
-#'
-#' @keywords internal
-pmx_eval <- function(mx, vars, byrow = T) {
-  matrix(sapply(mx, eval, vars), sqrt(length(mx)), sqrt(length(mx)), byrow = byrow)
-}
+
+## Function is duplicated - omit
+##' pmx_eval
+##'
+##' @keywords internal
+##pmx_eval <- function(mx, vars, byrow = T) {
+##  matrix(sapply(mx, eval, vars), sqrt(length(mx)), sqrt(length(mx)), byrow = byrow)
+##}
 
 
 #' bh_stage
@@ -114,11 +116,11 @@ s0_optim.f <- function(s0, mx, dat, target.lambda) {
 }
 
 
-#' K_adj
+#' K_adj_old
 #'
 #' @keywords internal
-K_adj <- function(replicates,
-                  dat,
+K_adj_old <- function(replicates = 100,
+                  dat, # life histories
                   ncores,
                   mx,
                   dx,

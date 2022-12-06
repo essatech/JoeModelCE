@@ -12,7 +12,8 @@ Projection_DD(
   Nyears = 100,
   K = NA,
   p.cat = NA,
-  CE_df = NULL
+  CE_df = NULL,
+  K_adj = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ Projection_DD(
 \item{p.cat}{Probability of catastrophic event.}
 
 \item{CE_df}{Cumulative effect dataframe. Data frame identifying cumulative effects stressors targets (system capacity or population parameter, or both, and target life stages.}
+
+\item{K_adj}{Boolean. Should K_adj be run. Defaults to false.}
 }
 \value{
 A list object with projected years, population size, lambda, fecundity, survival, catastrophic events.

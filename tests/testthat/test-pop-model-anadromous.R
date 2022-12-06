@@ -36,20 +36,25 @@ test_that("Population model for anadromous species", {
   #life_cycles$Value[which(life_cycles$Name == "egg_rho")] <- 0
 
 
-  cr_E <- seq(0.2, 2, by = 0.3)
-  cr_0 <- seq(0.2, 2.5, by = 0.3)
-  cr_1 <- seq(0.1, 1, by = 0.3)
-  cr_2 <- seq(0.1, 1, by = 0.3)
-  cr_3 <- seq(0.1, 1, by = 0.3)
+  cr_E <- c(0.5, 1, 1.5, 2)
+  cr_0 <- c(0.5, 1, 3, 4)
+  cr_1 <- c(0.5, 1, 3, 4)
+  cr_2 <- c(0.5, 1, 2, 3, 4)
+  cr_3 <- c(0.5, 1, 2, 3, 4)
+  cr_4 <- c(0.5, 1, 2, 3, 4)
 
-  gtest <- expand.grid(cr_E, cr_0, cr_1, cr_2, cr_3)
-  colnames(gtest) <- c("cr_E", "cr_0", "cr_1", "cr_2", "cr_3")
+  gtest <- expand.grid(cr_E, cr_0, cr_1, cr_2, cr_3, cr_4)
+  colnames(gtest) <- c("cr_E", "cr_0", "cr_1", "cr_2", "cr_3", "cr_4")
   nrow(gtest)
 
   test_scores <- list()
 
+
+  i = 2000
   #for(i in 1:nrow(gtest)) {
   for(i in 1:1) {
+
+    print(i)
 
     params <- gtest[i, ]
 
@@ -58,8 +63,21 @@ test_that("Population model for anadromous species", {
     life_cycles$Value[which(life_cycles$Name == "cr_1")]  <- params$cr_1
     life_cycles$Value[which(life_cycles$Name == "cr_2")]  <- params$cr_2
     life_cycles$Value[which(life_cycles$Name == "cr_3")]  <- params$cr_3
+    life_cycles$Value[which(life_cycles$Name == "cr_4")]  <- params$cr_4
 
 
+    life_pars <- life_cycles
+    row.names(life_pars) <- life_pars$Name
+    Nstage <- life_pars["Nstage", "Value"]
+
+    survival <-
+      life_pars[match(paste("surv", 1:Nstage, sep = "_"), life_pars$Name), "Value"]
+    cr <-
+      life_pars[match(paste("cr", 1:Nstage, sep = "_"), life_pars$Name), "Value"]
+    if (any((cr * survival) > 1)) {
+      print("compensation ratios too high")
+      next
+    }
 
 
   # Setup objects for population model
@@ -75,8 +93,10 @@ test_that("Population model for anadromous species", {
   rownames(A) <- colnames(A) <- snames
   # Simple density-independent lambda estimate
   lambda <- popbio::lambda(A)
+
   expect_true(class(lambda) == "numeric")
-  expect_true(lambda > 1)
+
+  # expect_true(lambda > 1)
 
   # Set the K.adj (K adjustment prior to pop model run)
   life_histories <- pop_mod_mat$life_histories
@@ -97,10 +117,11 @@ test_that("Population model for anadromous species", {
       # life history data
       K = life_histories$Ka,
       # initial pop size as stage-structure vector
-      Nyears = 100,
+      Nyears = 500,
       # years to run simulation
       p.cat = 0,      # Probability of catastrophe
-      CE_df = NULL
+      CE_df = NULL,
+      K_adj = FALSE
     )
 
   expect_true(!(any(is.na(baseline$pop$N))))
@@ -108,46 +129,67 @@ test_that("Population model for anadromous species", {
   df <- baseline$pop[which(baseline$pop$year > 5), ]
   # plot(df$year, df$N, type = 'l')
 
+  #df2 <- df[which(df$year > 2400), ]
+  #plot(df2$year, df2$N, type = 'l')
+
   df <- data.frame(baseline$N)
 
 
-  df <- df[50:nrow(df), ]
+  df <- df[25:nrow(df), ]
 
   cms <- colMeans(df)
 
+  if(cms['X4'] < 10) { next }
 
   score1 <- cms['X4'] / cms['X2']
   score1 <- as.numeric(abs(score1 - 0.05))
 
   score2 <- cms['X2'] / cms['X1']
-  score2 <- as.numeric(abs(score1 - 0.08))
+  score2 <- as.numeric(abs(score2 - 0.08))
 
   total_score <- score1 + score2
 
 
-
-
-
   params$total_score <- total_score
+  params$N <- as.numeric(cms['X4'])
+
   params$i <- i
   test_scores[[i]] <- params
-  print(i)
-
-
-
 
 }
 
 
+if(FALSE){
+  #=============================================
   out <- do.call("rbind", test_scores)
   out <- out[which(!(is.na(out$total_score))), ]
   out <- out[order(out$total_score),]
-
   head(out)
+  out2 <- out[which(out$N > 850), ]
+  out2 <- out2[which(out2$N < 1100), ]
+
+  out2 <- out2[order(out2$total_score, decreasing = TRUE),]
+  head(out2, 10)
+  cc <- head(out2, 10)
+  colMeans(cc)
 
 
 
 
+  out2 <- out2[order(out2$N, decreasing = TRUE),]
+  head(out2)
+  plot(out2$N, out2$total_score)
+  boxplot(out2$N ~ out2$cr_4)
+  boxplot(out2$N ~ out2$cr_3)
+  boxplot(out2$N ~ out2$cr_2)
+  boxplot(out2$N ~ out2$cr_1)
+  boxplot(out2$N ~ out2$cr_0)
+  boxplot(out2$N ~ out2$cr_E)
+
+  life_cycles$Value[which(life_cycles$Name == "k")]
+
+  #=============================================
+}
 
 
 
