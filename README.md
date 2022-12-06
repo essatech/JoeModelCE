@@ -52,3 +52,32 @@ There are several vignettes available that provide detailed guidance for `JoeMod
 
 Please note that the `JoeModelCE` package is released with a [Contributor Code of Conduct](https://pkgs.rstudio.com/rmarkdown/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
 
+## Contributing
+
+If you want to contribute to the project you can use the `git` "fork and pull request" workflow.
+
+### Rebuilding R-package locally
+
+Helpful commands to run to reploy package locally
+
+```r
+# Build and test package
+library(testthat)
+library(devtools)
+rm(list = ls())      # Clear memory
+devtools::load_all() # Load functions
+devtools::document() # Update documentation
+devtools::test()     # Run tests
+devtools::check()    # Operating system test
+```
+
+### Reinstall R-package locally
+
+Helpful commands to install package from source
+
+```r
+remove.packages("JoeModelCE") # Remove local installation
+install.packages(getwd(), repos = NULL, type = "source")
+# library(JoeModelCE)
+# ?SystemCapacity
+```
