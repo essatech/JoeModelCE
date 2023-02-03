@@ -42,7 +42,7 @@ pop_model_setup <- function(life_cycles = NA) {
   Nstage <- life_pars["Nstage", "Value"]
 
   if(Nstage != 4) {
-    possible_error_state <- "Model only accepts 4 unique stages"
+    # possible_error_state <- "Model only accepts 4 unique stages"
   }
 
   stage_names <- paste("stage", 1:Nstage, sep = "_")

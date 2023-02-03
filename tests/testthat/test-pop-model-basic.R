@@ -156,9 +156,4 @@ test_that("Basic population model runs ok", {
   expect_true(round(mean(ce_pop$lambdas), 0) == 1)
 
 
-
-
-
-
-
 })

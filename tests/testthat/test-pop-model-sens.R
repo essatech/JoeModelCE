@@ -9,6 +9,4 @@ test_that("Test pop_model_sens_test", {
   expect_true(1 == 1)
 
 
-
-
 })

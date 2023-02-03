@@ -11,4 +11,5 @@ test_that("Simple Math Works", {
   expect_true(length(c1) == 5)
   expect_true(length(c2) == 5)
   expect_true(length(c3) == 5)
+  
 })

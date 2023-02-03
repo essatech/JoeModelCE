@@ -13,7 +13,9 @@ Projection_DD(
   K = NA,
   p.cat = NA,
   CE_df = NULL,
-  K_adj = FALSE
+  K_adj = FALSE,
+  stage_k_override = NULL,
+  bh_dd_stages = NULL
 )
 }
 \arguments{
@@ -34,6 +36,10 @@ Projection_DD(
 \item{CE_df}{Cumulative effect dataframe. Data frame identifying cumulative effects stressors targets (system capacity or population parameter, or both, and target life stages.}
 
 \item{K_adj}{Boolean. Should K_adj be run. Defaults to false.}
+
+\item{stage_k_override}{Vector of K values for egg (E), fry (0), stage_1, stage_2 values etc. defaults to NULL. If set values will override adult K value for alternative DD mechanism.}
+
+\item{bh_dd_stages}{Character vector of life stages c("stage_E", "stage_0", "stage_1", "stage_2", ...) to apply classical Beverton-Holt density-dependence. Will override compensation ratios if set. Use "stage_e" for egg-to-fry k, "stage_0" for fry to stage_1 k and "stage_1" for stage_1 to stage_2 k and so on. Densities are the capped value for the transition stage.}
 }
 \value{
 A list object with projected years, population size, lambda, fecundity, survival, catastrophic events.

@@ -124,7 +124,7 @@ pop_model_matrix_elements <- function(pop_mod_setup = NA) {
   #--------------------------------------------
   ret_obj <- list()
 
-  # Density independent projection matrix
+  # Density-independent projection matrix
   ret_obj$projection_matrix <- pmx.det
 
   ret_obj$life_histories <- life_histories

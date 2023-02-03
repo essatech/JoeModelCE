@@ -1,6 +1,6 @@
 #' K_adj
 #'
-#' @description Project the matrix model forward in time with density dependence.
+#' @description Define K_adj value.
 #'
 #' @details Initialize populations and find carrying capacity for each life stage.
 #' Carrying capacity is defined at the adult stage and estimated for all other

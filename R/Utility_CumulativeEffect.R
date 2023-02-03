@@ -25,27 +25,7 @@ proc <- function(e, env = parent.frame()) {
 }
 
 
-## Function is duplicated - omit
-##' pmx_eval
-##'
-##' @keywords internal
-##pmx_eval <- function(mx, vars, byrow = T) {
-##  matrix(sapply(mx, eval, vars), sqrt(length(mx)), sqrt(length(mx)), byrow = byrow)
-##}
 
-
-#' bh_stage
-#'
-#' @details  functions used to calculate density dependence and stage-specific
-#' survival/transitions
-#'
-#' @keywords internal
-bh_stage <- function(cr = 2,
-                     k = 100,
-                     x = 1) {
-  # beverton-holt survival parameterized as compensation ratio
-  cr / (1 + (cr - 1) * (x / k))
-}
 
 
 #' dd_stage
@@ -200,10 +180,13 @@ init_pop <- function(mx, Nt, p.rep) {
 
 
 #' d.vec.f
+#' @description create vector of density dependence effects using compensation ratios
 #'
 #' @keywords internal
 d.vec.f <- function(df, Ks, N) {
+
   sN <- rep(NA, length(df$S))
+
   for (i in 1:length(sN))
   {
     sN[i] <-
@@ -216,9 +199,88 @@ d.vec.f <- function(df, Ks, N) {
         )
       )
   }
+
   names(sN) <- names(df$S)
   return(sN)
 }
+
+
+
+
+
+
+#' bh_stage_f
+#' @description survival/transitions. Classical BH function
+#'
+#' @keywords internal
+bh_stage_f <- function(alpha = NA,
+                       k = NA,
+                       Nt1 = NA) {
+  # Beverton-Holt survival
+  # (alpha * Nt1) / (1 + ((alpha/k) * Nt1))
+  return(expression(((alpha * Nt1) / (1 + ((alpha/k) * Nt1)))))
+}
+
+#' d.vec.bh
+#' @description create vector of density dependence effects using compensation ratios
+#'
+#' @keywords internal
+d.vec.bh <- function(df, Ks, N, bh_dd_stages) {
+
+  sNt1 <- rep(NA, length(df$S))
+  sNt2 <- rep(NA, length(df$S))
+  surv <- rep(NA, length(df$S))
+
+  for (i in 1:length(sNt1))
+  {
+    sNt2[i] <-
+      eval(
+        bh_stage_f(),
+        list(
+          alpha = as.numeric(df$S[i]),
+          k = as.numeric(Ks[i]),
+          Nt1 = as.numeric(N[i])
+        )
+      )
+    sNt1[i] <- as.numeric(N[i])
+    surv[i] <- as.numeric(df$S[i])
+  }
+
+  # Will need to adjust initial survival values
+  survival <- sNt2/sNt1
+  # Convert to rate modifier - will multiply B * D
+  mod <- survival/surv
+  mod <- ifelse(is.na(mod), 1, mod)
+  names(mod) <- names(df$S)
+
+  # Set egg to 1 if no DD effect
+  if(!("stage_E" %in% bh_dd_stages)) {
+    mod[1] <- 1
+  }
+
+  # Set fry to 1 if no egg to fry DD effect
+  if(!("stage_0" %in% bh_dd_stages)) {
+    mod[2] <- 1
+  }
+
+  # Check other life stages
+  for(j in 1:(df$Nstage)) {
+    this_stage <- paste0("stage_", j)
+    if(!(this_stage %in% bh_dd_stages)) {
+      mod[2 + j] <- 1
+    }
+  }
+
+
+  return(mod)
+}
+
+
+
+
+
+
+
 
 
 #' Nb_est
@@ -226,6 +288,7 @@ d.vec.f <- function(df, Ks, N) {
 #' @keywords internal
 Nb_est <- function(N, mat) {
   Nt <- sum(N * mat)
+  return(Nt)
 }
 
 
@@ -300,6 +363,30 @@ s_rand <- function(mn, cv, rho) {
   names(qX) <- names(mn)
 
   exp(-qX)
+
+  rev_vals <- exp(-qX)
+
+
+  # START MJB: Fix issue if surv 1.0 returns NA then 0
+  # allow 100% survival with no variability
+  check_nas <- function(x, y) {
+    if(is.na(x)) {
+      # check if sample is NA
+      if(y > 0 & y <= 1.0) {
+        return(y)
+      } else {
+        return(x)
+      }
+    } else {
+      return(x)
+    }
+  }
+  rev_vals_fix <- mapply(check_nas, x = rev_vals, y = mn)
+  # END MJB FIX...
+
+  return(rev_vals_fix)
+
+
 }
 
 

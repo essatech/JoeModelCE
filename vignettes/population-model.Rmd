@@ -65,8 +65,8 @@ Running the next block of code is optional, but it is included for demonstration
 # Preview density-independent transition projection_matrix
   A <- pop_mod_mat$projection_matrix
 # Assign nicknames for each stage
-  snames <- c("egg_yoy", "juv", "subadult", "adult")
-  rownames(A) <- colnames(A) <- snames
+  # snames <- c("egg_yoy", "juv", "subadult", "adult")
+  # rownames(A) <- colnames(A) <- snames
 # Simple density-independent lambda estimate
   popbio::lambda(A)
 # Simple Eigen analysis

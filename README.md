@@ -56,7 +56,7 @@ Please note that the `JoeModelCE` package is released with a [Contributor Code o
 
 If you want to contribute to the project you can use the `git` "fork and pull request" workflow.
 
-### Rebuilding R-package locally
+Rebuilding R-package locally
 
 Helpful commands to run to reploy package locally
 
@@ -71,7 +71,7 @@ devtools::test()     # Run tests
 devtools::check()    # Operating system test
 ```
 
-### Reinstall R-package locally
+Re-install R-package locally
 
 Helpful commands to install package from source
 

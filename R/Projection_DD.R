@@ -13,6 +13,8 @@
 #' @param p.cat Probability of catastrophic event.
 #' @param CE_df Cumulative effect dataframe. Data frame identifying cumulative effects stressors targets (system capacity or population parameter, or both, and target life stages.
 #' @param K_adj Boolean. Should K_adj be run. Defaults to false.
+#' @param stage_k_override Vector of K values for egg (E), fry (0), stage_1, stage_2 values etc. defaults to NULL. If set values will override adult K value for alternative DD mechanism.
+#' @param bh_dd_stages Character vector of life stages c("stage_E", "stage_0", "stage_1", "stage_2", ...) to apply classical Beverton-Holt density-dependence. Will override compensation ratios if set. Use "stage_e" for egg-to-fry k, "stage_0" for fry to stage_1 k and "stage_1" for stage_1 to stage_2 k and so on. Densities are the capped value for the transition stage.
 #' @importFrom rlang .data
 #'
 #' @returns A list object with projected years, population size, lambda, fecundity, survival, catastrophic events.
@@ -26,11 +28,28 @@ Projection_DD <- function(M.mx = NA,
                           K = NA,
                           p.cat = NA,
                           CE_df = NULL,
-                          K_adj = FALSE) {
+                          K_adj = FALSE,
+                          stage_k_override = NULL,
+                          bh_dd_stages = NULL
+                          ) {
 
 
   # Define variables in function as null
   # stable.stage <- Nstage <- E_est <- NULL
+
+
+  # MJB: Should simple stage-specific K values be used instead of stable-stage
+  # instead of compensation ratios
+  if(!(is.null(stage_k_override))) {
+    # Reset fry survivorship
+    if(length(stage_k_override) != (dat$Nstage + 2)) {
+      stop("length of stage_k_override must include egg, fry and a value for each adult stage...")
+    }
+    dat$s0.1.det <- dat$Surv_annual[2]
+    dat$S[2] <- dat$Surv_annual[2]
+  }
+
+
 
 
   # Adjust K to give correct mean after stochasticity
@@ -46,7 +65,7 @@ Projection_DD <- function(M.mx = NA,
                     dat = dat,
                     mx = life_stages_symbolic,
                     dx = density_stage_symbolic,
-                    Nyears = 200)
+                    Nyears = Nyears)
     dat$K.adj <- kadj$K.adj
     Ka <- K * dat$K.adj
   }
@@ -104,6 +123,36 @@ Projection_DD <- function(M.mx = NA,
   dat$Ke <- E_est(N = dat$K[-1], dat = c(dat, dat$mat, dat$S))
   dat$K0 <- dat$Ke * dat$S["sE"]
 
+
+  # ------------------------------------------------------
+  # Override SS stage-specific carrying capacity K-values
+  # with custom values
+  # ------------------------------------------------------
+
+  # MJB: Should simple stage-specific K values be used instead of stable-stage
+  # instead of compensation ratios
+  if(!(is.null(stage_k_override))) {
+
+    dat$Ke <- ifelse(is.na(stage_k_override[1]), dat$Ke, stage_k_override[1]) # EGG
+    dat$K0 <- ifelse(is.na(stage_k_override[2]), dat$K0, stage_k_override[2]) # FRY
+
+    # older stages - update adults
+    k_stage_mod <- stage_k_override[3:(Nstage + 2)]
+    k_stage <- ifelse(is.na(k_stage_mod), k_stage, k_stage_mod)
+    names(k_stage) <- paste("K", 1:Nstage, sep = "")
+    dat$K <- k_stage
+
+    # Override K and Ka if set
+    last_stage <- stage_k_override[(Nstage + 2)]
+    Ka <- ifelse(is.na(last_stage), Ka, last_stage)
+    K <- ifelse(is.na(last_stage), K, last_stage)
+  }
+
+
+  # ----------------------------------
+  # Apply CE stressors
+  # ----------------------------------
+
   # Apply the harm matrix to K or S (if needed)
 
   # Define nicknames for stages
@@ -114,20 +163,16 @@ Projection_DD <- function(M.mx = NA,
   # 3 is used as eggs, yoy, and age-0 are not ever mature
   parr_stages <- 4
   # 3 is used as eggs, yoy, and age-0 are not ever mature
-  juv_stages <- 1:(3 + max(which(dat$mat == 0)))
+  juv_stages <- 1:3 #1:(3 + max(which(dat$mat == 0)))
   adult_stages <- (3 + max(which(dat$mat > 0)))
   subadult_stages <- adult_stages - 1
 
-
-  # ----------------------------------
-  # Apply CE stressors
-  # ----------------------------------
 
   # Note from Matt: Kyle has mentioned that a future improvement to the code
   # will be to fix this massive ifelse chain to make the framework more
   # flexible to other life history types ...
 
-  # Apply CE stressors to population parameters
+  # MJB: Apply CE stressors to population parameters
   # if not null
   if (!(is.null(CE_df))) {
     dat <- pop_model_ce_apply(
@@ -196,11 +241,11 @@ Projection_DD <- function(M.mx = NA,
   # loop through years
   for (t in 1:Nyears) {
 
-    # Density Dependence
-    # Survivial
+    # Density-Dependent Survival
     if (is.null(D.mx) == FALSE) {
 
-      # create vector os density dependence effects
+      # create vector of density dependence effects
+      # using compensation ratios
       d.vec <-
         d.vec.f(
           df = new_dat,
@@ -211,25 +256,40 @@ Projection_DD <- function(M.mx = NA,
       # check if any survival rates > 1
       s.test <- d.vec * st[[t + 1]] # survival rate after DD effects
 
-
-      # MJB added to deal with NA bug
+      # MJB added: to deal with frequent NA issue here...
       s.test <- ifelse(is.na(s.test), 0, s.test)
-
 
       if (any(s.test > 1)) {
           # any s.test > 1?
           s.err <- which(s.test > 1) # ID which is > 1
-          d.vec[s.err] <-
-            1 / st[[t + 1]][s.err] # set density depenence effect ot 1/surivval - give s = 1 after DD effects
+          # set density dependence effect of 1/survival - give s = 1 after DD effects
+          d.vec[s.err] <- 1 / st[[t + 1]][s.err]
       }
 
       # create density dependence effects matrix
       D <- pmx_eval(D.mx, as.list(d.vec))
     }
 
-    # Population
-    # Projection matrix
+
+    # MJB: create vector of density dependence effects using the
+    # classical the Beverton-Holt function
+    if(is.null(bh_dd_stages) == FALSE) {
+
+      d.vec <- d.vec.bh(
+        df = new_dat,
+        N = c(E, E * st[[t + 1]]["sE"], N),
+        Ks = c(new_dat$Ke, new_dat$K0, new_dat$K),
+        bh_dd_stages = bh_dd_stages
+      )
+
+      # create density dependence effects matrix
+      D <- pmx_eval(D.mx, as.list(d.vec))
+    }
+
+
+    # Population Projection matrix
     A <- M.list[[t + 1]] * D * H[[t]]
+
 
     # project the population 1 year ahead.
     if (Catastrophe[t] == 1) {
@@ -237,6 +297,9 @@ Projection_DD <- function(M.mx = NA,
     } else {
       N <- as.vector(A %*% N)
     }
+
+
+
 
     # Number of adults
     Na <- Nb_est(N[-1], new_dat$mat)

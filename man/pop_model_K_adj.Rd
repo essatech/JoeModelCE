@@ -23,7 +23,7 @@ pop_model_K_adj(replicates = 100, dat, mx, dx, Nyears = 250)
 A K_adj object to make adjustments
 }
 \description{
-Project the matrix model forward in time with density dependence.
+Define K_adj value.
 }
 \details{
 Initialize populations and find carrying capacity for each life stage.

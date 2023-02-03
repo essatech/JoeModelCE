@@ -26,7 +26,7 @@ pop_model_ce_apply <- function(dat = NA, CE_df = NA, alevin_stage = NA, all_juv 
         # Cumulative effects stressor is acting on fecundity
         if (nrow(CE_fecund) > 0) {
             for (i in 1:nrow(CE_fecund)) {
-                # Multiply effects additively for fecundity
+                # Multiply effects additive for fecundity
                 trow <- CE_fecund[i, ]
                 if(is.na(trow$sys.cap)) {
                     # Skip is missing data
@@ -51,11 +51,34 @@ pop_model_ce_apply <- function(dat = NA, CE_df = NA, alevin_stage = NA, all_juv 
                 }
 
                 # Check that life stage is valid
-                valid_stage <- c("egg", "alevin", "all_juv", "fry", "parr", "fry_parr", "juv", "adult", "sub_adult", "all")
+                valid_stage <- c("egg", "alevin", "all_juv", "fry", "parr", "fry_parr", "juv", "adult", "sub_adult", "all", "stage_E", "stage_0", "stage_1", "stage_2", "stage_3", "stage_4")
 
                 if (!(trow$life_stage %in% valid_stage)) {
                     stop("Invalid life stage for cumulative effects stressor linked to survivorship. Valid survivorship life stages are: ", paste(valid_stage, collapse = ", "))
                 }
+
+
+                # Update Normal Stages
+                if (trow$life_stage == "stage_E") {
+                  dat$S["sE"] <- dat$S["sE"] * trow$sys.cap[trow$life_stage == "stage_E"]
+                }
+                if (trow$life_stage == "stage_0") {
+                  dat$S["s0"] <- dat$S["s0"] * trow$sys.cap[trow$life_stage == "stage_0"]
+                }
+                if (trow$life_stage == "stage_1") {
+                  dat$S["s1"] <- dat$S["s1"] * trow$sys.cap[trow$life_stage == "stage_1"]
+                }
+                if (trow$life_stage == "stage_2") {
+                  dat$S["s2"] <- dat$S["s2"] * trow$sys.cap[trow$life_stage == "stage_2"]
+                }
+                if (trow$life_stage == "stage_3") {
+                  dat$S["s3"] <- dat$S["s3"] * trow$sys.cap[trow$life_stage == "stage_3"]
+                }
+                if (trow$life_stage == "stage_4") {
+                  dat$S["s4"] <- dat$S["s4"] * trow$sys.cap[trow$life_stage == "stage_4"]
+                }
+
+                # Apply to other nick-name stages...
 
                 if (trow$life_stage == "egg") {
                     dat$S["sE"] <- dat$S["sE"] * trow$sys.cap[trow$life_stage == "egg"]
@@ -88,6 +111,7 @@ pop_model_ce_apply <- function(dat = NA, CE_df = NA, alevin_stage = NA, all_juv 
         }
 
 
+
         # Cumulative effects stressor is acting on carrying capacity
         # apply stressors to carrying capacity for eggs, juveniles, adults, or all life stages
 
@@ -102,11 +126,33 @@ pop_model_ce_apply <- function(dat = NA, CE_df = NA, alevin_stage = NA, all_juv 
                 }
 
                 # Check that life stage is valid
-                valid_stage <- c("egg", "alevin", "all_juv", "fry", "parr", "fry_parr", "juv", "adult", "sub_adult", "all")
+                valid_stage <- c("egg", "alevin", "all_juv", "fry", "parr", "fry_parr", "juv", "adult", "sub_adult", "all", "stage_E", "stage_0", "stage_1", "stage_2", "stage_3", "stage_4")
 
                 if (!(trow$life_stage %in% valid_stage)) {
                     stop("Invalid life stage for cumulative effects stressor linked to survivorship. Valid survivorship life stages are: ", paste(valid_stage, collapse = ", "))
                 }
+
+                # Update Normal Stages
+                if (trow$life_stage == "stage_E") {
+                  dat$Ke <- dat$Ke * trow$sys.cap[trow$life_stage == "stage_E"]
+                }
+                if (trow$life_stage == "stage_0") {
+                  dat$K0 <- dat$K0 * trow$sys.cap[trow$life_stage == "stage_0"]
+                }
+                if (trow$life_stage == "stage_1") {
+                  dat$K["K1"] <- dat$K["K1"] * trow$sys.cap[trow$life_stage == "stage_1"]
+                }
+                if (trow$life_stage == "stage_2") {
+                  dat$K["K2"] <- dat$K["K2"] * trow$sys.cap[trow$life_stage == "stage_2"]
+                }
+                if (trow$life_stage == "stage_3") {
+                  dat$K["K3"] <- dat$K["K3"] * trow$sys.cap[trow$life_stage == "stage_3"]
+                }
+                if (trow$life_stage == "stage_4") {
+                  dat$K["K4"] <- dat$K["K4"] * trow$sys.cap[trow$life_stage == "stage_4"]
+                }
+
+                # Apply to other nick-name stages...
 
                 if (trow$life_stage == "egg") {
                     dat$Ke <- dat$Ke * trow$sys.cap[trow$life_stage == "egg"]
