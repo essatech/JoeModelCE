@@ -206,83 +206,6 @@ d.vec.f <- function(df, Ks, N) {
 
 
 
-
-
-
-#' bh_stage_f
-#' @description survival/transitions. Classical BH function
-#'
-#' @keywords internal
-bh_stage_f <- function(alpha = NA,
-                       k = NA,
-                       Nt1 = NA) {
-  # Beverton-Holt survival
-  # (alpha * Nt1) / (1 + ((alpha/k) * Nt1))
-  return(expression(((alpha * Nt1) / (1 + ((alpha/k) * Nt1)))))
-}
-
-#' d.vec.bh
-#' @description create vector of density dependence effects using compensation ratios
-#'
-#' @keywords internal
-d.vec.bh <- function(df, Ks, N, bh_dd_stages) {
-
-  sNt1 <- rep(NA, length(df$S))
-  sNt2 <- rep(NA, length(df$S))
-  surv <- rep(NA, length(df$S))
-
-  for (i in 1:length(sNt1))
-  {
-    sNt2[i] <-
-      eval(
-        bh_stage_f(),
-        list(
-          alpha = as.numeric(df$S[i]),
-          k = as.numeric(Ks[i]),
-          Nt1 = as.numeric(N[i])
-        )
-      )
-    sNt1[i] <- as.numeric(N[i])
-    surv[i] <- as.numeric(df$S[i])
-  }
-
-  # Will need to adjust initial survival values
-  survival <- sNt2/sNt1
-  # Convert to rate modifier - will multiply B * D
-  mod <- survival/surv
-  mod <- ifelse(is.na(mod), 1, mod)
-  names(mod) <- names(df$S)
-
-  # Set egg to 1 if no DD effect
-  if(!("stage_E" %in% bh_dd_stages)) {
-    mod[1] <- 1
-  }
-
-  # Set fry to 1 if no egg to fry DD effect
-  if(!("stage_0" %in% bh_dd_stages)) {
-    mod[2] <- 1
-  }
-
-  # Check other life stages
-  for(j in 1:(df$Nstage)) {
-    this_stage <- paste0("stage_", j)
-    if(!(this_stage %in% bh_dd_stages)) {
-      mod[2 + j] <- 1
-    }
-  }
-
-
-  return(mod)
-}
-
-
-
-
-
-
-
-
-
 #' Nb_est
 #'
 #' @keywords internal
@@ -298,7 +221,7 @@ Nb_est <- function(N, mat) {
 f_rand <- function(mn, sigma, rho) {
   # Correlation matrix
   corr <-
-    cor.CompSym(length(mn), rho) # compound symetry correlation
+    cor.CompSym(length(mn), rho) # compound symmetry correlation
 
   # number of variables
   vr_num <- length(mn)
@@ -310,10 +233,10 @@ f_rand <- function(mn, sigma, rho) {
   # Convert to probabilities
   pX <- stats::pnorm(X, mean = 0, sd = 1)
 
-  # USe probability vectors to prodice random
-  # variabiles with log-normal distribution
+  # Use probability vectors to produce random
+  # variables with log-normal distribution
   # mean and sd adjust for log-normal dist.such
-  # that mean and sd of output match imput values
+  # that mean and sd of output match input values
   qX <-
     stats::qlnorm(pX, log(mn / sqrt(1 + sigma^2 / mn^2)), sqrt(log(1 + sigma^
       2 / mn^2)))

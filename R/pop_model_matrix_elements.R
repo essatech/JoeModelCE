@@ -61,21 +61,59 @@ pop_model_matrix_elements <- function(pop_mod_setup = NA) {
   # Carrying capacity is defined at the adult stage and
   # estimated for all other life-stages using the stable-stage distribution
   # (i.e., if the carrying capacity of the adult stage was set to 100 the
-  # carrying capacity for the hatchling stage is the amount of hatchlings
-  # necessary to result in 100 adults at equilibrium conditions)
+  # carrying capacity for the hatchling (fry) stage is the amount of hatchlings
+  # necessary to result in k (e.g., 100) adults at equilibrium conditions)
 
-  s0_optim_min <-
-    stats::optimize(
-      s0_optim.f,
-      interval = c(0, 1),
-      tol = 1e-16,
-      mx = life_stages_symbolic,
-      dat = life_histories,
-      target.lambda = 1
-    )$minimum
+  # replaced with try catch - gives error with high suv...
+  gets0 <- tryCatch(
+    {
+      stats::optimize(
+          s0_optim.f,
+          interval = c(0, 1),
+          tol = 1e-16,
+          mx = life_stages_symbolic,
+          dat = life_histories,
+          target.lambda = 1
+        )$minimum
+    },
+    error=function(cond) {
+      life_histories$S["s0"]
+    }
+  )
+
+  s0_optim_min <- gets0
+
+
+  # s0_optim_min <-
+  #   stats::optimize(
+  #     s0_optim.f,
+  #     interval = c(0, 1),
+  #     tol = 1e-16,
+  #     mx = life_stages_symbolic,
+  #     dat = life_histories,
+  #     target.lambda = 1
+  #   )$minimum
 
 
   life_histories$s0.1.det <- s0_optim_min
+
+
+  # MJB override: If adult k is NA or NULL then keep s0.1.det
+  # at original fry survivorship
+  adult_k <- life_pars$Value[life_pars$Name == "k"]
+
+  if(length(adult_k) == 0) {
+    # Cant find
+    life_histories$s0.1.det <- as.numeric(life_histories$S["s0"])
+  } else {
+    if(is.na(adult_k)) {
+      # Set to NA
+      life_histories$s0.1.det <- as.numeric(life_histories$S["s0"])
+    }
+  }
+  # MJB: end of density-independent growth
+
+
 
   # Add YOY survival to survival rate vector
   life_histories$S["s0"] <- life_histories$s0.1.det
@@ -92,6 +130,10 @@ pop_model_matrix_elements <- function(pop_mod_setup = NA) {
         )
       )
   }
+
+  # Replace any missing NA values with 1
+  M.1.pmx <- ifelse(is.na(M.1.pmx), 1, M.1.pmx)
+
 
   life_histories$gen.time <- popbio::generation.time(M.1.pmx)
   names(life_histories$gen.time) <- "gen.time"

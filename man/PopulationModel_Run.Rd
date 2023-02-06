@@ -12,7 +12,8 @@ PopulationModel_Run(
   n_years = 100,
   MC_sims = 10,
   stressors = NA,
-  output_type = "full"
+  output_type = "full",
+  habitat_dd_k = NULL
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ value as NA if you wish to include all stressors
 applicable to the population model.}
 
 \item{output_type}{(optional) character. Set to "full" for all data of "adults" for only adult data.}
+
+\item{habitat_dd_k}{(optional) dataframe of location and stage-specific habitat capacity k values for the target species. If used this dataframe will override the capacity estimates}
 }
 \description{
 Runs the population model

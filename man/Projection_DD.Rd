@@ -37,9 +37,9 @@ Projection_DD(
 
 \item{K_adj}{Boolean. Should K_adj be run. Defaults to false.}
 
-\item{stage_k_override}{Vector of K values for egg (E), fry (0), stage_1, stage_2 values etc. defaults to NULL. If set values will override adult K value for alternative DD mechanism.}
+\item{stage_k_override}{Vector of K values for fry (0), stage_1, stage_2 values etc. defaults to NULL. If set values will override adult K value for alternative DD mechanism.}
 
-\item{bh_dd_stages}{Character vector of life stages c("stage_E", "stage_0", "stage_1", "stage_2", ...) to apply classical Beverton-Holt density-dependence. Will override compensation ratios if set. Use "stage_e" for egg-to-fry k, "stage_0" for fry to stage_1 k and "stage_1" for stage_1 to stage_2 k and so on. Densities are the capped value for the transition stage.}
+\item{bh_dd_stages}{Character vector of life stages c("dd_hs_0", "bh_stage_1", "bh_stage_2", "bh_stage_3", ...) to apply classical Beverton-Holt density-dependence. To be used in place of compensation ratios if set. Use "dd_hs_0" for egg-to-fry k, "bh_stage_1" for fry to stage_1 k and "bh_stage_2" for stage_1 to stage_2 k etc. Densities are the capped value for the transition stage.}
 }
 \value{
 A list object with projected years, population size, lambda, fecundity, survival, catastrophic events.

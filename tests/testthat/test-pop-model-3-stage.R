@@ -71,8 +71,8 @@ test_that("Three-stage pop model works", {
       # years to run simulation
       p.cat = 0,      # Probability of catastrophe
       CE_df = NULL,
-      stage_k_override = c(10000, 100000, 10000, 1000, 100),
-      bh_dd_stages = c("stage_0", "stage_1")
+      stage_k_override = c(10000, 100000, 10000, 1000),
+      bh_dd_stages = c("dd_hs_0")
     )
 
   names(baseline)

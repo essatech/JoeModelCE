@@ -7,6 +7,10 @@ test_that("Five-stage pop model works", {
   #print(life_cycles)
 
 
+  life_cycles$Value[life_cycles$Name == "SE"] <- 0.97
+  life_cycles$Value[life_cycles$Name == "S0"] <- 0.97
+
+
   expect_true(nrow(life_cycles) > 5)
   expect_true(class(life_cycles$Value) == "numeric")
   expect_true(!(any(is.na(life_cycles$Value))))
@@ -67,8 +71,8 @@ test_that("Five-stage pop model works", {
       # years to run simulation
       p.cat = 0,      # Probability of catastrophe
       CE_df = NULL,
-      stage_k_override = c(10000, 1000000, 100000, 10000, 10000, 100, 100),
-      bh_dd_stages = c("stage_0")
+      stage_k_override = c(NA, 100000, 100000, 10000, 10000, 10000),
+      bh_dd_stages = c("bh_stage_1")
     )
 
   names(baseline)

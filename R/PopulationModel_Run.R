@@ -22,6 +22,7 @@
 #'  value as NA if you wish to include all stressors
 #'  applicable to the population model.
 #' @param output_type (optional) character. Set to "full" for all data of "adults" for only adult data.
+#' @param habitat_dd_k (optional) dataframe of location and stage-specific habitat capacity k values for the target species. If used this dataframe will override the capacity estimates
 #'
 #' @importFrom rlang .data
 #'
@@ -38,7 +39,8 @@ PopulationModel_Run <- function(dose = NA,
                                 n_years = 100,
                                 MC_sims = 10,
                                 stressors = NA,
-                                output_type = "full") {
+                                output_type = "full",
+                                habitat_dd_k = NULL) {
 
     # Define variables in function as null
     # .data <- HUC <- simulation <- NULL
@@ -102,6 +104,9 @@ PopulationModel_Run <- function(dose = NA,
     # Gather summary at stressor level
     dobj <- jm$sc.dose.df
 
+    # Ensure no NA values
+    dobj$sys.cap <- ifelse(is.na(dobj$sys.cap), 1, dobj$sys.cap)
+
     # add on missing attr columns
     merge_cols <-
         ce_df_sub[, c(
@@ -163,6 +168,87 @@ PopulationModel_Run <- function(dose = NA,
     all_outputs_baseline <- list()
     counter_huc <- 1
 
+
+
+    #------------------------------------------------------------------------
+    # Add in effect of population catastrophe
+    # probability per generation
+    p.cat <- life_cycle_params$Value[life_cycle_params$Name == "p.cat"]
+    if(length(p.cat) == 0) {
+      p.cat <- 0
+    } else {
+      if(is.na(p.cat)) {
+        p.cat <- 0
+      }
+    }
+    p.cat <- ifelse(is.na(p.cat), 0, p.cat)
+
+
+
+    #------------------------------------------------------------------------
+    # (optional) habitat_dd_k - import the habitat capacity k values
+    stage_k_override <- NULL
+    bh_dd_stages <- NULL
+
+    # Filter for target watershed
+    if (is.null(habitat_dd_k) == FALSE) {
+
+      # Filter for target location
+      hab_dd_k <- habitat_dd_k[habitat_dd_k$HUC_ID == HUC_ID,]
+      if (nrow(hab_dd_k) != 1) {
+        stop("HUC_ID inhabitat_dd_k.xlsx does not match stressor magnitude data...")
+      }
+
+      bh_dd_stages_set <- list()
+
+      stage_k_override <- rep(NA, (life_histories$Nstage + 1))
+      names(stage_k_override) <-
+        paste0("k_stage_", 0:(life_histories$Nstage))
+
+      # Ensure that stages are represented
+      # resample habitat k values
+      for (s in 0:(life_histories$Nstage)) {
+
+        # Sample capacity for year and location
+        mean_k <- hab_dd_k[1, paste0("k_stage_", s, "_mean")]
+        cv_k <- hab_dd_k[1, paste0("k_stage_", s, "_cv")]
+
+        if (!is.na(mean_k)) {
+          cv_k <- ifelse(is.na(cv_k), 0, cv_k)
+          this_k <-
+            rnorm(1, mean = as.numeric(mean_k), sd = as.numeric(mean_k * cv_k))
+          stage_k_override[s + 1] <- this_k
+        }
+
+        # Set the Beverton-Holt DD mechanism (if set in life cycles file)
+        if(s == 0){
+          egg_fry <- life_cycle_params$Value[life_cycle_params$Name == "dd_hs_0"]
+          if(length(egg_fry) > 0) {
+            if(!(is.na(egg_fry))) {
+              if(egg_fry == 1) {
+                bh_dd_stages_set[[1]] <- "dd_hs_0"
+              }
+            }
+          }
+        } else {
+          dd_stage <- life_cycle_params$Value[life_cycle_params$Name == paste0("bh_stage_", s)]
+          if(length(dd_stage) > 0) {
+            if(!(is.na(dd_stage))) {
+              if(dd_stage == 1) {
+                bh_dd_stages_set[[1 + s]] <- paste0("bh_stage_", s)
+              }
+            }
+          }
+        }
+      }
+
+      # Then specify which parameters to use
+      bh_dd_stages <- unlist(bh_dd_stages_set)
+    }
+
+
+
+
     #------------------------------------------------------------------------
     # Run the population model for each batch replicate
 
@@ -206,10 +292,19 @@ PopulationModel_Run <- function(dose = NA,
                 # initial pop size as stage-structure vector
                 Nyears = test_n_years,
                 # years to run simulation
-                p.cat = 0,
+                p.cat = p.cat,
                 # Probability of catastrophe
-                CE_df = CE_df_rep
+                CE_df = CE_df_rep,
+                # Vector of K values for fry, stage 1 ...
+                stage_k_override = stage_k_override,
+                # Vector of life stages "dd_hs_0", "bh_stage_1" with DD
+                bh_dd_stages = bh_dd_stages
             )
+
+
+        #print(stage_k_override)
+        #print(bh_dd_stages)
+
 
         # Run baseline with no CE
         run_with_baseline <-
@@ -225,9 +320,13 @@ PopulationModel_Run <- function(dose = NA,
                 # initial pop size as stage-structure vector
                 Nyears = test_n_years,
                 # years to run simulation
-                p.cat = 0,
+                p.cat = p.cat,
                 # Probability of catastrophe
-                CE_df = NULL
+                CE_df = NULL,
+                # Vector of K values for fry, stage 1 ...
+                stage_k_override = stage_k_override,
+                # Vector of life stages "dd_hs_0", "bh_stage_1" with DD
+                bh_dd_stages = bh_dd_stages
             )
 
         # Gather info - for CE run
@@ -285,14 +384,14 @@ PopulationModel_Run <- function(dose = NA,
         bvec <- do.call("rbind", n_adults)
         bvec$MC_sim <- rep(1:MC_sims, each = n_years + 1)
         bvec$group <- "baseline"
-       
+
         # Gather the population vectors
         vec_all <- rbind(avec, bvec)
         return(vec_all)
     }
 
 
-        #------------------------------------------------------------------------
+    #------------------------------------------------------------------------
     # Return all the data in a full list format
     if (output_type == "full") {
         return(full_output)
