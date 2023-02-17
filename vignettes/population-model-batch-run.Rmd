@@ -90,6 +90,7 @@ Simple plots can be included to visualize trends
 
 ```{r m3}
 library(ggplot2)
+
     ggplot(data, aes(x = year, y = N, color = group)) +
         stat_smooth(method="loess", span=0.1, se=TRUE, aes(fill = group), alpha=0.3) +
         theme_bw() +

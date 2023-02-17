@@ -33,7 +33,7 @@ knitr::include_graphics('../man/figures/scenarios_table.png')
 At this time the Joe Model R package is hosted on GitHub and can be installed using devtools. Hopefully in the near future the near future the package will be available on R-CRAN for standard installation and loading.
 
 ```{r install, message=FALSE, warning=FALSE}
-library(devtools)
+# library(devtools)
 # install_github("essatech/JoeModelCE")
 library(JoeModelCE)
 ```
@@ -50,7 +50,7 @@ stressor_magnitude <- StressorMagnitudeWorkbook(filename = filename, scenario_wo
 
 # Import stressor-response workbook
 filename <- system.file("extdata", "stressor_response_fixed_ARTR.xlsx", package = "JoeModelCE")
-    stressor_response <- StressorResponseWorkbook(filename = filename)
+stressor_response <- StressorResponseWorkbook(filename = filename)
 
 # Import the custom scenarios workbook
 filename <- system.file("extdata", "scenario_batch_joe.xlsx", package = "JoeModelCE")
@@ -83,14 +83,16 @@ In the next code block we show how results can be plotted across scenarios for a
 
 ```{r, format_demo88, echo = TRUE, message=FALSE, warning=FALSE, fig.width = 4, fig.height = 5, fig.cap="Results across scenario by HUC", fig.align = 'center'}
 
+# Add mean and error bars (SD)
+library(dplyr)
+library(ggplot2)
+
 #-----------------------------------------------------
 # Plot result for single HUC - filter by name or ID
 hub_sub <- exp_dat[exp_dat$HUC == 1701010204,]
 plot_title <- paste0("Watershed Name - ", 1701010204)
 
-# Add mean and error bars (SD)
-library(dplyr)
-library(ggplot2)
+
 hub_sb <- hub_sub %>% group_by(Scenario) %>%
 summarise(mean = mean(CE, na.rm = TRUE),
 		  sd = sd(CE, na.rm = TRUE))
