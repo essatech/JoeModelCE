@@ -91,7 +91,7 @@ magnitude file and life cycles file. The polygon geometry is not needed
 to run the population model. Reset <code>filename_</code> to point to a
 local file on your computer.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://essatech.github.io/JoeModelCE/" class="external-link">JoeModelCE</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://essatech.github.io/JoeModelCE/">JoeModelCE</a></span><span class="op">)</span></span>
 <span></span>
 <span>    <span class="co"># Load the stress-response workbook</span></span>
 <span>    <span class="va">filename_sr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"stressor_response_fixed_ARTR.xlsx"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span></span>
@@ -162,19 +162,19 @@ variables “ce” or baseline reference conditions “baseline”.</p>
 <span>    <span class="co"># Review output</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   year        N MC_sim group</span></span>
-<span><span class="co">#&gt; 1    0 54.82974      1    ce</span></span>
-<span><span class="co">#&gt; 2    1 56.68733      1    ce</span></span>
-<span><span class="co">#&gt; 3    2 60.56308      1    ce</span></span>
+<span><span class="co">#&gt; 1    0 68.64442      1    ce</span></span>
+<span><span class="co">#&gt; 2    1 71.15668      1    ce</span></span>
+<span><span class="co">#&gt; 3    2 76.04856      1    ce</span></span>
 <span></span>
 <span>    <span class="co"># Look the median adult abundance</span></span>
 <span>    </span>
 <span>    <span class="co"># with stressor variables (cumulative effects)</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">N</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">group</span> <span class="op">==</span> <span class="st">"ce"</span><span class="op">)</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 90.91871</span></span>
+<span><span class="co">#&gt; [1] 96.29153</span></span>
 <span>    </span>
 <span>    <span class="co"># and without stressor variables (baseline status quo)</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">N</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">group</span> <span class="op">==</span> <span class="st">"baseline"</span><span class="op">)</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 97.06415</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 98.514</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="visualize-the-time-series-projections">Visualize the Time Series Projections<a class="anchor" aria-label="anchor" href="#visualize-the-time-series-projections"></a>
