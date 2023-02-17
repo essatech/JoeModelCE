@@ -35,7 +35,10 @@ dd.N.bh <- function(dat = NA, t = NA, st = NA, N = NA, N_prev = NA, bh_dd_stages
   }
 
 
-
+  # Nothing left..
+  if(all(N < 1)) {
+    return(N)
+  }
 
   # Create a new population vector with revised values
   N_adj <- N

@@ -24,6 +24,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/joe-model-batch-run.html">Joe Model Batch Run</a>
     <a class="dropdown-item" href="../articles/joe-model.html">Joe Model Overview</a>
     <a class="dropdown-item" href="../articles/population-model-batch-run.html">Population Model Batch Run</a>
     <a class="dropdown-item" href="../articles/population-model.html">Population Model Overview</a>
@@ -58,7 +59,10 @@
 <span>  Nyears <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  K <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  p.cat <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  CE_df <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  CE_df <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  K_adj <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  stage_k_override <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  bh_dd_stages <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -94,6 +98,18 @@
 
 <dt>CE_df</dt>
 <dd><p>Cumulative effect dataframe. Data frame identifying cumulative effects stressors targets (system capacity or population parameter, or both, and target life stages.</p></dd>
+
+
+<dt>K_adj</dt>
+<dd><p>Boolean. Should K_adj be run. Defaults to false.</p></dd>
+
+
+<dt>stage_k_override</dt>
+<dd><p>Vector of K values for fry (0), stage_1, stage_2 values etc. defaults to NULL. If set values will override adult K value for alternative DD mechanism.</p></dd>
+
+
+<dt>bh_dd_stages</dt>
+<dd><p>Character vector of life stages c("dd_hs_0", "bh_stage_1", "bh_stage_2", "bh_stage_3", ...) to apply classical Beverton-Holt density-dependence. To be used in place of compensation ratios if set. Use "dd_hs_0" for egg-to-fry k, "bh_stage_1" for fry to stage_1 k and "bh_stage_2" for stage_1 to stage_2 k etc. Densities are the capped value for the transition stage.</p></dd>
 
 </dl></div>
     <div class="section level2">

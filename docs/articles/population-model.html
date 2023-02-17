@@ -41,6 +41,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/joe-model-batch-run.html">Joe Model Batch Run</a>
     <a class="dropdown-item" href="../articles/joe-model.html">Joe Model Overview</a>
     <a class="dropdown-item" href="../articles/population-model-batch-run.html">Population Model Batch Run</a>
     <a class="dropdown-item" href="../articles/population-model.html">Population Model Overview</a>
@@ -65,7 +66,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Population Model Overview</h1>
             
-            <h4 data-toc-skip class="date">2022-09-26</h4>
+            <h4 data-toc-skip class="date">2023-02-16</h4>
       
       
       <div class="d-none name"><code>population-model.Rmd</code></div>
@@ -111,7 +112,7 @@ frawork.</p>
 <span><span class="co"># devtools::install_github("essatech/JoeModelCE")</span></span>
 <span></span>
 <span><span class="co"># Load the JoeModelCE package.</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">JoeModelCE</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://essatech.github.io/JoeModelCE/">JoeModelCE</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">filename_lc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"life_cycles.csv"</span>, package <span class="op">=</span> <span class="st">"JoeModelCE"</span><span class="op">)</span></span>
 <span><span class="va">life_cycles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">filename_lc</span><span class="op">)</span></span>
@@ -188,18 +189,18 @@ accounting for density-dependent growth.</p>
 <code class="sourceCode R"><span><span class="co"># Preview density-independent transition projection_matrix</span></span>
 <span>  <span class="va">A</span> <span class="op">&lt;-</span> <span class="va">pop_mod_mat</span><span class="op">$</span><span class="va">projection_matrix</span></span>
 <span><span class="co"># Assign nicknames for each stage</span></span>
-<span>  <span class="va">snames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"egg_yoy"</span>, <span class="st">"juv"</span>, <span class="st">"subadult"</span>, <span class="st">"adult"</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">snames</span></span>
+<span>  <span class="co"># snames &lt;- c("egg_yoy", "juv", "subadult", "adult")</span></span>
+<span>  <span class="co"># rownames(A) &lt;- colnames(A) &lt;- snames</span></span>
 <span><span class="co"># Simple density-independent lambda estimate</span></span>
 <span>  <span class="fu">popbio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popbio/man/lambda.html" class="external-link">lambda</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.211018</span></span>
 <span><span class="co"># Simple Eigen analysis</span></span>
 <span>  <span class="fu">popbio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popbio/man/eigen.analysis.html" class="external-link">eigen.analysis</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">$</span><span class="va">elasticities</span></span>
-<span><span class="co">#&gt;            egg_yoy       juv   subadult     adult</span></span>
-<span><span class="co">#&gt; egg_yoy  0.0000000 0.0000000 0.00000000 0.1529476</span></span>
-<span><span class="co">#&gt; juv      0.1529476 0.0360068 0.00000000 0.0000000</span></span>
-<span><span class="co">#&gt; subadult 0.0000000 0.1529476 0.09825795 0.0000000</span></span>
-<span><span class="co">#&gt; adult    0.0000000 0.0000000 0.15294763 0.2539447</span></span></code></pre></div>
+<span><span class="co">#&gt;           [,1]      [,2]       [,3]      [,4]</span></span>
+<span><span class="co">#&gt; [1,] 0.0000000 0.0000000 0.00000000 0.1529476</span></span>
+<span><span class="co">#&gt; [2,] 0.1529476 0.0360068 0.00000000 0.0000000</span></span>
+<span><span class="co">#&gt; [3,] 0.0000000 0.1529476 0.09825795 0.0000000</span></span>
+<span><span class="co">#&gt; [4,] 0.0000000 0.0000000 0.15294763 0.2539447</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="density-dependent-time-series-population-projections">Density-dependent time series population projections<a class="anchor" aria-label="anchor" href="#density-dependent-time-series-population-projections"></a>
@@ -314,7 +315,7 @@ stressors are included.</p>
 <span><span class="va">baseline_sys_cap</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">baseline</span><span class="op">$</span><span class="va">pop</span><span class="op">$</span><span class="va">N</span><span class="op">[</span><span class="fl">50</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">ce_sys_cap</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">ce_pop</span><span class="op">$</span><span class="va">pop</span><span class="op">$</span><span class="va">N</span><span class="op">[</span><span class="fl">50</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">ce_sys_cap</span> <span class="op">/</span> <span class="va">baseline_sys_cap</span></span>
-<span><span class="co">#&gt; [1] 0.7001734</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.7202557</span></span></code></pre></div>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
