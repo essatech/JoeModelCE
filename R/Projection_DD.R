@@ -2,19 +2,22 @@
 #'
 #' @description Project the matrix model forward in time with density dependence.
 #'
-#' @details Builds deterministic projection matrix using `popbio::stable.stage` with initial parameters based on arguments provided. Applies CE stressors to appropriate targets based on `CE_df`. All population modeling components are contained within this function. Users define a projection matrix, density-dependence matrix, harm projection matrix, life history parameters, years to simulate, carrying capacity, catastrophic event probabilities and a cumulative effects data frame (CE_df). When run this function will project the population forward in time. See the vignette tutorial Population Model Overview for details and instructions.
+#' @details The function runs the population projections forward through time.
+#' Life-cycle specific stressors (if set) will be applied based on values in the `CE_df` table.
+#' There are several ways to implement density dependence.
+#'  deterministic projection matrix using `popbio::stable.stage` with initial parameters based on arguments provided. Applies CE stressors to appropriate targets based on `CE_df`. All population modeling components are contained within this function. Users define a projection matrix, density-dependence matrix, harm projection matrix, life history parameters, years to simulate, carrying capacity, catastrophic event probabilities and a cumulative effects data frame (CE_df). When run this function will project the population forward in time. See the vignette tutorial Population Model Overview for details and instructions.
 #'
 #' @param M.mx A projection matrix expression
 #' @param D.mx A matrix of density-dependence effect
 #' @param H.mx A harm projection matrix
 #' @param dat Life history data
 #' @param Nyears Years to run simulation
-#' @param K The population carrying Capacity
+#' @param K The population carrying Capacity of adults (mature individuals)
 #' @param p.cat Probability of catastrophic event.
-#' @param CE_df Cumulative effect dataframe. Data frame identifying cumulative effects stressors targets (system capacity or population parameter, or both, and target life stages.
+#' @param CE_df Cumulative effect data frame. Data frame identifying cumulative effects stressors targets system capacity or population parameter, or both, and target life stages.
 #' @param K_adj Boolean. Should K_adj be run. Defaults to false.
 #' @param stage_k_override Vector of K values for fry (0), stage_1, stage_2 values etc. defaults to NULL. If set values will override adult K value for alternative DD mechanism.
-#' @param bh_dd_stages Character vector of life stages c("dd_hs_0", "bh_stage_1", "bh_stage_2", "bh_stage_3", ...) to apply classical Beverton-Holt density-dependence. To be used in place of compensation ratios if set. Use "dd_hs_0" for egg-to-fry k, "bh_stage_1" for fry to stage_1 k and "bh_stage_2" for stage_1 to stage_2 k etc. Densities are the capped value for the transition stage.
+#' @param bh_dd_stages Optional Character vector of life stages c("dd_hs_0", "bh_stage_1", "bh_stage_2", "bh_stage_3", ...) to apply classical Beverton-Holt density-dependence. To be used in place of compensation ratios if set. Use "dd_hs_0" for egg-to-fry k, "bh_stage_1" for fry to stage_1 k and "bh_stage_2" for stage_1 to stage_2 k etc. Densities are the capped value for the transition stage.
 #' @importFrom rlang .data
 #'
 #' @returns A list object with projected years, population size, lambda, fecundity, survival, catastrophic events.
@@ -31,6 +34,7 @@ Projection_DD <- function(M.mx = NA,
                           K_adj = FALSE,
                           stage_k_override = NULL,
                           bh_dd_stages = NULL) {
+
   # Define variables in function as null
   # stable.stage <- Nstage <- E_est <- NULL
 
@@ -38,7 +42,6 @@ Projection_DD <- function(M.mx = NA,
   if (is.na(K)) {
     K <- 500
   }
-
 
   # MJB: Should simple stage-specific K values be used instead of stable-stage
   # instead of compensation ratios
@@ -52,8 +55,6 @@ Projection_DD <- function(M.mx = NA,
     dat$s0.1.det <- dat$Surv_annual[2]
     dat$S[2] <- dat$Surv_annual[2]
   }
-
-
 
 
   # Adjust K to give correct mean after stochasticity
@@ -75,8 +76,6 @@ Projection_DD <- function(M.mx = NA,
     dat$K.adj <- kadj$K.adj
     Ka <- K * dat$K.adj
   }
-
-
 
 
   # Set D = 1 if no density_depenence
@@ -144,6 +143,7 @@ Projection_DD <- function(M.mx = NA,
   # MJB: Should simple stage-specific K values be used instead of stable-stage
   # instead of compensation ratios
   if (!(is.null(stage_k_override))) {
+
     # egg to fry capacity
     dat$K0 <-
       ifelse(is.na(stage_k_override[1]), dat$K0, stage_k_override[1])

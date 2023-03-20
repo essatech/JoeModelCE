@@ -29,17 +29,17 @@ Projection_DD(
 
 \item{Nyears}{Years to run simulation}
 
-\item{K}{The population carrying Capacity}
+\item{K}{The population carrying Capacity of adults (mature individuals)}
 
 \item{p.cat}{Probability of catastrophic event.}
 
-\item{CE_df}{Cumulative effect dataframe. Data frame identifying cumulative effects stressors targets (system capacity or population parameter, or both, and target life stages.}
+\item{CE_df}{Cumulative effect data frame. Data frame identifying cumulative effects stressors targets system capacity or population parameter, or both, and target life stages.}
 
 \item{K_adj}{Boolean. Should K_adj be run. Defaults to false.}
 
 \item{stage_k_override}{Vector of K values for fry (0), stage_1, stage_2 values etc. defaults to NULL. If set values will override adult K value for alternative DD mechanism.}
 
-\item{bh_dd_stages}{Character vector of life stages c("dd_hs_0", "bh_stage_1", "bh_stage_2", "bh_stage_3", ...) to apply classical Beverton-Holt density-dependence. To be used in place of compensation ratios if set. Use "dd_hs_0" for egg-to-fry k, "bh_stage_1" for fry to stage_1 k and "bh_stage_2" for stage_1 to stage_2 k etc. Densities are the capped value for the transition stage.}
+\item{bh_dd_stages}{Optional Character vector of life stages c("dd_hs_0", "bh_stage_1", "bh_stage_2", "bh_stage_3", ...) to apply classical Beverton-Holt density-dependence. To be used in place of compensation ratios if set. Use "dd_hs_0" for egg-to-fry k, "bh_stage_1" for fry to stage_1 k and "bh_stage_2" for stage_1 to stage_2 k etc. Densities are the capped value for the transition stage.}
 }
 \value{
 A list object with projected years, population size, lambda, fecundity, survival, catastrophic events.
@@ -48,5 +48,8 @@ A list object with projected years, population size, lambda, fecundity, survival
 Project the matrix model forward in time with density dependence.
 }
 \details{
-Builds deterministic projection matrix using \code{popbio::stable.stage} with initial parameters based on arguments provided. Applies CE stressors to appropriate targets based on \code{CE_df}. All population modeling components are contained within this function. Users define a projection matrix, density-dependence matrix, harm projection matrix, life history parameters, years to simulate, carrying capacity, catastrophic event probabilities and a cumulative effects data frame (CE_df). When run this function will project the population forward in time. See the vignette tutorial Population Model Overview for details and instructions.
+The function runs the population projections forward through time.
+Life-cycle specific stressors (if set) will be applied based on values in the \code{CE_df} table.
+There are several ways to implement density dependence.
+deterministic projection matrix using \code{popbio::stable.stage} with initial parameters based on arguments provided. Applies CE stressors to appropriate targets based on \code{CE_df}. All population modeling components are contained within this function. Users define a projection matrix, density-dependence matrix, harm projection matrix, life history parameters, years to simulate, carrying capacity, catastrophic event probabilities and a cumulative effects data frame (CE_df). When run this function will project the population forward in time. See the vignette tutorial Population Model Overview for details and instructions.
 }

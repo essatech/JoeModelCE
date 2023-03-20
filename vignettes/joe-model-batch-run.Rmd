@@ -23,10 +23,8 @@ It can be helpful to perform batch replicate runs with the Joe Model by changing
 
 The Joe model batch run function is very similar to the default Joe model function; however, it includes the addition of a special scenario file. The scenario file specifies scenario names along with series of stressors that each scenario will modify. The code loops through each scenario and then each stressor within each scenario and adjusts values according to a specified multiplier. For example, a multiplier of 1.2 would change the values of Temperature_adult from 18C to 21.6C. The image below shows a sample hypothetical scenarios file with four hypothetical scenarios.
 
-```{r, tsamp, echo = FALSE}
-knitr::include_graphics('../man/figures/scenarios_table.png')
+<img src="../man/figures/scenarios_table.png" align="center" />
 
-```
 
 # Setup and Installation
 
@@ -127,6 +125,7 @@ In the second example we show how all watersheds can be plotted for an individua
 
 ```{r, format_demo99, echo = TRUE, message=FALSE, warning=FALSE, fig.width = 4, fig.height = 12, fig.cap="Results across HUC by scenario", fig.align = 'center'}
 
+
 #-----------------------------------------------------
 # Plot result for single scenario
 sen_sub <- exp_dat[exp_dat$Scenario == "scenario_1",]
@@ -142,6 +141,7 @@ sen_sb$upper <- sen_sb$mean + sen_sb$sd
 
 sen_sb$HUC <- as.character(sen_sb$HUC)
 
+library(ggplot2)
 ggplot(sen_sb, aes(x = mean, y = HUC, xmin = lower, xmax = upper)) +
 geom_rect(aes(xmin = 0, xmax = 0.2, ymin = -Inf, ymax = Inf),
 		  fill = "pink", alpha = 0.02) +

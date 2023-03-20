@@ -15,6 +15,7 @@ Imports:
     dplyr,
     stats,
     MASS,
+    ggplot2,
     popbio
 Suggests: 
     knitr,

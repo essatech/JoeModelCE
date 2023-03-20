@@ -4,11 +4,11 @@ test_that("Five-stage pop model works", {
   # Create a 5-stage population model for coho
   filename_lc <- system.file("extdata/species_profiles", "life_cycles_sockeye_Spromberg_Meador_2006.csv", package = "JoeModelCE")
   life_cycles <- read.csv(filename_lc)
-  #print(life_cycles)
+  # print(life_cycles)
 
 
-  life_cycles$Value[life_cycles$Name == "SE"] <- 0.97
-  life_cycles$Value[life_cycles$Name == "S0"] <- 0.97
+  life_cycles$Value[life_cycles$Name == "SE"] <- 0.9
+  life_cycles$Value[life_cycles$Name == "S0"] <- 0.98
 
 
   expect_true(nrow(life_cycles) > 5)
@@ -53,6 +53,24 @@ test_that("Five-stage pop model works", {
   life_stages_symbolic <- pop_mod_mat$life_stages_symbolic
   # Mathematical expression of the density matrix
   density_stage_symbolic <- pop_mod_mat$density_stage_symbolic
+
+
+
+  # Dive into Projection_DD() function
+  if(FALSE) {
+    M.mx = life_stages_symbolic
+    D.mx = density_stage_symbolic
+    H.mx = NULL
+    dat = life_histories
+    K = life_histories$Ka
+    K_adj = FALSE
+    Nyears = 500
+    p.cat = 0
+    CE_df = NULL
+    stage_k_override = c(NA, 100000, 100000, 10000, 10000, 10000)
+    bh_dd_stages = c("bh_stage_1")
+  }
+
 
 
   # Run simple population projection - project forward through time
