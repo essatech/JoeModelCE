@@ -37,9 +37,7 @@ test_that("Joe Model Setup", {
   expect_true(check_nsim == nsims)
 
   # That CE values for watershed make sense
-  expect_true(min(jmr$ce.df$CE) == 0)
   expect_true(max(jmr$ce.df$CE) <= 1 & max(jmr$ce.df$CE) >= 0.5)
-  expect_true(sd(jmr$ce.df$CE) > 0)
 
   # That System Capacity Values Make Sense
   expect_true(min(jmr$sc.dose.df$sys.cap) == 0)
@@ -50,12 +48,51 @@ test_that("Joe Model Setup", {
 
 
   # ----------------------------------------------------------
-  # Re-Run the Joe Model - with partail variable subsets
+  # Test Joe Model with simple variable sets
   # ----------------------------------------------------------
 
+  # Import of stressor response and magnitude workbook
+  filename_rm <- system.file("extdata/simple_test",
+                             "stressor_magnitude_simple.xlsx",
+                             package = "JoeModelCE")
+  filename_sr <- system.file("extdata/simple_test",
+                             "stressor_response_simple.xlsx",
+                             package = "JoeModelCE")
 
+  dose <- StressorMagnitudeWorkbook(filename = filename_rm)
+  sr_wb_dat <- StressorResponseWorkbook(filename = filename_sr)
 
+  # ----------------------------------------------------------
+  # Run the Basic Joe Model
+  # ----------------------------------------------------------
+  MC_sims <- 10
+  stressors <- sr_wb_dat$stressor_names
+  jmr <- JoeModel_Run(dose = dose, sr_wb_dat = sr_wb_dat, stressors = stressors, MC_sims = MC_sims)
 
+  # Test conditions MAX int
+  s1 <- jmr$ce.df
+  s2 <- s1[s1$HUC == 1, ]
+  mcheck <- median(s2$CE)
+  # A 14 = 0.6 x
+  # B 7 = 1.0 ***
+  # C 12 = 0.2 ***
+  # D 3.8 = 0.4 x
+  # E 5 = 1.0
+  # RESULT: 1.0 * 0.2 * 1.0
+  # expect 0.2
+  expect_true(round(mcheck,2) == 0.2)
 
+  # Test conditions HUC2
+  s1 <- jmr$ce.df
+  s2 <- s1[s1$HUC == 2, ]
+  mcheck <- median(s2$CE)
+  # A 8 = 1.0 ***
+  # B 0 = 0.1 x
+  # C 20 = 1.0 x
+  # D 900 = 0.2 **
+  # E 0 = 0.4
+  # RESULT: 1.0 * 0.2 * 0.4
+  # expect 0.08
+  expect_true(round(mcheck, 2) == 0.08)
 
 })

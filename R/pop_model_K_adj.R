@@ -9,12 +9,13 @@
 #' for a stage below (stage x) is the amount of stage x necessary to result
 #' in 100 adults at equilibrium conditions).
 #'
+#' @param replicates Number of replicates
+#' @param dat Life history data
 #' @param mx A projection matrix expression
 #' @param dx A matrix of density-dependence effect
-#' @param H.mx A harm projection matrix
-#' @param dat Life history data
 #' @param Nyears Years to run simulation
-#' @param replicates Number of replicates
+#' @param H.mx A harm projection matrix
+#'
 #' @importFrom rlang .data
 #'
 #' @returns A K_adj object to make adjustments
@@ -24,7 +25,9 @@ pop_model_K_adj <- function(replicates = 100,
                             dat,
                             mx,
                             dx,
-                            Nyears = 250) {
+                            Nyears = 250,
+                            H.mx = NULL
+                            ) {
 
   pop_data <- list()
 
@@ -32,7 +35,7 @@ pop_model_K_adj <- function(replicates = 100,
 
     res <- Projection_DD(M.mx = mx,
                          D.mx = dx,
-                         H.mx = NULL,
+                         H.mx = H.mx,
                          dat = dat,
                          Nyears = Nyears,
                          K = dat$Ka,

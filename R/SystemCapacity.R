@@ -4,8 +4,8 @@
 #'
 #' @details `SystemCapacity()` calculates the system capacity for each stressor. This function takes data frame arguments for stressor magnitudes and dose responses plus a list of stressor-response approximation functions (`f.` for local list or data frame). Note: Some stressors have multiple doses (Additive interaction).
 #'
-#' @param f.dose.df Stressor magnitude data frame returned from `StressorMagnitudeWorkbook()`.
-#' @param f.main.df `main_sheet` list object returned from `StressorResponseWorkbook()$main_sheet`.
+#' @param f.dose.df Stressor magnitude data frame returned from `StressorMagnitudeWorkbook()` filtered for target stressor.
+#' @param f.main.df `main_sheet` list object returned from `StressorResponseWorkbook()$main_sheet` filtered for target stressor.
 #' @param f.stressor.df Dose response data frame returned from `StressorResponseWorkbook()$sr_dat` for target stressor.
 #' @param f.mean.resp.list Response function list for target variable returned from `mean_Response()`.
 #' @param n.sims Number of simulations to generate. Defaults t0 100.

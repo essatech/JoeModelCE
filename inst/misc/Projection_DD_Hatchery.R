@@ -23,19 +23,18 @@
 #' @returns A list object with projected years, population size, lambda, fecundity, survival, catastrophic events.
 #'
 #' @export
-Projection_DD <- function(M.mx = NA,
+Projection_DD_Hatchery <- function(M.mx = NA,
                           D.mx = NULL,
                           H.mx = NULL,
                           dat = NA,
                           Nyears = 100,
                           K = NA,
+                          hatchery_addition_k2 = 15000,
                           p.cat = NA,
                           CE_df = NULL,
                           K_adj = FALSE,
                           stage_k_override = NULL,
                           bh_dd_stages = NULL) {
-
-  life_stages_symbolic <- density_stage_symbolic <- NULL
 
   # Define variables in function as null
   # stable.stage <- Nstage <- E_est <- NULL
@@ -296,9 +295,18 @@ Projection_DD <- function(M.mx = NA,
       D <- ifelse(is.na(D), 1, D)
     }
 
+
+
+    hatchery_surv <- 0.8
+    k2_surv <- 0.065
+
+    hatchery_wild_k3 <- hatchery_addition_k2 * hatchery_surv * k2_surv
+
+    N[3] <- N[3] + hatchery_wild_k3
+
+
     # Store previous abundance vector for BH equations
     N_prev <- N
-
 
     # Population Projection matrix
     A <- M.list[[t + 1]] * D * H[[t]]

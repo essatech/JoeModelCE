@@ -56,26 +56,35 @@ JoeModel_Run <- function(dose = NA,
   # -------------------------------------------------------
   msheet <- sr_wb_dat$main_sheet
 
-  if(adult_sys_cap) {
+  if (adult_sys_cap) {
     # Allowable stressors
-    allowable_stressors <- msheet$Stressors[which(msheet$Life_stages == 'adult')]
+    allowable_stressors <-
+      msheet$Stressors[which(msheet$Life_stages == 'adult')]
+
     # Filter the sr_wb_dat in the local scope to omit stressors
-    if(all(is.na(stressors))) {
+    if (all(is.na(stressors))) {
       allowable_stressors <- allowable_stressors
     } else {
       allowable_stressors <- intersect(allowable_stressors, stressors)
     }
-    if(length(allowable_stressors) == 0) {
+
+    if (length(allowable_stressors) == 0) {
       stop("Must include more than one stressor applicable to adult system capacity")
     }
+
+
     # Filter the sr_wb_dat in the local scope to omit stressors
-    sr_wb_dat$main_sheet <- sr_wb_dat$main_sheet[which(sr_wb_dat$main_sheet$Stressors %in% allowable_stressors), ]
+    sr_wb_dat$main_sheet <-
+      sr_wb_dat$main_sheet[which(sr_wb_dat$main_sheet$Stressors %in% allowable_stressors),]
     # Raw names
-    sr_wb_dat$stressor_names <- sr_wb_dat$stressor_names[which(sr_wb_dat$stressor_names %in% allowable_stressors)]
+    sr_wb_dat$stressor_names <-
+      sr_wb_dat$stressor_names[which(sr_wb_dat$stressor_names %in% allowable_stressors)]
     # Pretty names
-    sr_wb_dat$pretty_names <- sr_wb_dat$pretty_names[which(sr_wb_dat$stressor_names %in% allowable_stressors)]
+    sr_wb_dat$pretty_names <-
+      sr_wb_dat$pretty_names[which(sr_wb_dat$stressor_names %in% allowable_stressors)]
     # Dose-response data
-    sr_wb_dat$sr_dat <- sr_wb_dat$sr_dat[which(names(sr_wb_dat$sr_dat) %in% allowable_stressors)]
+    sr_wb_dat$sr_dat <-
+      sr_wb_dat$sr_dat[which(names(sr_wb_dat$sr_dat) %in% allowable_stressors)]
 
   }
 
@@ -125,40 +134,29 @@ JoeModel_Run <- function(dose = NA,
 
   sys.capacity <- array(
     NA,
-    dim = c(
-      length(hucs),
-      length(stressors),
-      MC_sims
-    ),
-    dimnames = list(
-      hucs,
-      stressors,
-      1:MC_sims
-    )
+    dim = c(length(hucs),
+            length(stressors),
+            MC_sims),
+    dimnames = list(hucs,
+                    stressors,
+                    1:MC_sims)
   )
 
   # the next array and list is more for debugging purposes
 
   dose.values <- array(
     NA,
-    dim = c(
-      length(hucs),
-      length(stressors),
-      MC_sims
-    ),
-    dimnames = list(
-      hucs,
-      stressors,
-      1:MC_sims
-    )
+    dim = c(length(hucs),
+            length(stressors),
+            MC_sims),
+    dimnames = list(hucs,
+                    stressors,
+                    1:MC_sims)
   )
 
   dose.values.list <- array(list(),
-    dim = c(
-      length(hucs),
-      length(stressors)
-    )
-  )
+                            dim = c(length(hucs),
+                                    length(stressors)))
 
 
 
@@ -167,15 +165,13 @@ JoeModel_Run <- function(dose = NA,
   for (i in 1:length(hucs)) {
     for (j in 1:length(stressors)) {
       # find combination of HUC and stressor in the dose table
-      pnt.dose <- intersect(
-        grep(hucs[i], dose$HUC_ID),
-        grep(stressors[j], dose$Stressor)
-      )
+      pnt.dose <- intersect(grep(hucs[i], dose$HUC_ID),
+                            grep(stressors[j], dose$Stressor))
 
       # If nothing set - assume system capacity is 100%
       if (length(pnt.dose) == 0) {
-        sys.capacity[i, j, ] <- 1 # System capacity is 1 if mssing
-        dose.values[i, j, ] <- NA
+        sys.capacity[i, j,] <- 1 # System capacity is 1 if mssing
+        dose.values[i, j,] <- NA
         dose.values.list[i, j][[1]] <- NA
         next
       }
@@ -185,17 +181,17 @@ JoeModel_Run <- function(dose = NA,
 
       # call system capacity function for each stressor
       temp.list <- SystemCapacity(
-        f.dose.df = dose[pnt.dose, ],
-        f.main.df = main.sheet[pnt.curv, ],
+        f.dose.df = dose[pnt.dose,],
+        f.main.df = main.sheet[pnt.curv,],
         f.stressor.df = stressor.list[[stressors[j]]],
         f.mean.resp.list = mean.resp.list[[pnt.curv]],
         n.sims = MC_sims
       )
 
       # assign system capacity for each stressor to array.
-      sys.capacity[i, j, ] <- temp.list$sys.cap
+      sys.capacity[i, j,] <- temp.list$sys.cap
       # store dose values as this is good output as well
-      dose.values[i, j, ] <- temp.list$dose
+      dose.values[i, j,] <- temp.list$dose
       # The next dose array stores doses as a list and includes
       # the individual additive doses (i.e., mortality doses)
       dose.values.list[i, j][[1]] <- temp.list$dose.mat
@@ -255,6 +251,44 @@ JoeModel_Run <- function(dose = NA,
     main.sheet$Linked[match(sc.df$Stressor, main.sheet$Stressors)]
 
 
+
+  # ---------------------------------------------------------------------
+  # If two-factor interaction matrix exists then update the prediction
+  if (!(is.null(sr_wb_dat$MInt))) {
+
+    # Loop through interaction matrices (if multiple)
+    m_mats <- sr_wb_dat$MInt
+
+    for (mm in 1:length(m_mats)) {
+      MInt <- sr_wb_dat$MInt[[mm]]
+      sc.dose.df <-
+        interaction_matrix_sys_cap(MInt, sc.dose.df = sc.dose.df,
+                                   adult_sys_cap = adult_sys_cap)
+
+    }
+
+    # Update sc.df object to match updated sc.dose.df object
+    sc.df_tmp <- sc.dose.df
+    sc.df_tmp$dose <- NULL
+
+    sc.df_tmp$int.type <-
+      main.sheet$Interaction[match(sc.df_tmp$Stressor, main.sheet$Stressors)]
+
+    sc.df_tmp$link <-
+      main.sheet$Linked[match(sc.df_tmp$Stressor, main.sheet$Stressors)]
+
+    sc.df_tmp$int.type <- ifelse(is.na(sc.df_tmp$int.type), "NA", sc.df_tmp$int.type)
+    sc.df_tmp$link <- ifelse(is.na(sc.df_tmp$link), "NA", sc.df_tmp$link)
+
+    # Overwrite
+    sc.df <- sc.df_tmp
+
+  } # end of interaction matrix
+  # ---------------------------------------------------------------------
+
+
+
+
   # calculate cumulative system capacity by multiplying values in each row (HUC)
   # the complicating factor is some stressors are linked
   # (e.g., take the minimum of the linked and not their product)
@@ -266,9 +300,12 @@ JoeModel_Run <- function(dose = NA,
 
   ce_df_raw <- sc.df %>%
     dplyr::group_by(HUC, simulation) %>%
-    dplyr::group_modify(~ ce.func(.x))
+    dplyr::group_modify( ~ ce.func(.x))
 
   ce.df <- ce_df_raw
+
+
+
 
 
 

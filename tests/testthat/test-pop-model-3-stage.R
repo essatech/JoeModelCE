@@ -1,10 +1,14 @@
 test_that("Three-stage pop model works", {
 
+  # library(JoeModelCE); library(testthat)
+
   #----------------------------------------------
   # Create a 3-stage population model for coho
   filename_lc <- system.file("extdata/species_profiles", "life_cycles_coho_Gibeau_Palen_2021.csv", package = "JoeModelCE")
+
   life_cycles <- read.csv(filename_lc)
-  #print(life_cycles)
+
+  print(life_cycles)
 
   life_cycles$Value[life_cycles$Name == "SE"] <- 0.6
   life_cycles$Value[life_cycles$Name == "cr_0"] <- 1
@@ -15,6 +19,7 @@ test_that("Three-stage pop model works", {
   expect_true(class(life_cycles$Value) == "numeric")
   expect_true(!(any(is.na(life_cycles$Value))))
 
+  print("OK TO HERE...")
 
   # Setup objects for population model
   pop_mod_setup <- pop_model_setup(life_cycles = life_cycles)

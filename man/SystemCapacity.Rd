@@ -13,9 +13,9 @@ SystemCapacity(
 )
 }
 \arguments{
-\item{f.dose.df}{Stressor magnitude data frame returned from \code{StressorMagnitudeWorkbook()}.}
+\item{f.dose.df}{Stressor magnitude data frame returned from \code{StressorMagnitudeWorkbook()} filtered for target stressor.}
 
-\item{f.main.df}{\code{main_sheet} list object returned from \code{StressorResponseWorkbook()$main_sheet}.}
+\item{f.main.df}{\code{main_sheet} list object returned from \code{StressorResponseWorkbook()$main_sheet} filtered for target stressor.}
 
 \item{f.stressor.df}{Dose response data frame returned from \code{StressorResponseWorkbook()$sr_dat} for target stressor.}
 

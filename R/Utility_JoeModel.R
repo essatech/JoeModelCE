@@ -80,8 +80,9 @@ mn.sd.huc <- function(df) {
 #' @param df A dataframe
 #' @keywords internal
 ce.func <- function(df) {
+
   # separate stressors without a minimum interaction
-  sys.cap.no.int <- df$sys.cap[df$int.type != "Minimum"]
+  sys.cap.no.int <- df$sys.cap[df$int.type != "Minimum" & df$int.type != "Maximum"]
 
   # for those with a minimum interaction take the minimum
   sys.cap.min <- tapply(
@@ -90,11 +91,23 @@ ce.func <- function(df) {
     min
   )
 
+  # MJB added June 3 2023
+  # for those with a maximum interaction take the maximum
+  sys.cap.max <- tapply(
+    df$sys.cap[df$int.type == "Maximum"],
+    df$link[df$int.type == "Maximum"],
+    max
+  )
+
+  sys.cap.max <- ifelse(length(sys.cap.max) == 0, 1, sys.cap.max)
+  sys.cap.min <- ifelse(length(sys.cap.min) == 0, 1, sys.cap.min)
+  sys.cap.no.int <- ifelse(length(sys.cap.no.int) == 0, 1, sys.cap.no.int)
+
   # AT THIS POINT NO OTHER INTERACTIONS ARE CONSIDERED
   # NOTE - Total mortality is addressed prior to calculation of system capacity
   # Calculate the product across all cumulative effects
   # accounting for interactions
-  ce.df <- data.frame(CE = prod(c(sys.cap.no.int, sys.cap.min)))
+  ce.df <- data.frame(CE = prod(c(sys.cap.no.int, sys.cap.min, sys.cap.max)))
 
   return(ce.df)
 }

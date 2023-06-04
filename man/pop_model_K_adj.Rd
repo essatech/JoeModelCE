@@ -4,7 +4,7 @@
 \alias{pop_model_K_adj}
 \title{K_adj}
 \usage{
-pop_model_K_adj(replicates = 100, dat, mx, dx, Nyears = 250)
+pop_model_K_adj(replicates = 100, dat, mx, dx, Nyears = 250, H.mx = NULL)
 }
 \arguments{
 \item{replicates}{Number of replicates}

@@ -41,9 +41,9 @@ pop_model_setup <- function(life_cycles = NA) {
   row.names(life_pars) <- life_pars$Name
   Nstage <- life_pars["Nstage", "Value"]
 
-  if(Nstage != 4) {
+  #if(Nstage != 4) {
     # possible_error_state <- "Model only accepts 4 unique stages"
-  }
+  #}
 
   stage_names <- paste("stage", 1:Nstage, sep = "_")
 
@@ -82,11 +82,13 @@ pop_model_setup <- function(life_cycles = NA) {
   life_stages[pos] <- paste("tr", 1:Nstage, sep = "_")
 
   # Note in above line there will always be transitions beyond limit
-  life_stages <-
-    suppressWarnings({ matrix(life_stages,
+  # MJB added to prevent error messages
+  life_stages <- life_stages[1:(Nstage * Nstage)]
+
+  life_stages <- matrix(life_stages,
            nrow = Nstage,
            ncol = Nstage,
-           byrow = TRUE) })
+           byrow = TRUE)
 
   # identify the reproductive stage
   life_stages[1, which(mat > 0)] <-

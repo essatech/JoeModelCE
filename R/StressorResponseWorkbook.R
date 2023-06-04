@@ -43,18 +43,22 @@ StressorResponseWorkbook <- function(filename = NA) {
   snames <- readxl::excel_sheets(filename)
   snames <- snames[2:length(snames)]
 
+  # Retain all names and matrix names
+  snames_all <- snames
+
 
   # Check if there are any matrix interactions
   if(any(grepl("MInt_", snames))) {
     mint_names <- snames[grepl("MInt_", snames)]
+    mint_obj <- interaction_matrix_load(mint_names = mint_names, filename = filename)
   } else {
     mint_names <- NULL
+    mint_obj <- NULL
   }
 
 
   # Ignore any custom matrix interaction terms
   snames <- snames[!(grepl("MInt_", snames))]
-
 
   if (!(all(snames %in% stressor_names))) {
     return("Bad worksheet names")
@@ -63,6 +67,8 @@ StressorResponseWorkbook <- function(filename = NA) {
   if (!(all(stressor_names %in% snames))) {
     return("Bad worksheet names")
   }
+
+
 
 
   # Gather stressor-response relationships for other variables
@@ -95,13 +101,28 @@ StressorResponseWorkbook <- function(filename = NA) {
   }
 
 
+  # Add in any interaction matrices
+  if(any(grepl("MInt_", snames_all))) {
+
+    mint_names <- snames_all[grepl("MInt_", snames_all)]
+    #stressor_names <- c(stressor_names, mint_names)
+
+    # Get pretty names
+    full_names <- lapply(mint_obj, function(x) { x$Matrix_Name })
+    full_names <- unlist(full_names)
+    names(full_names) <- NULL
+    #pretty_names <- c(pretty_names, full_names)
+
+  }
+
+
   # Build export object
   ret_obj <- list()
   ret_obj$main_sheet <- main_sheet
   ret_obj$stressor_names <- stressor_names
   ret_obj$pretty_names <- pretty_names
   ret_obj$sr_dat <- sr_dat
-  ret_obj$MInt <- NA
+  ret_obj$MInt <- mint_obj
 
   return(ret_obj)
 }

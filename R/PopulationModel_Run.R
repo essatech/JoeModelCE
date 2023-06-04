@@ -56,7 +56,7 @@ PopulationModel_Run <- function(dose = NA,
     ce_df_sub <- dose[which(dose$HUC_ID == HUC_ID), ]
 
     # Omit non-target stressors from the stressor magnitude and sr dataframes
-    if (!is.na(stressors)) {
+    if (any(!is.na(stressors))) {
         # Subset the stressor magnitude dataframe to include only the target stressors
         ce_df_sub <- ce_df_sub[which(ce_df_sub$Stressor %in% stressors), ]
         # Subset the stressor response dataframe to include only the target stressors
@@ -216,7 +216,7 @@ PopulationModel_Run <- function(dose = NA,
         if (!is.na(mean_k)) {
           cv_k <- ifelse(is.na(cv_k), 0, cv_k)
           this_k <-
-            rnorm(1, mean = as.numeric(mean_k), sd = as.numeric(mean_k * cv_k))
+            stats::rnorm(1, mean = as.numeric(mean_k), sd = as.numeric(mean_k * cv_k))
           stage_k_override[s + 1] <- this_k
         }
 
@@ -267,11 +267,13 @@ PopulationModel_Run <- function(dose = NA,
         if (is.null(CE_df)) {
             CE_df_rep <- CE_df
         } else {
-            CE_df_rep <-
+
+          CE_df_rep <-
                 CE_df[which(CE_df$simulation == ii &
                     CE_df$HUC == this_huc), ]
             CE_df_rep <-
                 CE_df_rep[!(duplicated(CE_df_rep[, c("Stressor", "life_stage", "HUC")])), ]
+
             # Do not include regular Joe parameters
             CE_df_rep <-
                 CE_df_rep[which(!(is.na(CE_df_rep$parameter))), ]
