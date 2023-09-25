@@ -24,7 +24,10 @@ This tutorial covers the population model component of the `JoeModelCE` r-packag
 
 ## Input parameters
 
-The inputs for the population model include key parameters defined in the `life_cycles.csv` input file. Users can adjust and modify these values to represent a species of interest or run the model with the default values representing the life history traits for Westslope Cuttroat Trout. These parameters can be modified such that the population model represents a target species of interest, but parameters cannot be added or removed. The example below shows life history parameters that will be used to build the stage-structured population matrix model. For a detailed description of the underlying mechansics of the population model see van der Lee and Koops (2020), but note that revisions have been made in the code to accommodate stressors and stressor-magnitude functions in a simular magnitude to the Joe Model frawork.
+The inputs for the population model include key parameters defined in the `life_cycles.csv` input file. Users can adjust and modify these values to represent a species of interest or run the model with the default values (currently representing the life history traits for Westslope Cuttroat Trout). These parameters can be modified such that the population model represents a target species of interest. The example below shows life history parameters that will be used to build the stage-structured population matrix model. For a detailed description of the underlying mechanisms of the population model refer the the [CEMPRA User Guide](https://github.com/klwilson23)
+
+
+van der Lee and Koops (2020).
 
 
 ```{r m0}

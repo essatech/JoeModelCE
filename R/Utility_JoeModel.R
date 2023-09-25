@@ -82,6 +82,9 @@ mn.sd.huc <- function(df) {
 ce.func <- function(df) {
 
   # separate stressors without a minimum interaction
+  # MJB added for NA error
+  df$int.type <- ifelse(is.na(df$int.type), "no_int", df$int.type)
+
   sys.cap.no.int <- df$sys.cap[df$int.type != "Minimum" & df$int.type != "Maximum"]
 
   # for those with a minimum interaction take the minimum
