@@ -56,3 +56,6 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# Prefix for temporary Microsoft Office files
+~$*
