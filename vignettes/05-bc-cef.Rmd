@@ -1,9 +1,9 @@
 ---
-title: "BC CEF Data Import"
+title: "5. BC CEF Data Import"
 output: rmarkdown::html_vignette
 date: '`r Sys.Date()`'
 vignette: >
-  %\VignetteIndexEntry{BC CEF Data Import}
+  %\VignetteIndexEntry{5. BC CEF Data Import}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

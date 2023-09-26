@@ -1,9 +1,9 @@
 ---
-title: "Joe Model Overview"
+title: "1. Joe Model Overview"
 output: rmarkdown::html_vignette
 date: '`r Sys.Date()`'
 vignette: >
-  %\VignetteIndexEntry{Joe Model Overview}
+  %\VignetteIndexEntry{1. Joe Model Overview}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

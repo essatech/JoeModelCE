@@ -1,9 +1,9 @@
 ---
-title: "Population Model Overview"
+title: "3. Population Model Overview"
 output: rmarkdown::html_vignette
 date: '`r Sys.Date()`'
 vignette: >
-  %\VignetteIndexEntry{Population Model Overview}
+  %\VignetteIndexEntry{3. Population Model Overview}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

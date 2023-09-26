@@ -1,9 +1,9 @@
 ---
-title: "Joe Model Batch Run"
+title: "2. Joe Model Batch Run"
 output: rmarkdown::html_vignette
 date: '`r Sys.Date()`'
 vignette: >
-  %\VignetteIndexEntry{Joe Model Batch Run}
+  %\VignetteIndexEntry{2. Joe Model Batch Run}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

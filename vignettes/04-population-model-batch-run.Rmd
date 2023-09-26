@@ -1,9 +1,9 @@
 ---
-title: "Population Model Batch Run"
+title: "4. Population Model Batch Run"
 output: rmarkdown::html_vignette
 date: '`r Sys.Date()`'
 vignette: >
-  %\VignetteIndexEntry{Population Model Batch Run}
+  %\VignetteIndexEntry{4. Population Model Batch Run}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
