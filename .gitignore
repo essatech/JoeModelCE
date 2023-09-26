@@ -7,7 +7,7 @@
 .Rproj.user/shared/notebooks/paths
 inst/doc
 inst/doc**
-# docs
+docs
 
 # History files
 .Rhistory
