@@ -1,11 +1,12 @@
-# JoeModelCE <img src="man/figures/JoeModelCE_small.png" align="right" style="max-width: 120px;"/>
+# CEMPRA/JoeModelCE <img src="man/figures/JoeModelCE_small.png" align="right" style="max-width: 120px;"/>
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The Joe Model Cumulative Effects package (JoeModelCE) is a collection of tools and functions designed to support the implementation of the ‘Alberta Environmental Parks Cumulative Effects Assessment Joe Model’ [source](https://waves-vagues.dfo-mpo.gc.ca/Library/40871344.pdf) to other systems. The JoeModelCE r package is coupled with a flexible population modeling framework so that users may compare and contrast simple watershed level roll-ups with more rigorous population models. This package is accompanied by an interactive [web application](https://essa.shinyapps.io/JoeModelCEShiny). For more details see the [project website](https://essatech.github.io/JoeModelCE/index.html) for tutorial articles and case studies.
+The Cumulative Effects Model for Prioritizing Recovery Actions (CEMPRA) is a cumulative effects modelling framework. The CEMPRA tool uses a series of standardized stressor-response functions to link environmental attributes to the system capacity and productivity of a target species/system. This framework design is as generalizable, simple, and versatile as possible so that users can apply the model to various geographic regions, contexts, systems, and species. As the name suggests, the CEMPRA tool helps prioritize recovery actions for data-limited species and species-at-risk, with the flexibility to accommodate both data-rich and data-poor study systems. The CEMPRA tool is accessible as an open-source R package (https://github.com/essatech/JoeModelCE) and R Shiny interactive web application (https://github.com/essatech/JoeModelCEShiny).
 
-* [R-PACKAGE TUTORIALS](https://essatech.github.io/JoeModelCE/index.html)
+
+* [R-Package Tutorials](https://essatech.github.io/JoeModelCE/index.html)
 * [GitHUB Repository download](https://essatech.github.io/JoeModelCE/index.html)
 
 
@@ -18,20 +19,24 @@ The Joe Model Cumulative Effects package (JoeModelCE) is a collection of tools a
 This is a broad collaboration between Fisheries and Oceans Canada (DFO), B.C. Ministry of Environment and Climate Change Strategy (ECCS), Alberta Environment and Parks (AEP), and Simon Fraser University (SFU). 
 
 Contributors include:
-
--   [Dr. Eva Enders](https://profils-profiles.science.gc.ca/en/profile/eva-enders): Project Lead; DFO Research Scientist
--   [Dr. Jordan Rosenfeld](http://www.aferu.ca/rosenfeld-lab): Project design and coordination; ECCS Aquatic Ecologist
--   [Dr. Andrew Paul](https://github.com/andrewpaul68): Collaborator; AEP Research Scientist
--   [Dr. Kyle Wilson](https://github.com/klwilson23): Population model development.
+-   [Matthew Bayly](https://github.com/mattjbayly): Core application development.
+-   Alexandra Tekatch: Core application development.
+-   [Jordan Rosenfeld](http://www.aferu.ca/rosenfeld-lab): Project design and coordination; ECCS Aquatic Ecologist
+-   [Lauren Jarvis](https://github.com/andrewpaul68): Collaborator; AEP Research Scientist
+-   [Andrew Paul](https://github.com/andrewpaul68): Collaborator; AEP Research Scientist
+-   [Eva Enders](https://profils-profiles.science.gc.ca/en/profile/eva-enders): Project Lead; DFO Research Scientist
+-   [Kyle Wilson](https://github.com/klwilson23): Population model development.
 -   [Isuru Dharmasena](https://www.linkedin.com/in/isuru-dharmasena-90269895/?originalSubdomain=ca): Core Shiny app development
--   [Matthew Bayly](https://github.com/mattjbayly), Marc Porter, Alejandra Urcelay, and [Julian Heavyside](https://github.com/julianheavyside) from [ESSA Technologies Ltd](https://essa.com/): R package and Shiny app development support.
--   Lauren Jarvis
+(https://github.com/julianheavyside) from [ESSA Technologies Ltd](https://essa.com/): R package and Shiny app development support.
+-   Alejandra Urcelay
 -   Pedro Gonzalez
+-   Marc Porter
+-   Julian Heavyside
 
 
 ## Features
-- Run custom implementations of the Joe Model on non-standard data formats.
-- Batch-run the integrated Joe Model/Population model across large datasets.
+- Run custom implementations of the CEMPRA/Joe Model on non-standard data formats.
+- Batch-run the integrated CEMPRA (Joe Model + Population model) across large datasets.
 - Run sensitivity tests.
 - Explore model extensions.
 

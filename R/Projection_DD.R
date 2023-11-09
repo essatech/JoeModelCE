@@ -325,14 +325,17 @@ Projection_DD <- function(M.mx = NA,
     # MJB (new): Allow for stage-specific DD effects
     # using Beverton-Holt functions
     if (is.null(bh_dd_stages) == FALSE) {
-      N <- dd.N.bh(
-        dat = dat,
-        t = t,
-        st = st,
-        N = N,
-        N_prev = N_prev,
-        bh_dd_stages = bh_dd_stages
-      )
+      # MJB Sept 27 2023 - allow extinction
+      if(!(all(is.na(N)))) {
+        N <- dd.N.bh(
+          dat = dat,
+          t = t,
+          st = st,
+          N = N,
+          N_prev = N_prev,
+          bh_dd_stages = bh_dd_stages
+        )
+      }
     }
 
 

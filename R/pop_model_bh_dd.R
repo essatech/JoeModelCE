@@ -140,6 +140,10 @@ dd.N.bh <- function(dat = NA, t = NA, st = NA, N = NA, N_prev = NA, bh_dd_stages
   # only apply BH curve if projected values
   # are greater than BH limit
 
+  # MJB added Sept 27 2023
+  N_adj[1] <- ifelse(is.na(N_adj[1]), 0, N_adj[1])
+
+
   # N_adj <- ifelse(N_adj > N, N, N_adj)
 
   if(any(is.na(N_adj))) { stop("NA values in dd.N.bh") }

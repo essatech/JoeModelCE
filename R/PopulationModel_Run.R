@@ -195,6 +195,7 @@ PopulationModel_Run <- function(dose = NA,
 
       # Filter for target location
       hab_dd_k <- habitat_dd_k[habitat_dd_k$HUC_ID == HUC_ID,]
+
       if (nrow(hab_dd_k) != 1) {
         stop("HUC_ID inhabitat_dd_k.xlsx does not match stressor magnitude data...")
       }
@@ -222,7 +223,9 @@ PopulationModel_Run <- function(dose = NA,
 
         # Set the Beverton-Holt DD mechanism (if set in life cycles file)
         if(s == 0){
+
           egg_fry <- life_cycle_params$Value[life_cycle_params$Name == "dd_hs_0"]
+
           if(length(egg_fry) > 0) {
             if(!(is.na(egg_fry))) {
               if(egg_fry == 1) {
@@ -230,6 +233,7 @@ PopulationModel_Run <- function(dose = NA,
               }
             }
           }
+
         } else {
           dd_stage <- life_cycle_params$Value[life_cycle_params$Name == paste0("bh_stage_", s)]
           if(length(dd_stage) > 0) {

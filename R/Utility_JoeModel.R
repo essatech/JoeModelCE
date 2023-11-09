@@ -84,6 +84,7 @@ ce.func <- function(df) {
   # separate stressors without a minimum interaction
   # MJB added for NA error
   df$int.type <- ifelse(is.na(df$int.type), "no_int", df$int.type)
+  df$int.type <- ifelse(df$int.type == "NA", "no_int", df$int.type)
 
   sys.cap.no.int <- df$sys.cap[df$int.type != "Minimum" & df$int.type != "Maximum"]
 
@@ -104,7 +105,11 @@ ce.func <- function(df) {
 
   sys.cap.max <- ifelse(length(sys.cap.max) == 0, 1, sys.cap.max)
   sys.cap.min <- ifelse(length(sys.cap.min) == 0, 1, sys.cap.min)
-  sys.cap.no.int <- ifelse(length(sys.cap.no.int) == 0, 1, sys.cap.no.int)
+
+  if(length(sys.cap.no.int) == 0) {
+    sys.cap.no.int <- 1
+  }
+  # sys.cap.no.int <- ifelse(length(sys.cap.no.int) == 0, 1, sys.cap.no.int)
 
   # AT THIS POINT NO OTHER INTERACTIONS ARE CONSIDERED
   # NOTE - Total mortality is addressed prior to calculation of system capacity

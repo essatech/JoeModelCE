@@ -114,5 +114,51 @@ test_that("Matrix Interaction", {
   expect_true(check_2 > check_1)
 
 
+  # ------------------------------------------
+  # Single layer matrix surface in Shiny App
+  # ------------------------------------------
+  filename_rm <- system.file("extdata", "./matrix_test/stressor_magnitude_matrix.xlsx", package = "JoeModelCE")
+  filename_sr <- system.file("extdata", "./matrix_test/stressor_response_matrix_AB.xlsx", package = "JoeModelCE")
+  dose <- StressorMagnitudeWorkbook(filename = filename_rm)
+  sr_wb_dat <- StressorResponseWorkbook(filename = filename_sr)
+  sm_df <- dose
+  MInt_all <- sr_wb_dat$MInt
+  MInt <- MInt_all[["MInt_AB"]]
+  sm_df$dose <- sm_df$Mean
+  sm_df$HUC <- sm_df$HUC_ID
+  sm_df$simulation <- 1
+  sm_df$sys.cap <- NA
+  sm_df <- sm_df[, c("HUC", "Stressor", "simulation", "dose", "sys.cap")]
+  sys_cap_resp <- interaction_matrix_sys_cap(MInt = MInt, sc.dose.df = sm_df, adult_sys_cap = FALSE)
+  sys_cap_resp <- sys_cap_resp[which(sys_cap_resp$Stressor == "MInt_AB"), ]
+
+  matrix_value <- sys_cap_resp$sys.cap[sys_cap_resp$HUC == 1]
+  expect_true(matrix_value == 0.33)
+  matrix_value <- sys_cap_resp$sys.cap[sys_cap_resp$HUC == 2]
+  expect_true(matrix_value == 0)
+  matrix_value <- sys_cap_resp$sys.cap[sys_cap_resp$HUC == 3]
+  expect_true(matrix_value > 0 & matrix_value < 0.33)
+
+  # --------------------------------------------------------
+  # Run the Joe model with only matrix interaction surfaces
+  # --------------------------------------------------------
+  # Run the Joe Model
+  jmr <- JoeModel_Run(dose = dose,
+                      sr_wb_dat = sr_wb_dat,
+                      stressors = c("MInt_AB"),
+                      MC_sims = 100,
+                      adult_sys_cap = FALSE)
+
+  check <- unique(jmr$ce.df$CE[jmr$ce.df$HUC == 1])
+  expect_true(check == 0.33)
+  check <- unique(jmr$ce.df$CE[jmr$ce.df$HUC == 2])
+  expect_true(check == 0)
+  check <- unique(jmr$ce.df$CE[jmr$ce.df$HUC == 3])
+  expect_true(round(check, 4) == 0.0943)
+
+
+
+
+
 
 })
