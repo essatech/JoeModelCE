@@ -61,13 +61,13 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="joemodelce-">JoeModelCE <img src="reference/figures/JoeModelCE_small.png" align="right" style="max-width: 120px;"><a class="anchor" aria-label="anchor" href="#joemodelce-"></a>
+<div class="page-header"><h1 id="cemprajoemodelce-">CEMPRA/JoeModelCE <img src="reference/figures/JoeModelCE_small.png" align="right" style="max-width: 120px;"><a class="anchor" aria-label="anchor" href="#cemprajoemodelce-"></a>
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>The Joe Model Cumulative Effects package (JoeModelCE) is a collection of tools and functions designed to support the implementation of the ‘Alberta Environmental Parks Cumulative Effects Assessment Joe Model’ <a href="https://waves-vagues.dfo-mpo.gc.ca/Library/40871344.pdf" class="external-link">source</a> to other systems. The JoeModelCE r package is coupled with a flexible population modeling framework so that users may compare and contrast simple watershed level roll-ups with more rigorous population models. This package is accompanied by an interactive <a href="https://essa.shinyapps.io/JoeModelCEShiny" class="external-link">web application</a>. For more details see the <a href="https://essatech.github.io/JoeModelCE/index.html">project website</a> for tutorial articles and case studies.</p>
+<p>The Cumulative Effects Model for Prioritizing Recovery Actions (CEMPRA) is a cumulative effects modelling framework. The CEMPRA tool uses a series of standardized stressor-response functions to link environmental attributes to the system capacity and productivity of a target species/system. This framework design is as generalizable, simple, and versatile as possible so that users can apply the model to various geographic regions, contexts, systems, and species. As the name suggests, the CEMPRA tool helps prioritize recovery actions for data-limited species and species-at-risk, with the flexibility to accommodate both data-rich and data-poor study systems. The CEMPRA tool is accessible as an open-source R package (<a href="https://github.com/essatech/JoeModelCE" class="external-link uri">https://github.com/essatech/JoeModelCE</a>) and R Shiny interactive web application (<a href="https://github.com/essatech/JoeModelCEShiny" class="external-link uri">https://github.com/essatech/JoeModelCEShiny</a>).</p>
 <ul>
-<li><a href="https://essatech.github.io/JoeModelCE/index.html">R-PACKAGE TUTORIALS</a></li>
+<li><a href="https://essatech.github.io/JoeModelCE/index.html">R-Package Tutorials</a></li>
 <li><a href="https://essatech.github.io/JoeModelCE/index.html">GitHUB Repository download</a></li>
 </ul>
 <p><strong><a href="https://youtu.be/Cp3UdWlkaKU" class="external-link">Shiny App Tutorial Video</a></strong> <a href="https://essa.shinyapps.io/JoeModelCEShiny" class="external-link">access the tool</a></p>
@@ -76,30 +76,14 @@
 <h2 id="package-contributors">Package Contributors:<a class="anchor" aria-label="anchor" href="#package-contributors"></a>
 </h2>
 <p>This is a broad collaboration between Fisheries and Oceans Canada (DFO), B.C. Ministry of Environment and Climate Change Strategy (ECCS), Alberta Environment and Parks (AEP), and Simon Fraser University (SFU).</p>
-<p>Contributors include:</p>
-<ul>
-<li>
-<a href="https://profils-profiles.science.gc.ca/en/profile/eva-enders" class="external-link">Dr. Eva Enders</a>: Project Lead; DFO Research Scientist</li>
-<li>
-<a href="http://www.aferu.ca/rosenfeld-lab" class="external-link">Dr. Jordan Rosenfeld</a>: Project design and coordination; ECCS Aquatic Ecologist</li>
-<li>
-<a href="https://github.com/andrewpaul68" class="external-link">Dr. Andrew Paul</a>: Collaborator; AEP Research Scientist</li>
-<li>
-<a href="https://github.com/klwilson23" class="external-link">Dr. Kyle Wilson</a>: Population model development.</li>
-<li>
-<a href="https://www.linkedin.com/in/isuru-dharmasena-90269895/?originalSubdomain=ca" class="external-link">Isuru Dharmasena</a>: Core Shiny app development</li>
-<li>
-<a href="https://github.com/mattjbayly" class="external-link">Matthew Bayly</a>, Marc Porter, Alejandra Urcelay, and <a href="https://github.com/julianheavyside" class="external-link">Julian Heavyside</a> from <a href="https://essa.com/" class="external-link">ESSA Technologies Ltd</a>: R package and Shiny app development support.</li>
-<li>Lauren Jarvis</li>
-<li>Pedro Gonzalez</li>
-</ul>
+<p>Contributors include: - <a href="https://github.com/mattjbayly" class="external-link">Matthew Bayly</a>: Core application development. - Alexandra Tekatch: Core application development. - <a href="http://www.aferu.ca/rosenfeld-lab" class="external-link">Jordan Rosenfeld</a>: Project design and coordination; ECCS Aquatic Ecologist - <a href="https://github.com/andrewpaul68" class="external-link">Lauren Jarvis</a>: Collaborator; AEP Research Scientist - <a href="https://github.com/andrewpaul68" class="external-link">Andrew Paul</a>: Collaborator; AEP Research Scientist - <a href="https://profils-profiles.science.gc.ca/en/profile/eva-enders" class="external-link">Eva Enders</a>: Project Lead; DFO Research Scientist - <a href="https://github.com/klwilson23" class="external-link">Kyle Wilson</a>: Population model development. - <a href="https://www.linkedin.com/in/isuru-dharmasena-90269895/?originalSubdomain=ca" class="external-link">Isuru Dharmasena</a>: Core Shiny app development (<a href="https://github.com/julianheavyside" class="external-link uri">https://github.com/julianheavyside</a>) from <a href="https://essa.com/" class="external-link">ESSA Technologies Ltd</a>: R package and Shiny app development support. - Alejandra Urcelay - Pedro Gonzalez - Marc Porter - Julian Heavyside</p>
 </div>
 <div class="section level2">
 <h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
 </h2>
 <ul>
-<li>Run custom implementations of the Joe Model on non-standard data formats.</li>
-<li>Batch-run the integrated Joe Model/Population model across large datasets.</li>
+<li>Run custom implementations of the CEMPRA/Joe Model on non-standard data formats.</li>
+<li>Batch-run the integrated CEMPRA (Joe Model + Population model) across large datasets.</li>
 <li>Run sensitivity tests.</li>
 <li>Explore model extensions.</li>
 </ul>
