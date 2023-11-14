@@ -61,78 +61,36 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="cemprajoemodelce-">CEMPRA/JoeModelCE <img src="reference/figures/JoeModelCE_small.png" align="right" style="max-width: 120px;"><a class="anchor" aria-label="anchor" href="#cemprajoemodelce-"></a>
+<div class="page-header"><h1 id="joemodelce---deprecated">JoeModelCE - Deprecated<a class="anchor" aria-label="anchor" href="#joemodelce---deprecated"></a>
 </h1></div>
-<!-- badges: start -->
-<!-- badges: end -->
-<p>The Cumulative Effects Model for Prioritizing Recovery Actions (CEMPRA) is a cumulative effects modelling framework. The CEMPRA tool uses a series of standardized stressor-response functions to link environmental attributes to the system capacity and productivity of a target species/system. This framework design is as generalizable, simple, and versatile as possible so that users can apply the model to various geographic regions, contexts, systems, and species. As the name suggests, the CEMPRA tool helps prioritize recovery actions for data-limited species and species-at-risk, with the flexibility to accommodate both data-rich and data-poor study systems. The CEMPRA tool is accessible as an open-source R package (<a href="https://github.com/essatech/JoeModelCE" class="external-link uri">https://github.com/essatech/JoeModelCE</a>) and R Shiny interactive web application (<a href="https://github.com/essatech/JoeModelCEShiny" class="external-link uri">https://github.com/essatech/JoeModelCEShiny</a>).</p>
-<ul>
-<li><a href="https://essatech.github.io/JoeModelCE/index.html">R-Package Tutorials</a></li>
-<li><a href="https://essatech.github.io/JoeModelCE/index.html">GitHUB Repository download</a></li>
-</ul>
-<p><strong><a href="https://youtu.be/Cp3UdWlkaKU" class="external-link">Shiny App Tutorial Video</a></strong> <a href="https://essa.shinyapps.io/JoeModelCEShiny" class="external-link">access the tool</a></p>
-<p><a href="https://youtu.be/Cp3UdWlkaKU" class="external-link"><img src="./reference/figures/shiny_app_cover.png" alt="Tutorial Video"></a></p>
 <div class="section level2">
-<h2 id="package-contributors">Package Contributors:<a class="anchor" aria-label="anchor" href="#package-contributors"></a>
+<h2 id="id_️-deprecation-notice-️">
+<span style="color: red;">⚠️ Deprecation Notice ⚠️</span><a class="anchor" aria-label="anchor" href="#id_%EF%B8%8F-deprecation-notice-%EF%B8%8F"></a>
 </h2>
-<p>This is a broad collaboration between Fisheries and Oceans Canada (DFO), B.C. Ministry of Environment and Climate Change Strategy (ECCS), Alberta Environment and Parks (AEP), and Simon Fraser University (SFU).</p>
-<p>Contributors include: - <a href="https://github.com/mattjbayly" class="external-link">Matthew Bayly</a>: Core application development. - Alexandra Tekatch: Core application development. - <a href="http://www.aferu.ca/rosenfeld-lab" class="external-link">Jordan Rosenfeld</a>: Project design and coordination; ECCS Aquatic Ecologist - <a href="https://github.com/andrewpaul68" class="external-link">Lauren Jarvis</a>: Collaborator; AEP Research Scientist - <a href="https://github.com/andrewpaul68" class="external-link">Andrew Paul</a>: Collaborator; AEP Research Scientist - <a href="https://profils-profiles.science.gc.ca/en/profile/eva-enders" class="external-link">Eva Enders</a>: Project Lead; DFO Research Scientist - <a href="https://github.com/klwilson23" class="external-link">Kyle Wilson</a>: Population model development. - <a href="https://www.linkedin.com/in/isuru-dharmasena-90269895/?originalSubdomain=ca" class="external-link">Isuru Dharmasena</a>: Core Shiny app development (<a href="https://github.com/julianheavyside" class="external-link uri">https://github.com/julianheavyside</a>) from <a href="https://essa.com/" class="external-link">ESSA Technologies Ltd</a>: R package and Shiny app development support. - Alejandra Urcelay - Pedro Gonzalez - Marc Porter - Julian Heavyside</p>
+<p><span style="font-size: larger; color: red;">As of November 1, 2023, the repository <code>JoeModelCE</code> at <a href="https://github.com/essatech/JoeModelCE/" class="external-link">https://github.com/essatech/JoeModelCE/</a> is no longer actively maintained. We appreciate the support and contributions from our community over the years. However, to provide better features and more efficient support, we have moved to a new repository.</span></p>
 </div>
 <div class="section level2">
-<h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
+<h2 id="id_-new-repository">
+<span style="color: red;">🔗 New Repository</span><a class="anchor" aria-label="anchor" href="#id_-new-repository"></a>
 </h2>
+<p><strong>Please visit our new repository <code>CEMPRA</code> for the latest updates, issues, and contributions.</strong></p>
 <ul>
-<li>Run custom implementations of the CEMPRA/Joe Model on non-standard data formats.</li>
-<li>Batch-run the integrated CEMPRA (Joe Model + Population model) across large datasets.</li>
-<li>Run sensitivity tests.</li>
-<li>Explore model extensions.</li>
+<li>New Repository URL: <a href="https://github.com/essatech/CEMPRA/" class="external-link">https://github.com/essatech/CEMPRA/</a>
+</li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+<h2 id="support">Support<a class="anchor" aria-label="anchor" href="#support"></a>
 </h2>
-<p>The easiest way to install the <code>JoeModelCE</code> package is from within the <a href="https://www.rstudio.com/products/rstudio/download/" class="external-link">RStudio IDE</a> using <code><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">remotes::install_github()</a></code>. At this time the package has not been published to CRAN so the default <code><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages()</a></code> will not work. Instead use remotes (or devtools) to install the packge directly from GitHub:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># You may need to install remotes</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org" class="external-link">remotes</a></span><span class="op">)</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"essatech/JoeModelCE"</span><span class="op">)</span></span></code></pre></div>
+<p>For any queries or assistance regarding the migration, feel free to raise an issue in the new repository or contact us at <code>[Support Email/Contact Information]</code>.</p>
 </div>
 <div class="section level2">
-<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+<h2 id="archive">Archive<a class="anchor" aria-label="anchor" href="#archive"></a>
 </h2>
-<p>There are several vignettes available that provide detailed guidance for <code>JoeModelCE</code> usage and common workflows. See articles availabe on the main <a href="https://essatech.github.io/JoeModelCE/index.html">JoeModelCE project page</a>:</p>
-<ul>
-<li><a href="https://essatech.github.io/JoeModelCE/articles/joe-model.html">Tutorial 1: Joe Model Overview</a></li>
-<li><a href="https://essatech.github.io/JoeModelCE/articles/population-model.html">Tutorial 2: Population Model Overview</a></li>
-</ul>
-</div>
-<div class="section level2">
-<h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
-</h2>
-<p>Please note that the <code>JoeModelCE</code> package is released with a <a href="https://pkgs.rstudio.com/rmarkdown/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
-</div>
-<div class="section level2">
-<h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
-</h2>
-<p>If you want to contribute to the project you can use the <code>git</code> “fork and pull request” workflow.</p>
-<p>Rebuilding R-package locally</p>
-<p>Helpful commands to run to reploy package locally</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Build and test package</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://testthat.r-lib.org" class="external-link">testthat</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>      <span class="co"># Clear memory</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Load functions</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">document</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Update documentation</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">test</a></span><span class="op">(</span><span class="op">)</span>     <span class="co"># Run tests</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">check</a></span><span class="op">(</span><span class="op">)</span>    <span class="co"># Operating system test</span></span></code></pre></div>
-<p>Re-install R-package locally</p>
-<p>Helpful commands to install package from source</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/remove.packages.html" class="external-link">remove.packages</a></span><span class="op">(</span><span class="st">"JoeModelCE"</span><span class="op">)</span> <span class="co"># Remove local installation</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, repos <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"source"</span><span class="op">)</span></span>
-<span><span class="co"># library(JoeModelCE)</span></span>
-<span><span class="co"># ?SystemCapacity</span></span></code></pre></div>
+<p>The contents of this repository will remain available in read-only mode for archival purposes. No new updates or merges will be made.</p>
+<p>Thank you for your understanding and continued support.</p>
+<hr>
+<p>© 2023 Matthew Bayly, All rights reserved.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
